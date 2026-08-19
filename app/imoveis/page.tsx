@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { PropertyCatalogPlaceholder } from "@/components/property/property-catalog-placeholder";
-import { listProperties } from "@/lib/properties";
+import { getActiveProperties } from "@/lib/properties";
 import { createPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({
@@ -11,7 +11,7 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 export default function PropertiesPage() {
-  const properties = listProperties();
+  const properties = getActiveProperties();
 
   return <PropertyCatalogPlaceholder propertyCount={properties.length} />;
 }

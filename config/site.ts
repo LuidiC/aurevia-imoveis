@@ -10,11 +10,17 @@ export const SITE_CONFIG = {
     country: "Brasil",
   },
   contacts: {
-    phoneDisplay: "(31) 98504-3482",
-    phoneHref: "tel:+5531985043482",
-    whatsappE164: "+5531985043482",
-    whatsappDigits: "5531985043482",
-    instagramUrl: null,
+    phone: {
+      display: "(31) 98504-3482",
+      e164: "+5531985043482",
+      href: "tel:+5531985043482",
+    },
+    whatsapp: {
+      display: "(31) 98504-3482",
+      e164: "+5531985043482",
+      digits: "5531985043482",
+    },
+    instagramUrl: "https://www.instagram.com/marliccorretora_",
   },
   domain: {
     planned: "marlicorretora.com.br",
