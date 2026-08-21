@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
+  <title id="title">Terreno fictício</title>
+  <desc id="description">Composição gráfica neutra criada apenas para demonstrar o card.</desc>
+  <rect width="1200" height="800" fill="#e6eadf"/>
+  <circle cx="960" cy="155" r="82" fill="#d3dbc8"/>
+  <path d="M0 565 240 400l185 125 210-180 220 175 175-105 170 105v280H0V565Z" fill="#cbd6c0"/>
+  <path d="M0 660 260 545l200 80 260-135 230 105 250-75v280H0V660Z" fill="#aebfa4"/>
+  <path d="M220 670 600 500l380 170M600 500v200" fill="none" stroke="#667660" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+</svg>

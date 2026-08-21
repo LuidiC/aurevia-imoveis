@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { PropertyCard } from "@/components/property/property-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -7,6 +8,8 @@ import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Select } from "@/components/ui/select";
+
+import { propertyCardPreviewProperties } from "./property-card-preview-data";
 
 const palette = [
   {
@@ -261,8 +264,24 @@ export function DesignSystemPreview() {
       <section className="section-spacing border-y border-border bg-surface-subtle">
         <Container>
           <SectionHeading
+            description="Exemplos fictícios e isolados para validar venda, aluguel, preço sob consulta, terrenos e títulos longos. Nenhum destes registros integra o catálogo público."
+            eyebrow="04 · Property Card"
+            title="Leitura rápida com o imóvel em primeiro plano"
+          />
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {propertyCardPreviewProperties.map((property) => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="section-spacing border-y border-border bg-surface-subtle">
+        <Container>
+          <SectionHeading
             description="As imagens reais carregam a narrativa. A tipografia organiza o contexto com presença profissional, sem competir com os ambientes."
-            eyebrow="04 · Fotografia e superfícies"
+            eyebrow="05 · Fotografia e superfícies"
             title="Autêntico, próximo e sem excessos"
           />
 
