@@ -46,7 +46,7 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="pt-BR">
+    <html data-scroll-behavior="smooth" lang="pt-BR">
       <body
         className={`${bodyFont.variable} flex min-h-screen flex-col antialiased`}
       >

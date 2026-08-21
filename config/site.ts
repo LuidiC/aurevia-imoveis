@@ -1,5 +1,19 @@
+type BusinessDetails = Readonly<{
+  summary: string;
+  address?: string;
+  openingHours?: string;
+}>;
+
+const businessDetails: BusinessDetails = {
+  summary:
+    "Há mais de 30 anos, a Marli Corretora atua em Pedro Leopoldo/MG e região com venda e aluguel de imóveis urbanos, terrenos e imóveis rurais.",
+};
+
 export const SITE_CONFIG = {
   name: "Marli Corretora",
+  brand: {
+    logoSrc: "/brand/marli-corretora-logo.png",
+  },
   description:
     "Imóveis em Pedro Leopoldo, Minas Gerais, e região, com atendimento próximo e mais de 30 anos de experiência.",
   locale: "pt-BR",
@@ -19,9 +33,15 @@ export const SITE_CONFIG = {
       display: "(31) 98504-3482",
       e164: "+5531985043482",
       digits: "5531985043482",
+      defaultMessage:
+        "Olá! Vim pelo site da Marli Corretora e gostaria de mais informações.",
     },
-    instagramUrl: "https://www.instagram.com/marliccorretora_",
+    instagram: {
+      display: "@marliccorretora_",
+      href: "https://www.instagram.com/marliccorretora_",
+    },
   },
+  business: businessDetails,
   domain: {
     planned: "marlicorretora.com.br",
     isActive: false,
