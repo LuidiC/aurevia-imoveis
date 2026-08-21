@@ -42,13 +42,13 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   return (
     <main id="conteudo" className="flex-1 py-16 sm:py-24">
       <Container>
-        <p className="text-sm font-semibold uppercase tracking-widest text-brand">
+        <p className="text-label text-primary">
           Imóvel
         </p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-foreground">
+        <h1 className="text-heading-1 mt-3 text-foreground">
           {property.title}
         </h1>
-        <p className="mt-5 max-w-2xl leading-7 text-muted-foreground">
+        <p className="text-body-lg mt-5 max-w-2xl text-muted-foreground">
           {property.summary}
         </p>
       </Container>

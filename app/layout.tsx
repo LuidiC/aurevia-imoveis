@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -7,6 +8,13 @@ import { SITE_CONFIG } from "@/config/site";
 import { getMetadataBase } from "@/lib/seo/metadata";
 
 import "./globals.css";
+
+const bodyFont = localFont({
+  src: "./fonts/manrope-latin-variable.woff2",
+  variable: "--font-manrope",
+  display: "swap",
+  weight: "400 800",
+});
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
@@ -39,7 +47,9 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="pt-BR">
-      <body className="flex min-h-screen flex-col antialiased">
+      <body
+        className={`${bodyFont.variable} flex min-h-screen flex-col antialiased`}
+      >
         <a
           className="sr-only z-50 bg-surface p-3 text-foreground focus:not-sr-only focus:fixed focus:left-3 focus:top-3"
           href="#conteudo"
