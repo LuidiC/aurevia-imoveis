@@ -14,6 +14,8 @@ export {
   getPropertyPriceLabel,
 } from "./presentation";
 export type { PropertyMetaItem, PropertyMetaKind } from "./presentation";
+export { buildPropertySearchUrl } from "./search";
+export type { PropertySearchInput } from "./search";
 export {
   LOCATION_DISCLOSURES,
   PROPERTY_FEATURES,
