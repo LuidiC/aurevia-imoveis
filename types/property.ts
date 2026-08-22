@@ -9,15 +9,18 @@ export type PropertyStatus = Property["status"];
 export type PropertyFeature = Property["features"][number];
 export type PropertyPrice = Property["price"];
 export type PropertyImage = Property["images"][number];
+export type PropertySort = "price_asc" | "price_desc" | "newest";
 
 export type PropertyFilters = Readonly<{
   purpose?: PropertyPurpose;
   type?: PropertyType;
+  location?: string;
   city?: string;
   neighborhood?: string;
   minPriceInCents?: number;
   maxPriceInCents?: number;
   minBedrooms?: number;
+  sort?: PropertySort;
 }>;
 
 export type PropertyLookupOptions = Readonly<{

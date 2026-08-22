@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { buildPropertySearchUrl } from "@/lib/properties";
+import {
+  buildPropertyCatalogUrl,
+  buildPropertySearchUrl,
+  getPropertyFiltersFromSearch,
+  parsePropertySearchParams,
+} from "@/lib/properties";
 
 test("builds the minimum catalog URL with the selected purpose", () => {
   assert.equal(
@@ -32,4 +37,90 @@ test("omits empty and invalid optional filters", () => {
     }),
     "/imoveis?purpose=sale",
   );
+});
+
+test("parses and normalizes catalog search parameters", () => {
+  assert.deepEqual(
+    parsePropertySearchParams({
+      purpose: "rent",
+      type: "apartment",
+      location: "  Lagoa   de Santo Antônio  ",
+      maxPrice: "02500",
+      bedrooms: "2",
+      sort: "price_asc",
+    }),
+    {
+      purpose: "rent",
+      type: "apartment",
+      location: "Lagoa de Santo Antônio",
+      maxPrice: "2500",
+      bedrooms: "2",
+      sort: "price_asc",
+    },
+  );
+});
+
+test("uses the first value and ignores unsupported catalog parameters", () => {
+  assert.deepEqual(
+    parsePropertySearchParams({
+      purpose: ["sale", "rent"],
+      type: "other",
+      maxPrice: "not-a-price",
+      bedrooms: "5",
+      sort: "popular",
+    }),
+    {
+      purpose: "sale",
+      type: "",
+      location: "",
+      maxPrice: "",
+      bedrooms: "",
+      sort: "",
+    },
+  );
+});
+
+test("requires a purpose before applying a maximum price", () => {
+  assert.equal(
+    parsePropertySearchParams({ maxPrice: "500000" }).maxPrice,
+    "",
+  );
+});
+
+test("converts URL prices in reais to domain prices in cents", () => {
+  const search = parsePropertySearchParams({
+    purpose: "sale",
+    maxPrice: "600000",
+    bedrooms: "3",
+  });
+
+  assert.deepEqual(getPropertyFiltersFromSearch(search), {
+    purpose: "sale",
+    type: undefined,
+    location: undefined,
+    maxPriceInCents: 60_000_000,
+    minBedrooms: 3,
+    sort: undefined,
+  });
+});
+
+test("builds shareable URLs and removes only the selected filter", () => {
+  const search = parsePropertySearchParams({
+    purpose: "sale",
+    type: "house",
+    location: "Centro",
+    maxPrice: "600000",
+    bedrooms: "3",
+    sort: "newest",
+  });
+
+  assert.equal(
+    buildPropertyCatalogUrl(search),
+    "/imoveis?purpose=sale&type=house&location=Centro&maxPrice=600000&bedrooms=3&sort=newest",
+  );
+  assert.equal(
+    buildPropertyCatalogUrl({ ...search, type: "" }),
+    "/imoveis?purpose=sale&location=Centro&maxPrice=600000&bedrooms=3&sort=newest",
+  );
+  assert.equal(buildPropertyCatalogUrl({}), "/imoveis");
 });

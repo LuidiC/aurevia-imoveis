@@ -11,6 +11,7 @@ import {
 import { propertyCollectionSchema } from "../schemas/property";
 import {
   inactiveSaleProperty,
+  onRequestSaleProperty,
   similarSaleProperty,
   validRentalProperty,
   validSaleProperty,
@@ -21,6 +22,7 @@ const properties = propertyCollectionSchema.parse([
   validRentalProperty,
   inactiveSaleProperty,
   similarSaleProperty,
+  onRequestSaleProperty,
 ]);
 
 test("finds active properties by slug and ID", () => {
@@ -63,6 +65,73 @@ test("lists and filters only active properties", () => {
     ),
     false,
   );
+});
+
+test("filters by purpose and property type", () => {
+  const result = getActivePropertiesFrom(properties, {
+    purpose: "rent",
+    type: "apartment",
+  });
+
+  assert.deepEqual(result.map((property) => property.id), ["MC-002"]);
+});
+
+test("matches location substrings across neighborhood and city", () => {
+  assert.deepEqual(
+    getActivePropertiesFrom(properties, { location: "  lagoa   de santo " }).map(
+      (property) => property.id,
+    ),
+    ["MC-005"],
+  );
+  assert.equal(
+    getActivePropertiesFrom(properties, { location: "leopoldo" }).length,
+    4,
+  );
+});
+
+test("combines type, location, price, and bedroom filters", () => {
+  const result = getActivePropertiesFrom(properties, {
+    purpose: "sale",
+    type: "house",
+    location: "centro",
+    maxPriceInCents: 62_000_000,
+    minBedrooms: 2,
+  });
+
+  assert.deepEqual(result.map((property) => property.id), ["MC-004"]);
+});
+
+test("excludes on-request properties from numeric price filters", () => {
+  const result = getActivePropertiesFrom(properties, {
+    purpose: "sale",
+    maxPriceInCents: 100_000_000,
+  });
+
+  assert.equal(
+    result.some((property) => property.id === onRequestSaleProperty.id),
+    false,
+  );
+});
+
+test("sorts fixed prices and always places on-request prices last", () => {
+  assert.deepEqual(
+    getActivePropertiesFrom(properties, { sort: "price_asc" }).map(
+      (property) => property.id,
+    ),
+    ["MC-002", "MC-004", "MC-001", "MC-005"],
+  );
+  assert.deepEqual(
+    getActivePropertiesFrom(properties, { sort: "price_desc" }).map(
+      (property) => property.id,
+    ),
+    ["MC-001", "MC-004", "MC-002", "MC-005"],
+  );
+});
+
+test("sorts properties from newest to oldest", () => {
+  const result = getActivePropertiesFrom(properties, { sort: "newest" });
+
+  assert.equal(result[0]?.id, "MC-005");
 });
 
 test("similar properties exclude the target and inactive records", () => {

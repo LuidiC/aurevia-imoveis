@@ -7,40 +7,24 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { buildPropertySearchUrl } from "@/lib/properties";
+import {
+  buildPropertySearchUrl,
+  CATALOG_PROPERTY_TYPES,
+  PROPERTY_PRICE_OPTIONS,
+  PROPERTY_TYPE_LABELS,
+} from "@/lib/properties";
 import type { PropertyPurpose, PropertyType } from "@/types/property";
 
 const propertyTypes = [
   { value: "", label: "Todos" },
-  { value: "house", label: "Casa" },
-  { value: "apartment", label: "Apartamento" },
-  { value: "land", label: "Terreno" },
-  { value: "rural", label: "Imóvel rural" },
-  { value: "commercial", label: "Comercial" },
+  ...CATALOG_PROPERTY_TYPES.map((value) => ({
+    value,
+    label: PROPERTY_TYPE_LABELS[value],
+  })),
 ] as const satisfies readonly {
   value: PropertyType | "";
   label: string;
 }[];
-
-const priceOptions = {
-  sale: [
-    { value: "", label: "Qualquer faixa" },
-    { value: "300000", label: "Até R$ 300 mil" },
-    { value: "500000", label: "Até R$ 500 mil" },
-    { value: "800000", label: "Até R$ 800 mil" },
-    { value: "1200000", label: "Até R$ 1,2 milhão" },
-  ],
-  rent: [
-    { value: "", label: "Qualquer faixa" },
-    { value: "1500", label: "Até R$ 1.500/mês" },
-    { value: "2500", label: "Até R$ 2.500/mês" },
-    { value: "4000", label: "Até R$ 4.000/mês" },
-    { value: "6000", label: "Até R$ 6.000/mês" },
-  ],
-} as const satisfies Record<
-  PropertyPurpose,
-  readonly { value: string; label: string }[]
->;
 
 export function PropertySearch() {
   const router = useRouter();
@@ -122,7 +106,7 @@ export function PropertySearch() {
             onChange={(event) => setMaxPrice(event.target.value)}
             value={maxPrice}
           >
-            {priceOptions[purpose].map((option) => (
+            {PROPERTY_PRICE_OPTIONS[purpose].map((option) => (
               <option key={option.value || "any"} value={option.value}>
                 {option.label}
               </option>

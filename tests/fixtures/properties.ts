@@ -100,3 +100,30 @@ export const similarSaleProperty = {
     },
   ],
 } satisfies PropertyInput;
+
+export const onRequestSaleProperty = {
+  ...validSaleProperty,
+  id: "MC-005",
+  slug: "casa-4-quartos-lagoa-mc-005",
+  title: "Casa com quatro quartos na Lagoa",
+  summary: "Casa ampla de teste com valor disponível sob consulta.",
+  price: { kind: "on_request" },
+  bedrooms: 4,
+  suites: 2,
+  featured: false,
+  location: {
+    city: "Pedro Leopoldo",
+    state: "MG",
+    neighborhood: "Lagoa de Santo Antônio",
+    disclosure: "approximate",
+  },
+  images: [
+    {
+      src: "/fixtures/mc-005/main.jpg",
+      alt: "Fachada da casa com valor sob consulta",
+      isPrimary: true,
+    },
+  ],
+  createdAt: "2026-03-01T10:00:00.000Z",
+  updatedAt: "2026-03-02T10:00:00.000Z",
+} satisfies PropertyInput;

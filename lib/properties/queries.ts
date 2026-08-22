@@ -2,12 +2,13 @@ import type {
   Property,
   PropertyFilters,
   PropertyLookupOptions,
+  PropertySort,
 } from "@/types/property";
 
 const DEFAULT_SIMILAR_PROPERTIES_LIMIT = 3;
 
 function normalizeSearchTerm(value: string): string {
-  return value.trim().toLocaleLowerCase("pt-BR");
+  return value.trim().replace(/\s+/g, " ").toLocaleLowerCase("pt-BR");
 }
 
 function getFixedPriceInCents(property: Property): number | undefined {
@@ -19,6 +20,18 @@ function getFixedPriceInCents(property: Property): number | undefined {
 function matchesFilters(property: Property, filters: PropertyFilters): boolean {
   if (filters.purpose && property.purpose !== filters.purpose) return false;
   if (filters.type && property.type !== filters.type) return false;
+
+  if (filters.location) {
+    const location = normalizeSearchTerm(filters.location);
+    const city = normalizeSearchTerm(property.location.city);
+    const neighborhood = property.location.neighborhood
+      ? normalizeSearchTerm(property.location.neighborhood)
+      : "";
+
+    if (!city.includes(location) && !neighborhood.includes(location)) {
+      return false;
+    }
+  }
 
   if (
     filters.city &&
@@ -69,6 +82,38 @@ function matchesFilters(property: Property, filters: PropertyFilters): boolean {
   return true;
 }
 
+function compareByPrice(
+  left: Property,
+  right: Property,
+  direction: "asc" | "desc",
+): number {
+  const leftPrice = getFixedPriceInCents(left);
+  const rightPrice = getFixedPriceInCents(right);
+
+  if (leftPrice === undefined && rightPrice === undefined) return 0;
+  if (leftPrice === undefined) return 1;
+  if (rightPrice === undefined) return -1;
+
+  return direction === "asc"
+    ? leftPrice - rightPrice
+    : rightPrice - leftPrice;
+}
+
+function sortProperties(
+  properties: readonly Property[],
+  sort: PropertySort | undefined,
+): readonly Property[] {
+  if (!sort) return properties;
+
+  return [...properties].sort((left, right) => {
+    if (sort === "newest") {
+      return Date.parse(right.createdAt) - Date.parse(left.createdAt);
+    }
+
+    return compareByPrice(left, right, sort === "price_asc" ? "asc" : "desc");
+  });
+}
+
 function canBeReturned(
   property: Property,
   options: PropertyLookupOptions,
@@ -80,8 +125,12 @@ export function getActivePropertiesFrom(
   properties: readonly Property[],
   filters: PropertyFilters = {},
 ): readonly Property[] {
-  return properties.filter(
-    (property) => property.status === "active" && matchesFilters(property, filters),
+  return sortProperties(
+    properties.filter(
+      (property) =>
+        property.status === "active" && matchesFilters(property, filters),
+    ),
+    filters.sort,
   );
 }
 
