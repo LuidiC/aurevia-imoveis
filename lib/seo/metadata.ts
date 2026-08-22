@@ -20,6 +20,10 @@ type PageMetadataInput = Readonly<{
   title: string;
   description: string;
   path: `/${string}` | "/";
+  image?: Readonly<{
+    url: string;
+    alt: string;
+  }>;
   noIndex?: boolean;
 }>;
 
@@ -27,6 +31,7 @@ export function createPageMetadata({
   title,
   description,
   path,
+  image,
   noIndex = false,
 }: PageMetadataInput): Metadata {
   return {
@@ -40,11 +45,13 @@ export function createPageMetadata({
       siteName: SITE_CONFIG.name,
       type: "website",
       url: path,
+      images: image ? [{ url: image.url, alt: image.alt }] : undefined,
     },
     twitter: {
-      card: "summary",
+      card: image ? "summary_large_image" : "summary",
       title,
       description,
+      images: image ? [image.url] : undefined,
     },
     robots: noIndex ? { index: false, follow: false } : undefined,
   };

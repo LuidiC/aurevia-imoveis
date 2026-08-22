@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Container } from "@/components/ui/container";
-import { getPropertyBySlug } from "@/lib/properties";
+import { PropertyDetail } from "@/components/property/property-detail";
+import { getPropertyBySlug, getSimilarProperties } from "@/lib/properties";
 import { createPageMetadata } from "@/lib/seo/metadata";
 
 type PropertyPageProps = Readonly<{
@@ -16,18 +16,18 @@ export async function generateMetadata({
   const property = getPropertyBySlug(slug);
 
   if (!property) {
-    return createPageMetadata({
-      title: "Imóvel não encontrado",
-      description: "O imóvel solicitado não está disponível.",
-      path: `/imoveis/${slug}`,
-      noIndex: true,
-    });
+    notFound();
   }
+
+  const primaryImage = property.images.find((image) => image.isPrimary);
 
   return createPageMetadata({
     title: property.title,
     description: property.summary,
     path: `/imoveis/${property.slug}`,
+    image: primaryImage
+      ? { url: primaryImage.src, alt: primaryImage.alt }
+      : undefined,
   });
 }
 
@@ -39,19 +39,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
     notFound();
   }
 
-  return (
-    <main id="conteudo" className="flex-1 py-16 sm:py-24">
-      <Container>
-        <p className="text-label text-primary">
-          Imóvel
-        </p>
-        <h1 className="text-heading-1 mt-3 text-foreground">
-          {property.title}
-        </h1>
-        <p className="text-body-lg mt-5 max-w-2xl text-muted-foreground">
-          {property.summary}
-        </p>
-      </Container>
-    </main>
-  );
+  const similarProperties = getSimilarProperties(property, 3);
+
+  return <PropertyDetail property={property} similarProperties={similarProperties} />;
 }

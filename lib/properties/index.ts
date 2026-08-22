@@ -6,14 +6,26 @@ export {
   getSimilarProperties,
 } from "./catalog";
 export { formatCurrency } from "./currency";
-export { PROPERTY_PURPOSE_LABELS, PROPERTY_TYPE_LABELS } from "./labels";
 export {
+  PROPERTY_FEATURE_LABELS,
+  PROPERTY_PURPOSE_LABELS,
+  PROPERTY_TYPE_LABELS,
+} from "./labels";
+export {
+  getPropertyAdditionalCostItems,
+  getPropertyFeatureLabels,
   getPropertyHref,
+  getPropertyLocationDetails,
   getPropertyLocationLabel,
   getPropertyMetaItems,
   getPropertyPriceLabel,
 } from "./presentation";
-export type { PropertyMetaItem, PropertyMetaKind } from "./presentation";
+export type {
+  PropertyAdditionalCostItem,
+  PropertyLocationDetails,
+  PropertyMetaItem,
+  PropertyMetaKind,
+} from "./presentation";
 export {
   buildPropertyCatalogUrl,
   buildPropertySearchUrl,

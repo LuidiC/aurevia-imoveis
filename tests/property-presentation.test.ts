@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  getPropertyAdditionalCostItems,
+  getPropertyFeatureLabels,
   getPropertyHref,
+  getPropertyLocationDetails,
   getPropertyLocationLabel,
   getPropertyMetaItems,
   getPropertyPriceLabel,
@@ -72,4 +75,43 @@ test("omits zero and unavailable metadata while preserving useful values", () =>
     }).map((item) => item.label),
     ["2 quartos", "1 banheiro", "1 vaga", "84 m²"],
   );
+});
+
+test("presents only available additional costs without inventing periodicity", () => {
+  assert.deepEqual(getPropertyAdditionalCostItems(rentalProperty), [
+    {
+      kind: "condominium",
+      label: "Condomínio",
+      value: "R$ 350,00",
+    },
+    {
+      kind: "property_tax",
+      label: "IPTU",
+      value: "R$ 80,00",
+    },
+  ]);
+  assert.deepEqual(getPropertyAdditionalCostItems({}), []);
+});
+
+test("maps feature labels and omits a section naturally when there are none", () => {
+  assert.deepEqual(getPropertyFeatureLabels(saleProperty.features), [
+    "Quintal",
+    "Aceita financiamento",
+  ]);
+  assert.deepEqual(getPropertyFeatureLabels([]), []);
+});
+
+test("respects approximate and exact location disclosure", () => {
+  const approximate = getPropertyLocationDetails({
+    city: "Pedro Leopoldo",
+    state: "MG",
+    neighborhood: "Centro",
+    disclosure: "approximate",
+  });
+  const exact = getPropertyLocationDetails(saleProperty.location);
+
+  assert.equal(approximate.label, "Centro · Pedro Leopoldo · MG");
+  assert.match(approximate.note ?? "", /aproximada/i);
+  assert.match(exact.label, /Rua de Teste, 100/);
+  assert.doesNotMatch(exact.note ?? "", /aproximada/i);
 });
