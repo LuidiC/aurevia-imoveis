@@ -4,6 +4,10 @@ import { BrandLogo } from "@/components/layout/brand-logo";
 import { Container } from "@/components/ui/container";
 import { SITE_NAVIGATION } from "@/config/navigation";
 import { SITE_CONFIG } from "@/config/site";
+import {
+  buildGoogleMapsSearchUrl,
+  getBusinessAddressLines,
+} from "@/lib/location/business-location";
 import { buildWhatsAppUrl } from "@/lib/whatsapp/build-whatsapp-url";
 
 export function SiteFooter() {
@@ -12,9 +16,8 @@ export function SiteFooter() {
   const whatsappHref = buildWhatsAppUrl(
     SITE_CONFIG.contacts.whatsapp.defaultMessage,
   );
-  const hasBusinessDetails = Boolean(
-    SITE_CONFIG.business.address || SITE_CONFIG.business.openingHours,
-  );
+  const mapsHref = buildGoogleMapsSearchUrl();
+  const [streetLine, localityLine] = getBusinessAddressLines();
 
   return (
     <footer className="border-t border-border bg-surface text-small text-muted-foreground">
@@ -98,25 +101,29 @@ export function SiteFooter() {
                   </div>
                 </>
               )}
-              {hasBusinessDetails ? (
-                <>
-                  {SITE_CONFIG.business.address ? (
-                    <div>
-                      <dt className="text-muted-foreground">Endereço</dt>
-                      <dd className="mt-1 font-semibold text-foreground">
-                        {SITE_CONFIG.business.address}
-                      </dd>
-                    </div>
-                  ) : null}
-                  {SITE_CONFIG.business.openingHours ? (
-                    <div>
-                      <dt className="text-muted-foreground">Horário</dt>
-                      <dd className="mt-1 font-semibold text-foreground">
-                        {SITE_CONFIG.business.openingHours}
-                      </dd>
-                    </div>
-                  ) : null}
-                </>
+              <div>
+                <dt className="text-muted-foreground">Sede</dt>
+                <dd className="mt-1 font-semibold leading-6 text-foreground">
+                  <span className="block">{streetLine}</span>
+                  <span className="block">{localityLine}</span>
+                  <a
+                    aria-label={`Como chegar à sede da ${SITE_CONFIG.name} no Google Maps; abre em uma nova aba`}
+                    className="mt-2 inline-flex min-h-10 items-center text-primary underline-offset-4 hover:underline"
+                    href={mapsHref}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Como chegar
+                  </a>
+                </dd>
+              </div>
+              {SITE_CONFIG.business.openingHours ? (
+                <div>
+                  <dt className="text-muted-foreground">Horário</dt>
+                  <dd className="mt-1 font-semibold text-foreground">
+                    {SITE_CONFIG.business.openingHours}
+                  </dd>
+                </div>
               ) : null}
             </dl>
           </address>

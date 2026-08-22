@@ -1,6 +1,10 @@
 import { buttonStyles } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { SITE_CONFIG } from "@/config/site";
+import {
+  buildGoogleMapsSearchUrl,
+  getBusinessAddressLines,
+} from "@/lib/location/business-location";
 import { buildWhatsAppUrl } from "@/lib/whatsapp/build-whatsapp-url";
 
 const CONTACT_MESSAGE =
@@ -8,6 +12,8 @@ const CONTACT_MESSAGE =
 
 export function ContactSection() {
   const whatsappHref = buildWhatsAppUrl(CONTACT_MESSAGE);
+  const mapsHref = buildGoogleMapsSearchUrl();
+  const [streetLine, localityLine] = getBusinessAddressLines();
 
   return (
     <section className="section-spacing bg-primary text-primary-foreground" id="contato">
@@ -57,14 +63,27 @@ export function ContactSection() {
               </svg>
             </div>
             <div>
-              <p className="text-label text-primary-foreground/65">Onde atuamos</p>
+              <p className="text-label text-primary-foreground/65">Nossa sede</p>
               <h3 className="mt-2 text-xl font-semibold">
-                {SITE_CONFIG.serviceArea}
+                {SITE_CONFIG.name}
               </h3>
-              <p className="text-body mt-3 text-primary-foreground/75">
-                Atendimento para compra e aluguel de imóveis na cidade e nos
-                municípios próximos.
-              </p>
+              <address className="text-body mt-3 not-italic text-primary-foreground/80">
+                <span className="block">{streetLine}</span>
+                <span className="block">{localityLine}</span>
+              </address>
+              <a
+                aria-label={`Como chegar à sede da ${SITE_CONFIG.name} no Google Maps; abre em uma nova aba`}
+                className="mt-5 inline-flex min-h-11 items-center rounded-md font-semibold text-primary-foreground underline decoration-primary-foreground/55 underline-offset-4 transition-colors hover:decoration-primary-foreground"
+                href={mapsHref}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Como chegar
+                <svg aria-hidden="true" className="ml-2 h-4 w-4" fill="none" viewBox="0 0 16 16">
+                  <path d="M6 3h7v7M13 3 5.5 10.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+                  <path d="M11 9.5V13H3V5h3.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>

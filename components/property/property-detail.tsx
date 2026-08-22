@@ -146,7 +146,7 @@ export function PropertyDetail({
 
             <section aria-labelledby="property-location-title" className="mt-12 border-t border-border pt-12 sm:mt-16 sm:pt-16">
               <p className="text-label text-primary">Onde fica</p>
-              <h2 className="text-heading-3 mt-3 text-foreground" id="property-location-title">Localização</h2>
+              <h2 className="text-heading-3 mt-3 text-foreground" id="property-location-title">Localização do imóvel</h2>
               <div className="mt-5 flex max-w-3xl items-start gap-3 text-foreground">
                 <span className="mt-0.5 text-primary"><LocationIcon /></span>
                 <div>

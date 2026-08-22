@@ -1,12 +1,27 @@
 type BusinessDetails = Readonly<{
   summary: string;
-  address?: string;
+  address: Readonly<{
+    street: string;
+    number: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+    country: string;
+  }>;
   openingHours?: string;
 }>;
 
 const businessDetails: BusinessDetails = {
   summary:
     "Há mais de 30 anos, a Marli Corretora atua em Pedro Leopoldo/MG e região com venda e aluguel de imóveis urbanos, terrenos e imóveis rurais.",
+  address: {
+    street: "Rua Jockey Club",
+    number: "281",
+    neighborhood: "Centro",
+    city: "Pedro Leopoldo",
+    state: "MG",
+    country: "Brasil",
+  },
 };
 
 export const SITE_CONFIG = {
