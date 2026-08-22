@@ -1,4 +1,4 @@
-export const PROPERTY_ID_PATTERN = /^MC-\d{3}$/;
+export const PROPERTY_ID_PATTERN = /^MC-\d{3,}$/;
 export const PROPERTY_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const PROPERTY_PURPOSES = ["sale", "rent"] as const;

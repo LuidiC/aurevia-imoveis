@@ -1,4 +1,5 @@
-import type { PropertyInput } from "@/schemas/property";
+import propertiesJson from "@/data/properties.json";
+import { propertyCollectionSchema } from "@/schemas/property";
 
 // Catálogo real. Fixtures de teste ficam isoladas em tests/fixtures.
-export const propertiesData = [] satisfies readonly PropertyInput[];
+export const propertiesData = propertyCollectionSchema.parse(propertiesJson);

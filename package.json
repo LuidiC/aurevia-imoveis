@@ -10,6 +10,12 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/**/*.test.ts",
+    "property:list": "tsx scripts/properties/cli.ts list",
+    "property:add": "tsx scripts/properties/cli.ts add",
+    "property:edit": "tsx scripts/properties/cli.ts edit",
+    "property:remove": "tsx scripts/properties/cli.ts remove",
+    "property:activate": "tsx scripts/properties/cli.ts activate",
+    "property:validate": "tsx scripts/properties/cli.ts validate",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "engines": {

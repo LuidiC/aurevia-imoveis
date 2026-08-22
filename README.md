@@ -36,6 +36,34 @@ A aplicação ficará disponível em `http://localhost:3000`.
 - `npm run start`: executa o build de produção.
 - `npm run check`: executa lint, typecheck, testes e build em sequência.
 
+## Gerenciamento de imóveis
+
+O catálogo público é mantido em `data/properties.json`. A interface TypeScript em
+`data/properties.ts` valida esse arquivo com o schema Zod do domínio antes de o site
+consumi-lo. Para gerenciar os registros localmente, use:
+
+- `npm run property:list -- [--active|--inactive]`: lista o catálogo e permite filtrar por status.
+- `npm run property:add`: adiciona um imóvel e gera o próximo ID e o slug sugerido.
+- `npm run property:edit -- [MC-001]`: edita sem alterar ID ou data de criação.
+- `npm run property:remove -- [MC-001]`: desativa logicamente; não apaga o registro nem imagens.
+- `npm run property:activate -- [MC-001]`: reativa um imóvel.
+- `npm run property:validate`: valida schema, duplicatas e arquivos de imagem.
+
+Os prompts aceitam valores em reais como `650000`, `650.000` e `650.000,00`;
+`2.500` significa R$ 2.500,00. Antes de qualquer escrita, a ferramenta mostra um
+resumo e exige confirmação, cujo padrão é não salvar. Em edições, Enter mantém o
+valor atual e `-` remove um campo opcional. Mudanças de slug exibem um aviso porque
+alteram a URL pública.
+
+Coloque novas imagens preferencialmente em
+`public/images/properties/MC-001/` (trocando pelo ID correspondente). A CLI aceita
+o nome do arquivo nessa pasta, um caminho iniciado em `public/` ou um caminho web
+iniciado por `/`; ela não move nem exclui imagens. O próximo ID é calculado pelo
+maior sequencial já registrado, inclui inativos, preserva ao menos três dígitos e
+continua como `MC-1000` após `MC-999`.
+
+Execute `npm run property:validate` antes de commit ou deploy.
+
 ## Estrutura geral
 
 - `app/`: rotas, layouts, metadata e estilos globais.
@@ -49,7 +77,7 @@ A aplicação ficará disponível em `http://localhost:3000`.
 
 ## Decisões iniciais
 
-- Os imóveis serão mantidos em arquivos TypeScript locais e validados com Zod ao carregar a aplicação. IDs e slugs são únicos no catálogo.
+- Os imóveis são mantidos em JSON local versionável e validados com Zod ao carregar a aplicação. IDs e slugs são únicos no catálogo.
 - O catálogo começa vazio; nenhum imóvel fictício foi tratado como conteúdo real.
 - Valores monetários são inteiros em centavos. Venda aceita preço fixo ou sob consulta; aluguel exige preço fixo.
 - A divulgação da localização é explícita (`exact` ou `approximate`) e independente da existência de endereço cadastrado.
