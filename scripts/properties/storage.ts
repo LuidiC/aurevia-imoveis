@@ -75,6 +75,55 @@ export async function writeCatalogSafely(
   }
 }
 
+type ResolvedPublicAsset = Readonly<{
+  absolutePath: string;
+  urlPath: string;
+}>;
+
+function resolvePublicAssetPath(
+  source: string,
+  publicDirectory: string,
+): ResolvedPublicAsset {
+  const value = source.trim().replace(/\\/g, "/");
+  const publicRoot = path.resolve(publicDirectory);
+
+  if (/^https?:\/\//i.test(value)) {
+    throw new Error(
+      "URLs remotas não são permitidas. Use um arquivo dentro de public/images/properties/[ID]/.",
+    );
+  }
+
+  if (value.split("/").includes("..")) {
+    throw new Error("O caminho da imagem não pode conter segmentos '..'.");
+  }
+
+  let absolutePath: string;
+  if (/^[A-Za-z]:\//.test(value) || value.startsWith("//")) {
+    absolutePath = path.resolve(value);
+  } else {
+    const relativeSource = value.toLowerCase().startsWith("public/")
+      ? value.slice(7)
+      : value.replace(/^\.\//, "").replace(/^\//, "");
+    absolutePath = path.resolve(publicRoot, relativeSource);
+  }
+
+  const relativePath = path.relative(publicRoot, absolutePath);
+  const isOutsidePublic =
+    relativePath === "" ||
+    relativePath === ".." ||
+    relativePath.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relativePath);
+
+  if (isOutsidePublic) {
+    throw new Error("O caminho da imagem deve permanecer dentro da pasta public.");
+  }
+
+  return {
+    absolutePath,
+    urlPath: `/${relativePath.split(path.sep).join("/")}`,
+  };
+}
+
 export function normalizeImageSource(
   input: string,
   propertyId: string,
@@ -82,23 +131,12 @@ export function normalizeImageSource(
 ): string {
   const value = input.trim().replace(/\\/g, "/");
   if (!value) throw new Error("Informe uma imagem.");
-  if (/^https?:\/\//i.test(value)) return value;
 
-  const normalizedPublic = path.resolve(publicDirectory).replace(/\\/g, "/");
-  if (value.toLowerCase().startsWith(`${normalizedPublic.toLowerCase()}/`)) {
-    return value.slice(normalizedPublic.length);
-  }
+  const source = value.includes("/") || path.win32.isAbsolute(value)
+    ? value
+    : `images/properties/${propertyId}/${value}`;
 
-  if (value.startsWith("/")) return value;
-
-  if (path.win32.isAbsolute(value)) {
-    throw new Error("Caminhos absolutos de imagem devem estar dentro da pasta public.");
-  }
-
-  if (value.toLowerCase().startsWith("public/")) return `/${value.slice(7)}`;
-  if (value.includes("/")) return `/${value.replace(/^\.\//, "")}`;
-
-  return `/images/properties/${propertyId}/${value}`;
+  return resolvePublicAssetPath(source, publicDirectory).urlPath;
 }
 
 export async function validatePropertyImages(
@@ -112,6 +150,16 @@ export async function validatePropertyImages(
       const urlPath = image.src.split(/[?#]/, 1)[0];
       const extension = path.extname(urlPath).toLowerCase();
 
+      if (/^https?:\/\//i.test(image.src)) {
+        issues.push({
+          propertyId: property.id,
+          src: image.src,
+          message:
+            "URLs remotas não são permitidas; use public/images/properties/[ID]/",
+        });
+        continue;
+      }
+
       if (!IMAGE_EXTENSIONS.has(extension)) {
         issues.push({
           propertyId: property.id,
@@ -121,11 +169,20 @@ export async function validatePropertyImages(
         continue;
       }
 
-      if (/^https?:\/\//i.test(image.src)) continue;
-
-      const localPath = image.src.startsWith("/")
-        ? path.join(publicDirectory, image.src.slice(1))
-        : path.resolve(path.dirname(publicDirectory), image.src);
+      let localPath: string;
+      try {
+        localPath = resolvePublicAssetPath(
+          urlPath,
+          publicDirectory,
+        ).absolutePath;
+      } catch (error) {
+        issues.push({
+          propertyId: property.id,
+          src: image.src,
+          message: getErrorMessage(error),
+        });
+        continue;
+      }
 
       try {
         const imageStat = await stat(localPath);

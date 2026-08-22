@@ -69,6 +69,77 @@ test("normalizes image names to the property convention", () => {
   );
 });
 
+test("rejects image paths with traversal segments", () => {
+  const publicDirectory = path.resolve("public");
+
+  assert.throws(
+    () => normalizeImageSource("../outside.jpg", "MC-021", publicDirectory),
+    /segmentos|public/i,
+  );
+  assert.throws(
+    () => normalizeImageSource("..\\outside.jpg", "MC-021", publicDirectory),
+    /segmentos|public/i,
+  );
+  assert.throws(
+    () => normalizeImageSource("public/images/../../outside.jpg", "MC-021", publicDirectory),
+    /segmentos|public/i,
+  );
+});
+
+test("rejects remote image URLs", () => {
+  const publicDirectory = path.resolve("public");
+
+  assert.throws(
+    () => normalizeImageSource("http://example.com/image.jpg", "MC-021", publicDirectory),
+    /URLs remotas não são permitidas/,
+  );
+  assert.throws(
+    () => normalizeImageSource("https://example.com/image.jpg", "MC-021", publicDirectory),
+    /URLs remotas não são permitidas/,
+  );
+});
+
+test("does not validate a local image resolved outside public", async (context) => {
+  const directory = await mkdtemp(path.join(tmpdir(), "marli-images-"));
+  context.after(() => rm(directory, { recursive: true, force: true }));
+  const publicDirectory = path.join(directory, "public");
+  await mkdir(publicDirectory, { recursive: true });
+  await writeFile(path.join(directory, "outside.jpg"), "fixture", "utf8");
+  const property = propertySchema.parse({
+    ...validSaleProperty,
+    images: [
+      {
+        src: "/../outside.jpg",
+        alt: "Imagem fora da pasta pública",
+        isPrimary: true,
+      },
+    ],
+  });
+
+  const issues = await validatePropertyImages([property], publicDirectory);
+
+  assert.equal(issues.length, 1);
+  assert.match(issues[0]?.message ?? "", /segmentos|public/i);
+});
+
+test("does not validate remote image URLs", async () => {
+  const property = propertySchema.parse({
+    ...validSaleProperty,
+    images: [
+      {
+        src: "https://example.com/image.jpg",
+        alt: "Imagem remota",
+        isPrimary: true,
+      },
+    ],
+  });
+
+  const issues = await validatePropertyImages([property], path.resolve("public"));
+
+  assert.equal(issues.length, 1);
+  assert.match(issues[0]?.message ?? "", /URLs remotas não são permitidas/);
+});
+
 test("validates local image existence and allowed extensions", async (context) => {
   const directory = await mkdtemp(path.join(tmpdir(), "marli-images-"));
   context.after(() => rm(directory, { recursive: true, force: true }));

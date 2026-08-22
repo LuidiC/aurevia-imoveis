@@ -25,6 +25,102 @@ test("rejects an otherwise invalid property", () => {
   assert.equal(result.success, false);
 });
 
+test("rejects unknown fields at the property root", () => {
+  const result = propertySchema.safeParse({
+    ...validSaleProperty,
+    bedroms: 99,
+  });
+
+  assert.equal(result.success, false);
+});
+
+test("rejects unknown fields in nested property objects", () => {
+  const nestedCases = [
+    {
+      ...validSaleProperty,
+      price: { ...validSaleProperty.price, currency: "BRL" },
+    },
+    {
+      ...validSaleProperty,
+      additionalCosts: {
+        ...validSaleProperty.additionalCosts,
+        billingPeriod: "annual",
+      },
+    },
+    {
+      ...validSaleProperty,
+      location: { ...validSaleProperty.location, precision: "street" },
+    },
+    {
+      ...validSaleProperty,
+      location: {
+        ...validSaleProperty.location,
+        address: {
+          ...validSaleProperty.location.address,
+          referencePoint: "Praça central",
+        },
+      },
+    },
+    {
+      ...validSaleProperty,
+      location: {
+        ...validSaleProperty.location,
+        coordinates: { latitude: -19.62, longitude: -44.04, accuracy: 5 },
+      },
+    },
+    {
+      ...validSaleProperty,
+      images: [
+        { ...validSaleProperty.images[0], caption: "Fachada principal" },
+      ],
+    },
+  ];
+
+  nestedCases.forEach((candidate) => {
+    assert.equal(propertySchema.safeParse(candidate).success, false);
+  });
+});
+
+test("rejects an exact address in an approximate property location", () => {
+  const result = propertySchema.safeParse({
+    ...validSaleProperty,
+    location: {
+      ...validSaleProperty.location,
+      disclosure: "approximate",
+    },
+  });
+
+  assert.equal(result.success, false);
+});
+
+test("rejects coordinates in an approximate property location", () => {
+  const result = propertySchema.safeParse({
+    ...validSaleProperty,
+    location: {
+      city: "Pedro Leopoldo",
+      state: "MG",
+      neighborhood: "Centro",
+      coordinates: { latitude: -19.62, longitude: -44.04 },
+      disclosure: "approximate",
+    },
+  });
+
+  assert.equal(result.success, false);
+});
+
+test("accepts supported exact location data", () => {
+  const result = propertySchema.safeParse({
+    ...validSaleProperty,
+    location: {
+      ...validSaleProperty.location,
+      coordinates: { latitude: -19.62, longitude: -44.04 },
+      disclosure: "exact",
+    },
+  });
+
+  assert.equal(result.success, true);
+});
+
 test("rejects an invalid property ID", () => {
   const result = propertySchema.safeParse({
     ...validSaleProperty,

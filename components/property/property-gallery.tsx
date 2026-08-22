@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 
 import type { PropertyImage } from "@/types/property";
 
@@ -15,7 +15,35 @@ type PropertyGalleryProps = Readonly<{
   images: readonly PropertyImage[];
 }>;
 
+type GalleryViewport = "mobile" | "desktop" | null;
+
+const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
+
+function subscribeToViewport(onStoreChange: () => void): () => void {
+  const mediaQuery = window.matchMedia(DESKTOP_MEDIA_QUERY);
+  mediaQuery.addEventListener("change", onStoreChange);
+
+  return () => mediaQuery.removeEventListener("change", onStoreChange);
+}
+
+function getViewportSnapshot(): GalleryViewport {
+  return window.matchMedia(DESKTOP_MEDIA_QUERY).matches ? "desktop" : "mobile";
+}
+
+function getServerViewportSnapshot(): GalleryViewport {
+  return null;
+}
+
+function useGalleryViewport(): GalleryViewport {
+  return useSyncExternalStore(
+    subscribeToViewport,
+    getViewportSnapshot,
+    getServerViewportSnapshot,
+  );
+}
+
 export function PropertyGallery({ images }: PropertyGalleryProps) {
+  const viewport = useGalleryViewport();
   const displayImages = useMemo(() => {
     if (images.length === 0) return [FALLBACK_IMAGE];
 
@@ -51,117 +79,107 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
   return (
     <section aria-label="Galeria de imagens do imóvel">
       <div
-        className={`relative hidden overflow-hidden rounded-lg bg-surface-subtle shadow-soft lg:block ${
+        className={`${
           hasMultipleImages
-            ? "h-[clamp(22rem,30vw,27rem)]"
-            : "mx-auto aspect-video max-w-3xl"
+            ? "lg:grid lg:h-[clamp(22rem,30vw,27rem)] lg:grid-cols-[minmax(0,2fr)_minmax(17rem,1fr)] lg:gap-3"
+            : "mx-auto max-w-3xl"
         }`}
       >
-        {hasMultipleImages ? (
-          <div className="grid h-full grid-cols-[minmax(0,2fr)_minmax(17rem,1fr)] gap-3">
-            <div className="relative overflow-hidden rounded-l-lg bg-surface-subtle">
-              <Image
-                alt={selectedImage.alt}
-                className="object-cover"
-                fill
-                priority={safeSelectedIndex === 0}
-                sizes="(min-width: 1280px) 820px, 65vw"
-                src={selectedImage.src}
-              />
-
-              <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-4">
-                <div className="flex gap-2">
-                  <button
-                    aria-label="Mostrar imagem anterior"
-                    className="grid h-11 w-11 place-items-center rounded-full bg-surface/95 text-foreground shadow-control transition-colors hover:bg-accent"
-                    onClick={showPreviousImage}
-                    type="button"
-                  >
-                    <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 20 20">
-                      <path d="m12.5 4.5-5.5 5.5 5.5 5.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" />
-                    </svg>
-                  </button>
-                  <button
-                    aria-label="Mostrar próxima imagem"
-                    className="grid h-11 w-11 place-items-center rounded-full bg-surface/95 text-foreground shadow-control transition-colors hover:bg-accent"
-                    onClick={showNextImage}
-                    type="button"
-                  >
-                    <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 20 20">
-                      <path d="m7.5 4.5 5.5 5.5-5.5 5.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" />
-                    </svg>
-                  </button>
-                </div>
-                <p className="rounded-full bg-foreground/80 px-3 py-1.5 text-xs font-bold text-white shadow-control">
-                  <span className="sr-only">Imagem </span>
-                  {safeSelectedIndex + 1} / {displayImages.length}
-                </p>
-              </div>
-            </div>
-
-            <div
-              className={`grid gap-3 ${
-                secondaryImages.length > 1 ? "grid-rows-2" : "grid-rows-1"
-              }`}
-            >
-              {secondaryImages.map(({ image, index }, secondaryIndex) => (
-                <button
-                  aria-label={`Mostrar imagem ${index + 1} de ${displayImages.length}: ${image.alt}`}
-                  className="group relative min-h-0 overflow-hidden bg-surface-subtle last:rounded-br-lg first:rounded-tr-lg"
-                  key={`${image.src}-${index}`}
-                  onClick={() => setSelectedIndex(index)}
-                  type="button"
-                >
-                  <Image
-                    alt=""
-                    className="object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.015]"
-                    fill
-                    loading="eager"
-                    sizes="(min-width: 1280px) 390px, 32vw"
-                    src={image.src}
-                  />
-                  {secondaryIndex === secondaryImages.length - 1 &&
-                  remainingImageCount > 0 ? (
-                    <span className="absolute bottom-4 right-4 rounded-full bg-foreground/80 px-3 py-1.5 text-xs font-bold text-white shadow-control">
-                      +{remainingImageCount} {remainingImageCount === 1 ? "foto" : "fotos"}
-                    </span>
-                  ) : null}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
+        <div
+          className={`relative overflow-hidden rounded-lg bg-surface-subtle shadow-soft ${
+            hasMultipleImages
+              ? "aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:rounded-r-none"
+              : "aspect-video"
+          }`}
+        >
           <Image
             alt={selectedImage.alt}
             className="object-cover"
             fill
-            priority
-            sizes="768px"
+            priority={safeSelectedIndex === 0}
+            sizes={
+              hasMultipleImages
+                ? "(min-width: 1280px) 820px, (min-width: 1024px) 65vw, (min-width: 640px) calc(100vw - 5rem), calc(100vw - 2.5rem)"
+                : "(min-width: 1024px) 768px, (min-width: 640px) calc(100vw - 5rem), calc(100vw - 2.5rem)"
+            }
             src={selectedImage.src}
           />
-        )}
-      </div>
 
-      <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-surface-subtle shadow-soft sm:aspect-[16/10] lg:hidden">
-        <Image
-          alt={selectedImage.alt}
-          className="object-cover"
-          fill
-          priority={safeSelectedIndex === 0}
-          sizes="(min-width: 640px) calc(100vw - 5rem), calc(100vw - 2.5rem)"
-          src={selectedImage.src}
-        />
-        {hasMultipleImages ? (
-          <p className="absolute bottom-3 right-3 rounded-full bg-foreground/80 px-3 py-1.5 text-xs font-bold text-white shadow-control sm:bottom-4 sm:right-4">
-            <span className="sr-only">Imagem </span>
-            {safeSelectedIndex + 1} / {displayImages.length}
-          </p>
+          {hasMultipleImages && viewport === "desktop" ? (
+            <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-4">
+              <div className="flex gap-2">
+                <button
+                  aria-label="Mostrar imagem anterior"
+                  className="grid h-11 w-11 place-items-center rounded-full bg-surface/95 text-foreground shadow-control transition-colors hover:bg-accent"
+                  onClick={showPreviousImage}
+                  type="button"
+                >
+                  <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 20 20">
+                    <path d="m12.5 4.5-5.5 5.5 5.5 5.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" />
+                  </svg>
+                </button>
+                <button
+                  aria-label="Mostrar próxima imagem"
+                  className="grid h-11 w-11 place-items-center rounded-full bg-surface/95 text-foreground shadow-control transition-colors hover:bg-accent"
+                  onClick={showNextImage}
+                  type="button"
+                >
+                  <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 20 20">
+                    <path d="m7.5 4.5 5.5 5.5-5.5 5.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" />
+                  </svg>
+                </button>
+              </div>
+              <p className="rounded-full bg-foreground/80 px-3 py-1.5 text-xs font-bold text-white shadow-control">
+                <span className="sr-only">Imagem </span>
+                {safeSelectedIndex + 1} / {displayImages.length}
+              </p>
+            </div>
+          ) : null}
+
+          {hasMultipleImages && viewport === "mobile" ? (
+            <p className="absolute bottom-3 right-3 rounded-full bg-foreground/80 px-3 py-1.5 text-xs font-bold text-white shadow-control sm:bottom-4 sm:right-4">
+              <span className="sr-only">Imagem </span>
+              {safeSelectedIndex + 1} / {displayImages.length}
+            </p>
+          ) : null}
+        </div>
+
+        {hasMultipleImages && viewport === "desktop" ? (
+          <div
+            className={`grid h-full gap-3 ${
+              secondaryImages.length > 1 ? "grid-rows-2" : "grid-rows-1"
+            }`}
+          >
+            {secondaryImages.map(({ image, index }, secondaryIndex) => (
+              <button
+                aria-label={`Mostrar imagem ${index + 1} de ${displayImages.length}: ${image.alt}`}
+                className="group relative min-h-0 overflow-hidden bg-surface-subtle last:rounded-br-lg first:rounded-tr-lg"
+                key={`${image.src}-${index}`}
+                onClick={() => setSelectedIndex(index)}
+                type="button"
+              >
+                <Image
+                  alt=""
+                  className="object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.015]"
+                  fill
+                  sizes="(min-width: 1280px) 390px, 32vw"
+                  src={image.src}
+                />
+                {secondaryIndex === secondaryImages.length - 1 &&
+                remainingImageCount > 0 ? (
+                  <span className="absolute bottom-4 right-4 rounded-full bg-foreground/80 px-3 py-1.5 text-xs font-bold text-white shadow-control">
+                    +{remainingImageCount} {remainingImageCount === 1 ? "foto" : "fotos"}
+                  </span>
+                ) : null}
+              </button>
+            ))}
+          </div>
         ) : null}
       </div>
 
-      {hasMultipleImages ? (
-        <div className="mt-3 overflow-x-auto pb-1 sm:mt-4 lg:hidden">
-          <div className="flex min-w-max gap-3 sm:grid sm:min-w-0 sm:grid-cols-5 lg:grid-cols-6">
+      {hasMultipleImages && viewport === "mobile" ? (
+        <div className="mt-3 overflow-x-auto pb-1 sm:mt-4">
+          <div className="flex min-w-max gap-3 sm:grid sm:min-w-0 sm:grid-cols-5">
             {displayImages.map((image, index) => (
               <button
                 aria-label={`Mostrar imagem ${index + 1} de ${displayImages.length}: ${image.alt}`}
@@ -179,7 +197,7 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
                   alt=""
                   className="object-cover"
                   fill
-                  sizes="(min-width: 1024px) 180px, (min-width: 640px) 16vw, 96px"
+                  sizes="(min-width: 640px) 16vw, 96px"
                   src={image.src}
                 />
               </button>

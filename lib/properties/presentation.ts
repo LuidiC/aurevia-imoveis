@@ -78,7 +78,9 @@ export function getPropertyMetaItems(
       kind: "suites",
       label: pluralize(property.suites, "suíte", "suítes"),
     });
-  } else if (property.bathrooms) {
+  }
+
+  if (property.bathrooms) {
     items.push({
       kind: "bathrooms",
       label: pluralize(property.bathrooms, "banheiro", "banheiros"),

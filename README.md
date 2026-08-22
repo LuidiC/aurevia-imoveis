@@ -34,7 +34,7 @@ A aplicação ficará disponível em `http://localhost:3000`.
 - `npm run test`: executa os testes automatizados da camada de domínio.
 - `npm run build`: gera o build de produção.
 - `npm run start`: executa o build de produção.
-- `npm run check`: executa lint, typecheck, testes e build em sequência.
+- `npm run check`: executa lint, typecheck, testes, validação do catálogo e build em sequência. É a validação recomendada antes de commit ou deploy.
 
 ## Gerenciamento de imóveis
 
@@ -62,7 +62,8 @@ iniciado por `/`; ela não move nem exclui imagens. O próximo ID é calculado p
 maior sequencial já registrado, inclui inativos, preserva ao menos três dígitos e
 continua como `MC-1000` após `MC-999`.
 
-Execute `npm run property:validate` antes de commit ou deploy.
+Use `npm run property:validate` para validar somente o catálogo. Antes de commit
+ou deploy, execute o fluxo completo com `npm run check`.
 
 ## Estrutura geral
 

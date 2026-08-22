@@ -319,6 +319,14 @@ async function collectProperty(
   );
 
   prompts.section("F. LOCALIZAÇÃO");
+  const disclosure = await prompts.choose(
+    "Política de divulgação da localização",
+    LOCATION_DISCLOSURES.map((value) => ({
+      value,
+      label: value === "exact" ? "Exata" : "Aproximada",
+    })),
+    current?.location.disclosure ?? "approximate",
+  );
   const city = await requiredText(prompts, "Cidade", current?.location.city, 1, 100);
   const state = await requiredText(
     prompts,
@@ -335,61 +343,62 @@ async function collectProperty(
     current?.location.neighborhood,
     100,
   );
-  stdout.write(
-    "Cadastrar endereço não autoriza sua divulgação. A política será perguntada separadamente.\n",
-  );
-  const street = await optionalText(
-    prompts,
-    "Logradouro",
-    current?.location.address?.street,
-    160,
-  );
-  const address = street
-    ? {
-        street,
-        number: await optionalText(
-          prompts,
-          "Número",
-          current?.location.address?.number,
-          20,
-        ),
-        complement: await optionalText(
-          prompts,
-          "Complemento",
-          current?.location.address?.complement,
-          100,
-        ),
-        postalCode: await prompts.text("CEP (00000-000)", {
-          current: current?.location.address?.postalCode,
-          optional: true,
-          validate: (value) => /^\d{5}-\d{3}$/.test(value)
-            ? undefined
-            : "Use o formato 00000-000.",
-        }),
-      }
-    : undefined;
-  const latitude = await prompts.parsed("Latitude", parseCoordinate(-90, 90), {
-    current: current?.location.coordinates?.latitude,
-    optional: true,
-  });
-  const longitude = await prompts.parsed("Longitude", parseCoordinate(-180, 180), {
-    current: current?.location.coordinates?.longitude,
-    optional: true,
-  });
-  if ((latitude === undefined) !== (longitude === undefined)) {
-    throw new Error("Latitude e longitude devem ser informadas juntas.");
+  let address: Property["location"]["address"];
+  let coordinates: Property["location"]["coordinates"];
+
+  if (disclosure === "exact") {
+    stdout.write(
+      "A localização exata exige endereço, coordenadas ou ambos.\n",
+    );
+    const street = await optionalText(
+      prompts,
+      "Logradouro",
+      current?.location.address?.street,
+      160,
+    );
+    address = street
+      ? {
+          street,
+          number: await optionalText(
+            prompts,
+            "Número",
+            current?.location.address?.number,
+            20,
+          ),
+          complement: await optionalText(
+            prompts,
+            "Complemento",
+            current?.location.address?.complement,
+            100,
+          ),
+          postalCode: await prompts.text("CEP (00000-000)", {
+            current: current?.location.address?.postalCode,
+            optional: true,
+            validate: (value) => /^\d{5}-\d{3}$/.test(value)
+              ? undefined
+              : "Use o formato 00000-000.",
+          }),
+        }
+      : undefined;
+    const latitude = await prompts.parsed("Latitude", parseCoordinate(-90, 90), {
+      current: current?.location.coordinates?.latitude,
+      optional: true,
+    });
+    const longitude = await prompts.parsed("Longitude", parseCoordinate(-180, 180), {
+      current: current?.location.coordinates?.longitude,
+      optional: true,
+    });
+    if ((latitude === undefined) !== (longitude === undefined)) {
+      throw new Error("Latitude e longitude devem ser informadas juntas.");
+    }
+    coordinates = latitude === undefined || longitude === undefined
+      ? undefined
+      : { latitude, longitude };
+  } else {
+    stdout.write(
+      "Localização aproximada: apenas bairro, cidade e UF serão armazenados.\n",
+    );
   }
-  const coordinates = latitude === undefined || longitude === undefined
-    ? undefined
-    : { latitude, longitude };
-  const disclosure = await prompts.choose(
-    "Política de divulgação da localização",
-    LOCATION_DISCLOSURES.map((value) => ({
-      value,
-      label: value === "exact" ? "Exata" : "Aproximada",
-    })),
-    current?.location.disclosure ?? "approximate",
-  );
 
   prompts.section("G. CARACTERÍSTICAS CONTROLADAS");
   const features = await prompts.multiChoose<PropertyFeature>(

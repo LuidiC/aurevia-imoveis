@@ -19,13 +19,13 @@ export function ContactSection() {
     <section className="section-spacing bg-primary text-primary-foreground" id="contato">
       <Container className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
         <div className="max-w-3xl">
-          <p className="text-label mb-4 text-primary-foreground/70">
+          <p className="text-label mb-4 text-primary-foreground">
             Atendimento próximo
           </p>
           <h2 className="text-heading-2 text-primary-foreground">
             Ainda não encontrou o que procura?
           </h2>
-          <p className="text-body-lg mt-5 max-w-2xl text-primary-foreground/80">
+          <p className="text-body-lg mt-5 max-w-2xl text-primary-foreground">
             Fale com a Marli Corretora. Podemos ajudar você a encontrar um imóvel
             que combine com o que precisa.
           </p>
@@ -63,7 +63,7 @@ export function ContactSection() {
               </svg>
             </div>
             <div>
-              <p className="text-label text-primary-foreground/65">Nossa sede</p>
+              <p className="text-label text-primary-foreground">Nossa sede</p>
               <h3 className="mt-2 text-xl font-semibold">
                 {SITE_CONFIG.name}
               </h3>

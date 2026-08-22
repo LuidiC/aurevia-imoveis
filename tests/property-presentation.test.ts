@@ -77,6 +77,19 @@ test("omits zero and unavailable metadata while preserving useful values", () =>
   );
 });
 
+test("presents suites and bathrooms together when both are available", () => {
+  assert.deepEqual(
+    getPropertyMetaItems({
+      bedrooms: 3,
+      suites: 1,
+      bathrooms: 2,
+      parkingSpaces: 2,
+      areaInSquareMeters: 118,
+    }).map((item) => item.label),
+    ["3 quartos", "1 suíte", "2 banheiros", "2 vagas", "118 m²"],
+  );
+});
+
 test("presents only available additional costs without inventing periodicity", () => {
   assert.deepEqual(getPropertyAdditionalCostItems(rentalProperty), [
     {

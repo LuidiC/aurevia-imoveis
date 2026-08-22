@@ -16,16 +16,16 @@ const moneyInCentsSchema = z
   .positive()
   .max(Number.MAX_SAFE_INTEGER);
 
-const fixedPriceSchema = z.object({
+const fixedPriceSchema = z.strictObject({
   kind: z.literal("fixed"),
   amountInCents: moneyInCentsSchema,
 });
 
-const onRequestPriceSchema = z.object({
+const onRequestPriceSchema = z.strictObject({
   kind: z.literal("on_request"),
 });
 
-const propertyImageSchema = z.object({
+const propertyImageSchema = z.strictObject({
   src: z.string().trim().min(1).max(500),
   alt: z.string().trim().min(1).max(180),
   isPrimary: z.boolean(),
@@ -45,20 +45,20 @@ const propertyImagesSchema = z
     }
   });
 
-const propertyAddressSchema = z.object({
+const propertyAddressSchema = z.strictObject({
   street: z.string().trim().min(1).max(160),
   number: z.string().trim().min(1).max(20).optional(),
   complement: z.string().trim().min(1).max(100).optional(),
   postalCode: z.string().regex(/^\d{5}-\d{3}$/).optional(),
 });
 
-const coordinatesSchema = z.object({
+const coordinatesSchema = z.strictObject({
   latitude: z.number().min(-90).max(90),
   longitude: z.number().min(-180).max(180),
 });
 
 const propertyLocationSchema = z
-  .object({
+  .strictObject({
     city: z.string().trim().min(1).max(100),
     state: z.string().regex(/^[A-Z]{2}$/),
     neighborhood: z.string().trim().min(1).max(100).optional(),
@@ -67,6 +67,18 @@ const propertyLocationSchema = z
     disclosure: z.enum(LOCATION_DISCLOSURES),
   })
   .superRefine((location, context) => {
+    if (
+      location.disclosure === "approximate" &&
+      (location.address !== undefined || location.coordinates !== undefined)
+    ) {
+      context.addIssue({
+        code: "custom",
+        message:
+          "An approximate location must not store an exact address or geographic coordinates.",
+        path: ["disclosure"],
+      });
+    }
+
     if (
       location.disclosure === "exact" &&
       !location.address &&
@@ -81,12 +93,12 @@ const propertyLocationSchema = z
     }
   });
 
-const additionalCostsSchema = z.object({
+const additionalCostsSchema = z.strictObject({
   condominiumFeeInCents: moneyInCentsSchema.optional(),
   propertyTaxInCents: moneyInCentsSchema.optional(),
 });
 
-const propertyBaseSchema = z.object({
+const propertyBaseSchema = z.strictObject({
   id: z.string().regex(PROPERTY_ID_PATTERN),
   slug: z.string().regex(PROPERTY_SLUG_PATTERN).max(180),
   title: z.string().trim().min(5).max(120),
