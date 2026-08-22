@@ -1,1 +1,95 @@
-[]
+[
+  {
+    "id": "MC-001",
+    "slug": "apartamento-com-3-quartos-no-centro-mc-001",
+    "title": "Apartamento com 3 quartos no Centro",
+    "summary": "Apartamento à venda no Centro de Pedro Leopoldo, com 3 quartos, suíte, 2 banheiros, 2 vagas e 118 m².",
+    "description": "Apartamento localizado na região central de Pedro Leopoldo, com ambientes bem distribuídos e boa localização. O imóvel possui 3 quartos, sendo 1 suíte, 2 banheiros, 2 vagas de garagem e aproximadamente 118 m². Conta ainda com varanda, área gourmet, elevador e armários planejados.",
+    "type": "apartment",
+    "status": "active",
+    "featured": true,
+    "bedrooms": 3,
+    "suites": 1,
+    "bathrooms": 2,
+    "parkingSpaces": 2,
+    "areaInSquareMeters": 118,
+    "additionalCosts": {
+      "condominiumFeeInCents": 45000,
+      "propertyTaxInCents": 180000
+    },
+    "location": {
+      "city": "Pedro Leopoldo",
+      "state": "MG",
+      "neighborhood": "Centro",
+      "disclosure": "approximate"
+    },
+    "features": [
+      "balcony",
+      "gourmet_area",
+      "elevator",
+      "built_in_cabinets"
+    ],
+    "images": [
+      {
+        "src": "/images/properties/MC-001/02.jpg",
+        "alt": "Apartamento com 3 quartos no Centro de Pedro Leopoldo",
+        "isPrimary": true
+      }
+    ],
+    "createdAt": "2026-08-22T16:41:14.726Z",
+    "updatedAt": "2026-08-22T17:25:33.393Z",
+    "purpose": "sale",
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 67500000
+    }
+  },
+  {
+    "id": "MC-002",
+    "slug": "imovel-teste-mc-002",
+    "title": "Imóvel teste",
+    "summary": "Imóvel para fim de teste na apresentação.",
+    "description": "jdhsdakjhdagskdjahdolikas",
+    "type": "house",
+    "status": "active",
+    "featured": true,
+    "bedrooms": 3,
+    "suites": 1,
+    "bathrooms": 2,
+    "parkingSpaces": 1,
+    "areaInSquareMeters": 250,
+    "additionalCosts": {
+      "propertyTaxInCents": 100000
+    },
+    "location": {
+      "city": "Pedro Leopoldo",
+      "state": "MG",
+      "neighborhood": "Centro",
+      "disclosure": "approximate"
+    },
+    "features": [
+      "pool",
+      "backyard",
+      "barbecue"
+    ],
+    "images": [
+      {
+        "src": "/images/properties/MC-002/03.jpg",
+        "alt": "Casa de rico",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-002/031.jpg",
+        "alt": "segunda imagem",
+        "isPrimary": false
+      }
+    ],
+    "createdAt": "2026-08-22T17:48:55.332Z",
+    "updatedAt": "2026-08-22T17:48:55.332Z",
+    "purpose": "rent",
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 200000
+    }
+  }
+]
