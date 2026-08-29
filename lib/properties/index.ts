@@ -33,6 +33,7 @@ export {
   getPropertyFiltersFromSearch,
   hasPropertyFilters,
   parsePropertySearchParams,
+  PROPERTY_CITY_OPTIONS,
   PROPERTY_PRICE_OPTIONS,
 } from "./search";
 export type {

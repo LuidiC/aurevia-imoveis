@@ -8,6 +8,10 @@ import {
   getPropertyBySlugFrom,
   getSimilarPropertiesFrom,
 } from "../lib/properties/queries";
+import {
+  getPropertyFiltersFromSearch,
+  parsePropertySearchParams,
+} from "../lib/properties/search";
 import { propertyCollectionSchema } from "../schemas/property";
 import {
   inactiveSaleProperty,
@@ -86,6 +90,44 @@ test("matches location substrings across neighborhood and city", () => {
   assert.equal(
     getActivePropertiesFrom(properties, { location: "leopoldo" }).length,
     4,
+  );
+});
+
+test("filters listed location values by exact city instead of neighborhood text", () => {
+  const matozinhosProperty = {
+    ...validSaleProperty,
+    id: "MC-006",
+    slug: "casa-matozinhos-mc-006",
+    title: "Casa em Matozinhos para teste",
+    location: {
+      ...validSaleProperty.location,
+      city: "Matozinhos",
+      neighborhood: "Pedro Leopoldo",
+    },
+  };
+  const cityProperties = propertyCollectionSchema.parse([
+    validSaleProperty,
+    matozinhosProperty,
+  ]);
+
+  const pedroLeopoldoFilters = getPropertyFiltersFromSearch(
+    parsePropertySearchParams({ location: "Pedro Leopoldo" }),
+  );
+  const matozinhosFilters = getPropertyFiltersFromSearch(
+    parsePropertySearchParams({ location: "Matozinhos" }),
+  );
+
+  assert.deepEqual(
+    getActivePropertiesFrom(cityProperties, pedroLeopoldoFilters).map(
+      (property) => property.id,
+    ),
+    ["MC-001"],
+  );
+  assert.deepEqual(
+    getActivePropertiesFrom(cityProperties, matozinhosFilters).map(
+      (property) => property.id,
+    ),
+    ["MC-006"],
   );
 });
 

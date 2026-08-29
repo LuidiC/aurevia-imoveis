@@ -5,13 +5,21 @@ import { useEffect, useRef, useState } from "react";
 
 import { buttonStyles } from "@/components/ui/button";
 import type { SiteNavigationItem } from "@/config/navigation";
+import type { ActiveNavigationHref } from "@/lib/navigation/active-navigation";
 
 type MobileNavigationProps = Readonly<{
+  activeHref: ActiveNavigationHref;
   items: readonly SiteNavigationItem[];
+  onNavigate: (href: SiteNavigationItem["href"]) => void;
   whatsappHref: string;
 }>;
 
-export function MobileNavigation({ items, whatsappHref }: MobileNavigationProps) {
+export function MobileNavigation({
+  activeHref,
+  items,
+  onNavigate,
+  whatsappHref,
+}: MobileNavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
@@ -32,7 +40,11 @@ export function MobileNavigation({ items, whatsappHref }: MobileNavigationProps)
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen]);
 
-  function closeMenu() {
+  function closeMenu(href?: SiteNavigationItem["href"]) {
+    if (href) {
+      onNavigate(href);
+    }
+
     setIsOpen(false);
   }
 
@@ -70,9 +82,20 @@ export function MobileNavigation({ items, whatsappHref }: MobileNavigationProps)
             {items.map((item) => (
               <li key={item.href}>
                 <Link
-                  className="flex min-h-12 items-center rounded-md px-3 font-semibold text-foreground transition-colors hover:bg-muted hover:text-primary"
+                  aria-current={
+                    activeHref === item.href
+                      ? item.href.startsWith("/#")
+                        ? "location"
+                        : "page"
+                      : undefined
+                  }
+                  className={`flex min-h-12 items-center rounded-md px-3 font-semibold transition-colors ${
+                    activeHref === item.href
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground hover:bg-accent hover:text-accent-foreground"
+                  }`}
                   href={item.href}
-                  onClick={closeMenu}
+                  onClick={() => closeMenu(item.href)}
                 >
                   {item.label}
                 </Link>
@@ -83,7 +106,7 @@ export function MobileNavigation({ items, whatsappHref }: MobileNavigationProps)
             aria-label="Falar com a Marli Corretora no WhatsApp; abre em uma nova aba"
             className={buttonStyles({ className: "mt-4 w-full" })}
             href={whatsappHref}
-            onClick={closeMenu}
+            onClick={() => closeMenu()}
             rel="noopener noreferrer"
             target="_blank"
           >

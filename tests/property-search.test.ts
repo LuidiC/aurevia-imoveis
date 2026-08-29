@@ -27,6 +27,30 @@ test("adds selected property search filters and trims the location", () => {
   );
 });
 
+test("builds the Home search URL with a selected city", () => {
+  assert.equal(
+    buildPropertySearchUrl({
+      purpose: "sale",
+      location: "Pedro Leopoldo",
+    }),
+    "/imoveis?purpose=sale&location=Pedro+Leopoldo",
+  );
+  assert.equal(
+    buildPropertySearchUrl({
+      purpose: "rent",
+      location: "Matozinhos",
+    }),
+    "/imoveis?purpose=rent&location=Matozinhos",
+  );
+});
+
+test("omits location when all cities are selected", () => {
+  assert.equal(
+    buildPropertySearchUrl({ purpose: "sale", location: "" }),
+    "/imoveis?purpose=sale",
+  );
+});
+
 test("omits empty and invalid optional filters", () => {
   assert.equal(
     buildPropertySearchUrl({
@@ -100,6 +124,19 @@ test("converts URL prices in reais to domain prices in cents", () => {
     location: undefined,
     maxPriceInCents: 60_000_000,
     minBedrooms: 3,
+    sort: undefined,
+  });
+});
+
+test("maps UI city values to an exact city domain filter", () => {
+  const search = parsePropertySearchParams({ location: "Pedro Leopoldo" });
+
+  assert.deepEqual(getPropertyFiltersFromSearch(search), {
+    purpose: undefined,
+    type: undefined,
+    city: "Pedro Leopoldo",
+    maxPriceInCents: undefined,
+    minBedrooms: undefined,
     sort: undefined,
   });
 });

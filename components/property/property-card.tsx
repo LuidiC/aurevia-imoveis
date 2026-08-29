@@ -32,9 +32,9 @@ export function PropertyCard({
   const metaItems = getPropertyMetaItems(property);
 
   return (
-    <article className="group h-full">
+    <article className="h-full">
       <Link
-        className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface shadow-control transition-[border-color,box-shadow] duration-200 hover:border-border-strong hover:shadow-soft focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-focus"
+        className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface shadow-control transition-[border-color,box-shadow] duration-200 hover:border-border-strong hover:shadow-soft focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-focus"
         href={getPropertyHref(property)}
       >
         <div className="relative aspect-[3/2] overflow-hidden bg-surface-subtle">
@@ -55,7 +55,7 @@ export function PropertyCard({
           </Badge>
         </div>
 
-        <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <div className="flex flex-1 flex-col p-5 transition-colors duration-200 ease-out group-active:bg-accent group-focus-visible:bg-accent motion-reduce:transition-none group-hover:bg-accent sm:p-6">
           <p className="text-xs font-bold tracking-wide text-primary">
             {PROPERTY_TYPE_LABELS[property.type]}
           </p>

@@ -1,6 +1,5 @@
 import { SITE_CONFIG } from "@/config/site";
-
-const GOOGLE_MAPS_SEARCH_URL = "https://www.google.com/maps/search/";
+import { buildGoogleMapsDirectionsUrl } from "@/lib/location/google-maps";
 
 type BusinessAddress = typeof SITE_CONFIG.business.address;
 
@@ -25,13 +24,8 @@ export function getBusinessAddressQuery(
   ].join(", ");
 }
 
-export function buildGoogleMapsSearchUrl(
+export function buildBusinessGoogleMapsDirectionsUrl(
   address: BusinessAddress = SITE_CONFIG.business.address,
 ): string {
-  const url = new URL(GOOGLE_MAPS_SEARCH_URL);
-
-  url.searchParams.set("api", "1");
-  url.searchParams.set("query", getBusinessAddressQuery(address));
-
-  return url.toString();
+  return buildGoogleMapsDirectionsUrl(getBusinessAddressQuery(address));
 }

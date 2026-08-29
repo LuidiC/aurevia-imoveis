@@ -91,5 +91,67 @@
       "kind": "fixed",
       "amountInCents": 200000
     }
+  },
+  {
+    "id": "MC-003",
+    "slug": "casa-de-luxo-mc-003",
+    "title": "Casa de luxo",
+    "summary": "Casa de luxo no centro de Pedro Leopoldo",
+    "description": "Imóvel para ricos, famosos e poderosos.",
+    "type": "house",
+    "status": "active",
+    "featured": false,
+    "bedrooms": 6,
+    "suites": 3,
+    "bathrooms": 7,
+    "parkingSpaces": 5,
+    "areaInSquareMeters": 3000,
+    "additionalCosts": {
+      "propertyTaxInCents": 35000000
+    },
+    "location": {
+      "city": "Pedro Leopoldo",
+      "state": "MG",
+      "neighborhood": "Centro",
+      "address": {
+        "street": "Rua Senador Melo Viana",
+        "number": "66",
+        "complement": "Casa",
+        "postalCode": "33250-108"
+      },
+      "coordinates": {
+        "latitude": -19.6243,
+        "longitude": -44.0403
+      },
+      "disclosure": "exact"
+    },
+    "features": [
+      "pool",
+      "balcony",
+      "gourmet_area",
+      "elevator",
+      "concierge",
+      "backyard",
+      "barbecue"
+    ],
+    "images": [
+      {
+        "src": "/images/properties/MC-003/04.jpg",
+        "alt": "Principal",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-003/041.webp",
+        "alt": "Segunda imagem",
+        "isPrimary": false
+      }
+    ],
+    "createdAt": "2026-08-28T23:32:56.298Z",
+    "updatedAt": "2026-08-28T23:32:56.298Z",
+    "purpose": "sale",
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 600000000
+    }
   }
 ]

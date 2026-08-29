@@ -12,10 +12,14 @@ import { validSaleProperty } from "./fixtures/properties";
 const property = propertySchema.parse(validSaleProperty);
 
 test("builds a short contextual message that identifies the property", () => {
+  const message = buildPropertyWhatsAppMessage(property);
+
   assert.equal(
-    buildPropertyWhatsAppMessage(property),
-    "Olá, Marli! Tenho interesse no imóvel Casa com três quartos no Centro (MC-001). Gostaria de mais informações.",
+    message,
+    "Olá, Marli! Tenho interesse no imóvel Casa com três quartos no Centro. Gostaria de mais informações.",
   );
+  assert.ok(message.includes(property.title));
+  assert.doesNotMatch(message, /MC-\d+/);
 });
 
 test("uses the configured WhatsApp number and encodes the contextual message", () => {
@@ -23,4 +27,5 @@ test("uses the configured WhatsApp number and encodes the contextual message", (
 
   assert.equal(url.pathname, `/${SITE_CONFIG.contacts.whatsapp.digits}`);
   assert.equal(url.searchParams.get("text"), buildPropertyWhatsAppMessage(property));
+  assert.doesNotMatch(url.toString(), /MC-\d+/);
 });

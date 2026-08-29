@@ -94,7 +94,7 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
         >
           <Image
             alt={selectedImage.alt}
-            className="object-cover"
+            className="object-contain"
             fill
             priority={safeSelectedIndex === 0}
             sizes={

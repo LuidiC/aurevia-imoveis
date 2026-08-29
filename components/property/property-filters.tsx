@@ -5,13 +5,13 @@ import { type FormEvent, type FormEventHandler, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import {
   buildPropertyCatalogUrl,
   CATALOG_PROPERTY_TYPES,
   formatCurrency,
   parsePropertySearchParams,
+  PROPERTY_CITY_OPTIONS,
   PROPERTY_PRICE_OPTIONS,
   PROPERTY_TYPE_LABELS,
   type PropertyCatalogSearch,
@@ -91,13 +91,20 @@ function FilterForm({
         </Field>
 
         <Field htmlFor={`${idPrefix}-location`} label="Localização">
-          <Input
+          <Select
             autoComplete="address-level2"
-            defaultValue={search.location}
+            defaultValue={PROPERTY_CITY_OPTIONS.some(
+              (city) => city.value === search.location,
+            ) ? search.location : ""}
             id={`${idPrefix}-location`}
             name="location"
-            placeholder="Bairro ou cidade"
-          />
+          >
+            {PROPERTY_CITY_OPTIONS.map((city) => (
+              <option key={city.value || "all"} value={city.value}>
+                {city.label}
+              </option>
+            ))}
+          </Select>
         </Field>
 
         <Field htmlFor={`${idPrefix}-price`} label="Preço máximo">

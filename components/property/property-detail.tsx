@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { GoogleMapEmbed } from "@/components/location/google-map-embed";
 import { PropertyCard } from "@/components/property/property-card";
 import { PropertyGallery } from "@/components/property/property-gallery";
 import { PropertyMetaIcon } from "@/components/property/property-meta-icon";
@@ -16,6 +17,7 @@ import {
   PROPERTY_PURPOSE_LABELS,
   PROPERTY_TYPE_LABELS,
 } from "@/lib/properties";
+import { getPropertyGoogleMapsLocation } from "@/lib/location/google-maps";
 import { buildPropertyWhatsAppUrl } from "@/lib/whatsapp/property-contact";
 import type { Property } from "@/types/property";
 
@@ -62,6 +64,7 @@ export function PropertyDetail({
   const additionalCosts = getPropertyAdditionalCostItems(property);
   const featureLabels = getPropertyFeatureLabels(property.features);
   const location = getPropertyLocationDetails(property.location);
+  const mapLocation = getPropertyGoogleMapsLocation(property.location);
   const price = getPropertyPriceLabel(property);
   const whatsappHref = buildPropertyWhatsAppUrl(property);
 
@@ -154,6 +157,15 @@ export function PropertyDetail({
                   {location.note ? <p className="mt-2 text-small text-muted-foreground">{location.note}</p> : null}
                 </div>
               </div>
+              {mapLocation ? (
+                <GoogleMapEmbed
+                  className="mt-6"
+                  destination={mapLocation.destination}
+                  externalDirectionsUrl={mapLocation.directionsUrl}
+                  externalLinkLabel={`Como chegar ao imóvel ${property.title} no Google Maps; abre em uma nova aba`}
+                  title={`Mapa da localização exata de ${property.title}`}
+                />
+              ) : null}
             </section>
           </div>
 
@@ -186,7 +198,6 @@ export function PropertyDetail({
               <WhatsAppIcon />
               Falar no WhatsApp
             </a>
-            <p className="mt-3 text-center text-xs leading-5 text-muted-foreground">Referência {property.id}</p>
           </aside>
         </div>
 

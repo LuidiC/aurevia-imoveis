@@ -26,6 +26,20 @@ npm run dev
 
 A aplicação ficará disponível em `http://localhost:3000`.
 
+## Google Maps incorporado
+
+Os mapas da sede e dos imóveis com localização exata usam a Google Maps Embed
+API. No Google Cloud, habilite essa API, crie uma chave, restrinja-a aos HTTP
+referrers/domínios autorizados e permita seu uso somente com a Maps Embed API.
+Configure `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API_KEY` no `.env.local` e reinicie o
+servidor local. Sem a chave, endereço e link “Como chegar” continuam disponíveis,
+mas o iframe não é renderizado.
+
+Com a chave configurada, o mapa inicia no modo `place`. A ação “Traçar rota da
+minha localização” solicita geolocalização somente após o clique e troca o mesmo
+iframe para o modo `directions`. As coordenadas do usuário ficam apenas no estado
+temporário da página: não são persistidas, registradas ou enviadas a um backend.
+
 ## Scripts
 
 - `npm run dev`: inicia o ambiente local.
@@ -82,6 +96,7 @@ ou deploy, execute o fluxo completo com `npm run check`.
 - O catálogo começa vazio; nenhum imóvel fictício foi tratado como conteúdo real.
 - Valores monetários são inteiros em centavos. Venda aceita preço fixo ou sob consulta; aluguel exige preço fixo.
 - A divulgação da localização é explícita (`exact` ou `approximate`) e independente da existência de endereço cadastrado.
+- O parâmetro legado `location` continua aceitando valores manuais por compatibilidade; as cidades oferecidas pela interface são comparadas exatamente com o campo `city`.
 - Imóveis semelhantes são ativos, possuem a mesma finalidade e são ordenados por tipo, localização, proximidade de preço e ID como desempate.
 - Server Components são o padrão. Não há estado de cliente nesta fundação.
 - As cores são tokens semânticos em `app/globals.css`, preparados para refinamento visual.

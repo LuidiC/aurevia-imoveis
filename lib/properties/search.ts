@@ -37,6 +37,14 @@ export const CATALOG_PROPERTY_TYPES = [
   "commercial",
 ] as const satisfies readonly PropertyType[];
 
+export const PROPERTY_CITY_OPTIONS = [
+  { value: "", label: "Todas as cidades" },
+  { value: "Pedro Leopoldo", label: "Pedro Leopoldo" },
+  { value: "Matozinhos", label: "Matozinhos" },
+] as const;
+
+type PropertyCity = Exclude<(typeof PROPERTY_CITY_OPTIONS)[number]["value"], "">;
+
 const PROPERTY_SORTS = ["price_asc", "price_desc", "newest"] as const;
 const BEDROOM_OPTIONS = ["1", "2", "3", "4"] as const;
 
@@ -73,6 +81,12 @@ function isIncluded<T extends string>(
 
 function normalizeLocation(value: string): string {
   return value.trim().replace(/\s+/g, " ");
+}
+
+function isPropertyCity(value: string): value is PropertyCity {
+  return PROPERTY_CITY_OPTIONS.some(
+    (option) => option.value !== "" && option.value === value,
+  );
 }
 
 function normalizePositiveInteger(value: string): string {
@@ -118,10 +132,14 @@ export function parsePropertySearchParams(
 export function getPropertyFiltersFromSearch(
   search: PropertyCatalogSearch,
 ): PropertyFilters {
+  const locationFilter = isPropertyCity(search.location)
+    ? { city: search.location }
+    : { location: search.location || undefined };
+
   return {
     purpose: search.purpose || undefined,
     type: search.type || undefined,
-    location: search.location || undefined,
+    ...locationFilter,
     maxPriceInCents: search.maxPrice
       ? Number(search.maxPrice) * 100
       : undefined,

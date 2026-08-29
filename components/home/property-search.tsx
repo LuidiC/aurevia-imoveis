@@ -5,11 +5,11 @@ import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import {
   buildPropertySearchUrl,
   CATALOG_PROPERTY_TYPES,
+  PROPERTY_CITY_OPTIONS,
   PROPERTY_PRICE_OPTIONS,
   PROPERTY_TYPE_LABELS,
 } from "@/lib/properties";
@@ -91,12 +91,18 @@ export function PropertySearch() {
         </Field>
 
         <Field htmlFor="property-search-location" label="Localização">
-          <Input
+          <Select
             autoComplete="address-level2"
+            defaultValue=""
             id="property-search-location"
             name="location"
-            placeholder="Bairro ou cidade"
-          />
+          >
+            {PROPERTY_CITY_OPTIONS.map((city) => (
+              <option key={city.value || "all"} value={city.value}>
+                {city.label}
+              </option>
+            ))}
+          </Select>
         </Field>
 
         <Field htmlFor="property-search-price" label="Faixa de preço">

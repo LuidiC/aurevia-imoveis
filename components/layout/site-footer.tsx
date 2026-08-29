@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/container";
 import { SITE_NAVIGATION } from "@/config/navigation";
 import { SITE_CONFIG } from "@/config/site";
 import {
-  buildGoogleMapsSearchUrl,
+  buildBusinessGoogleMapsDirectionsUrl,
   getBusinessAddressLines,
 } from "@/lib/location/business-location";
 import { buildWhatsAppUrl } from "@/lib/whatsapp/build-whatsapp-url";
@@ -16,7 +16,7 @@ export function SiteFooter() {
   const whatsappHref = buildWhatsAppUrl(
     SITE_CONFIG.contacts.whatsapp.defaultMessage,
   );
-  const mapsHref = buildGoogleMapsSearchUrl();
+  const mapsHref = buildBusinessGoogleMapsDirectionsUrl();
   const [streetLine, localityLine] = getBusinessAddressLines();
 
   return (
