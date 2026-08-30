@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_CONFIG.name}`,
   },
   description: SITE_CONFIG.description,
+  icons: {
+    icon: "/brand/marli-corretora-logo-transparent-white.png",
+  },
   alternates: { canonical: "/" },
   openGraph: {
     title: SITE_CONFIG.name,
