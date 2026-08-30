@@ -12,6 +12,7 @@ type MobileNavigationProps = Readonly<{
   items: readonly SiteNavigationItem[];
   onNavigate: (href: SiteNavigationItem["href"]) => void;
   whatsappHref: string;
+  isTransparent?: boolean;
 }>;
 
 export function MobileNavigation({
@@ -19,6 +20,7 @@ export function MobileNavigation({
   items,
   onNavigate,
   whatsappHref,
+  isTransparent = false,
 }: MobileNavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -37,7 +39,9 @@ export function MobileNavigation({
 
     document.addEventListener("keydown", handleEscape);
 
-    return () => document.removeEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
   }, [isOpen]);
 
   function closeMenu(href?: SiteNavigationItem["href"]) {
@@ -54,24 +58,36 @@ export function MobileNavigation({
         aria-controls="mobile-primary-navigation"
         aria-expanded={isOpen}
         aria-label={isOpen ? "Fechar menu principal" : "Abrir menu principal"}
-        className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border-strong bg-surface px-3.5 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+        className={`inline-flex min-h-11 items-center gap-2 rounded-md px-3.5 text-sm font-semibold transition-all duration-300 ${
+          isTransparent && !isOpen
+            ? "border border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+            : "border border-border-strong bg-surface text-foreground hover:border-primary hover:text-primary"
+        }`}
         onClick={() => setIsOpen((current) => !current)}
         ref={toggleRef}
         type="button"
       >
         <span aria-hidden="true" className="relative h-4 w-5">
           <span
-            className={`absolute left-0 top-1 h-0.5 w-5 bg-current transition-transform ${isOpen ? "translate-y-1 rotate-45" : ""}`}
+            className={`absolute left-0 top-1 h-0.5 w-5 bg-current transition-transform ${
+              isOpen ? "translate-y-1 rotate-45" : ""
+            }`}
           />
+
           <span
-            className={`absolute bottom-1 left-0 h-0.5 w-5 bg-current transition-transform ${isOpen ? "-translate-y-1 -rotate-45" : ""}`}
+            className={`absolute bottom-1 left-0 h-0.5 w-5 bg-current transition-transform ${
+              isOpen ? "-translate-y-1 -rotate-45" : ""
+            }`}
           />
         </span>
+
         {isOpen ? "Fechar" : "Menu"}
       </button>
 
       <div
-        className={`${isOpen ? "block" : "hidden"} absolute inset-x-0 top-full border-b border-border bg-surface shadow-soft`}
+        className={`${
+          isOpen ? "block" : "hidden"
+        } absolute inset-x-0 top-full border-b border-border bg-surface shadow-soft`}
         id="mobile-primary-navigation"
       >
         <nav
@@ -102,9 +118,12 @@ export function MobileNavigation({
               </li>
             ))}
           </ul>
+
           <a
             aria-label="Falar com a Marli Corretora no WhatsApp; abre em uma nova aba"
-            className={buttonStyles({ className: "mt-4 w-full" })}
+            className={buttonStyles({
+              className: "mt-4 w-full",
+            })}
             href={whatsappHref}
             onClick={() => closeMenu()}
             rel="noopener noreferrer"

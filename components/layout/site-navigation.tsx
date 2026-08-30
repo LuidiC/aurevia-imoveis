@@ -15,11 +15,16 @@ import {
 type SiteNavigationProps = Readonly<{
   items: readonly SiteNavigationItem[];
   whatsappHref: string;
+  isTransparent?: boolean;
 }>;
 
 const OBSERVED_HOME_SECTIONS = ["sobre", "contato"] as const;
 
-export function SiteNavigation({ items, whatsappHref }: SiteNavigationProps) {
+export function SiteNavigation({
+  items,
+  whatsappHref,
+  isTransparent = false,
+}: SiteNavigationProps) {
   const pathname = usePathname();
   const [hash, setHash] = useState("");
   const [visibleHomeSection, setVisibleHomeSection] =
@@ -32,9 +37,12 @@ export function SiteNavigation({ items, whatsappHref }: SiteNavigationProps) {
     }
 
     syncHash();
+
     window.addEventListener("hashchange", syncHash);
 
-    return () => window.removeEventListener("hashchange", syncHash);
+    return () => {
+      window.removeEventListener("hashchange", syncHash);
+    };
   }, [pathname]);
 
   useEffect(() => {
@@ -51,6 +59,7 @@ export function SiteNavigation({ items, whatsappHref }: SiteNavigationProps) {
     }
 
     const visibility = new Map<string, number>();
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -66,9 +75,18 @@ export function SiteNavigation({ items, whatsappHref }: SiteNavigationProps) {
         }>(
           (current, id) => {
             const ratio = visibility.get(id) ?? 0;
-            return ratio > current.ratio ? { id, ratio } : current;
+
+            return ratio > current.ratio
+              ? {
+                  id,
+                  ratio,
+                }
+              : current;
           },
-          { id: "inicio", ratio: 0 },
+          {
+            id: "inicio",
+            ratio: 0,
+          },
         );
 
         setVisibleHomeSection(visibleSection.id);
@@ -83,7 +101,9 @@ export function SiteNavigation({ items, whatsappHref }: SiteNavigationProps) {
       observer.observe(section);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+    };
   }, [pathname]);
 
   const activeHref = useMemo(
@@ -108,7 +128,11 @@ export function SiteNavigation({ items, whatsappHref }: SiteNavigationProps) {
     <>
       <div className="hidden items-center gap-6 lg:flex xl:gap-8">
         <nav aria-label="Navegação principal">
-          <ul className="flex items-center gap-2 text-sm text-muted-foreground xl:gap-3">
+          <ul
+            className={`flex items-center gap-2 text-sm transition-colors duration-300 xl:gap-3 ${
+              isTransparent ? "text-white" : "text-muted-foreground"
+            }`}
+          >
             {items.map((item) => {
               const isActive = activeHref === item.href;
 
@@ -122,10 +146,14 @@ export function SiteNavigation({ items, whatsappHref }: SiteNavigationProps) {
                           : "page"
                         : undefined
                     }
-                    className={`inline-flex min-h-11 items-center rounded-md px-3 font-semibold transition-colors ${
-                      isActive
-                        ? "bg-primary text-primary-foreground"
-                        : "hover:bg-accent hover:text-accent-foreground"
+                    className={`inline-flex min-h-11 items-center rounded-md px-3 font-semibold transition-all duration-200 ${
+                      isTransparent
+                        ? isActive
+                          ? "bg-white/15 text-white backdrop-blur-sm"
+                          : "text-white hover:bg-white/10 hover:text-white"
+                        : isActive
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-accent hover:text-accent-foreground"
                     }`}
                     href={item.href}
                     onClick={() => handleNavigationSelection(item.href)}
@@ -137,9 +165,23 @@ export function SiteNavigation({ items, whatsappHref }: SiteNavigationProps) {
             })}
           </ul>
         </nav>
+
         <a
           aria-label="Falar com a Marli Corretora no WhatsApp; abre em uma nova aba"
-          className={buttonStyles({ className: "whitespace-nowrap" })}
+          className={buttonStyles({
+            className: `
+              whitespace-nowrap
+              transition-all
+              duration-300
+              hover:-translate-y-0.5
+              hover:shadow-lg
+              ${
+                isTransparent
+                  ? "border border-white/20 bg-primary/90 backdrop-blur-sm"
+                  : ""
+              }
+            `,
+          })}
           href={whatsappHref}
           rel="noopener noreferrer"
           target="_blank"
@@ -150,6 +192,7 @@ export function SiteNavigation({ items, whatsappHref }: SiteNavigationProps) {
 
       <MobileNavigation
         activeHref={activeHref}
+        isTransparent={isTransparent}
         items={items}
         onNavigate={handleNavigationSelection}
         whatsappHref={whatsappHref}

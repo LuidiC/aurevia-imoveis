@@ -27,7 +27,7 @@ const businessDetails: BusinessDetails = {
 export const SITE_CONFIG = {
   name: "Marli Corretora",
   brand: {
-    logoSrc: "/brand/marli-corretora-logo.png",
+    logoSrc: "/brand/marli-corretora-logo-transparent.png",
   },
   description:
     "Imóveis em Pedro Leopoldo, Minas Gerais, e região, com atendimento próximo e mais de 30 anos de experiência.",
