@@ -31,21 +31,50 @@ import {
   finalizeEditedProperty,
   generateNextPropertyId,
   generatePropertySlug,
+  getPropertySequence,
   parseBrlToCents,
   parseOptionalNonNegativeInteger,
   parseOptionalPositiveDecimal,
 } from "./domain";
+import {
+  loadAndReconcilePropertyIdState,
+  resolvePropertyIdState,
+  writePropertyIdState,
+} from "./id-state";
 import { Prompts } from "./prompts";
 import {
+  inspectPropertyImageDirectory,
   loadCatalog,
   normalizeImageSource,
+  removePropertyImageDirectory,
   validatePropertyImages,
   writeCatalogSafely,
 } from "./storage";
 
 export type CommandContext = Readonly<{
   dataFile: string;
+  idStateFile: string;
   publicDirectory: string;
+}>;
+
+type DeletePrompts = Pick<Prompts, "close" | "confirm" | "raw">;
+
+export type DeleteCommandDependencies = Readonly<{
+  createPrompts?: () => DeletePrompts;
+  output?: (message: string) => void;
+  removeImages?: (publicDirectory: string, propertyId: string) => Promise<boolean>;
+}>;
+
+type StatusPrompts = Pick<Prompts, "close" | "confirm" | "parsed">;
+
+export type StatusCommandDependencies = Readonly<{
+  createPrompts?: () => StatusPrompts;
+}>;
+
+export type NextPropertyIdResult = Readonly<{
+  id: string;
+  properties: readonly Property[];
+  lastIssuedSequence: number;
 }>;
 
 const purposeChoices = PROPERTY_PURPOSES.map((value) => ({
@@ -98,8 +127,10 @@ export async function listProperties(
 }
 
 export async function addProperty(context: CommandContext): Promise<void> {
-  const properties = await loadCatalog(context.dataFile);
-  const id = generateNextPropertyId(properties.map((property) => property.id));
+  const { id, properties, lastIssuedSequence } = await resolveNextPropertyId(
+    context,
+    true,
+  );
   const prompts = new Prompts();
 
   try {
@@ -114,8 +145,149 @@ export async function addProperty(context: CommandContext): Promise<void> {
       return;
     }
 
-    await writeCatalogSafely(context.dataFile, [...properties, property]);
+    await persistNewProperty(context, properties, property, lastIssuedSequence);
     stdout.write(`Imóvel ${property.id} salvo com sucesso.\n`);
+  } finally {
+    prompts.close();
+  }
+}
+
+export async function showNextPropertyId(
+  context: CommandContext,
+  output: (message: string) => void = (message) => stdout.write(message),
+): Promise<void> {
+  let result: NextPropertyIdResult;
+  try {
+    result = await resolveNextPropertyId(context, false);
+  } catch (error) {
+    const message = getErrorMessage(error);
+    if (
+      !message.startsWith("Metadata de IDs inválida") &&
+      !message.includes(context.idStateFile)
+    ) {
+      throw error;
+    }
+    throw new Error(
+      `${message}\n` +
+      "Corrija a metadata de IDs e execute npm run property:validate antes de cadastrar um imóvel.",
+    );
+  }
+
+  output(`Próximo ID disponível: ${result.id}\n`);
+  output(`Pasta de imagens: public/images/properties/${result.id}/\n`);
+}
+
+export async function resolveNextPropertyId(
+  context: CommandContext,
+  persistReconciliation: boolean,
+): Promise<NextPropertyIdResult> {
+  const properties = await loadCatalog(context.dataFile);
+  const ids = properties.map((property) => property.id);
+  const { state } = persistReconciliation
+    ? await loadAndReconcilePropertyIdState(context.idStateFile, ids)
+    : await resolvePropertyIdState(context.idStateFile, ids);
+
+  return {
+    id: generateNextPropertyId(ids, state.lastIssuedSequence),
+    properties,
+    lastIssuedSequence: state.lastIssuedSequence,
+  };
+}
+
+export async function persistNewProperty(
+  context: CommandContext,
+  properties: readonly Property[],
+  property: Property,
+  previousLastIssuedSequence: number,
+): Promise<void> {
+  await writeCatalogSafely(context.dataFile, [...properties, property]);
+  try {
+    await writePropertyIdState(context.idStateFile, {
+      lastIssuedSequence: Math.max(
+        previousLastIssuedSequence,
+        getPropertySequence(property.id),
+      ),
+    });
+  } catch (error) {
+    throw new Error(
+      `O imóvel ${property.id} foi salvo, mas a metadata de IDs não pôde ser atualizada. ` +
+      `O catálogo preserva o ID e será reconciliado na próxima execução: ${getErrorMessage(error)}`,
+    );
+  }
+}
+
+export async function deleteProperty(
+  context: CommandContext,
+  requestedId?: string,
+  dependencies: DeleteCommandDependencies = {},
+): Promise<void> {
+  if (!requestedId) {
+    throw new Error("Informe o ID do imóvel a excluir, por exemplo MC-001.");
+  }
+
+  const properties = await loadCatalog(context.dataFile);
+  const current = properties.find(
+    (property) => property.id.toLowerCase() === requestedId.toLowerCase(),
+  );
+  if (!current) throw new Error(`Imóvel ${requestedId} não encontrado.`);
+
+  const output = dependencies.output ?? ((message: string) => stdout.write(message));
+  const prompts = dependencies.createPrompts?.() ?? new Prompts();
+  const removeImages = dependencies.removeImages ?? removePropertyImageDirectory;
+
+  try {
+    printPropertySummary(current, output);
+    output("\nATENÇÃO\n");
+    output(`Esta ação excluirá permanentemente o imóvel ${current.id} do catálogo.\n`);
+    output("Esta operação não poderá ser desfeita pela CLI.\n");
+    if (current.status === "active") {
+      output("Este imóvel está ativo e atualmente pode estar publicado no site.\n");
+    }
+    output(`\nPara confirmar, digite exatamente: ${current.id}\n`);
+
+    const confirmation = await prompts.raw(`Digite ${current.id} para confirmar`);
+    if (confirmation !== current.id) {
+      output("Operação cancelada; nenhum arquivo ou pasta foi alterado.\n");
+      return;
+    }
+
+    const imageDirectory = await inspectPropertyImageDirectory(
+      context.publicDirectory,
+      current.id,
+    );
+    let shouldDeleteImages = false;
+    if (imageDirectory.exists) {
+      output(`\nPasta encontrada:\n${imageDirectory.displayPath}\n`);
+      shouldDeleteImages = await prompts.confirm(
+        `Excluir também a pasta de imagens ${imageDirectory.displayPath} e todos os arquivos contidos nela?`,
+      );
+    }
+
+    await loadAndReconcilePropertyIdState(
+      context.idStateFile,
+      properties.map((property) => property.id),
+    );
+    await writeCatalogSafely(
+      context.dataFile,
+      properties.filter((property) => property.id !== current.id),
+    );
+
+    output(`Imóvel ${current.id} excluído permanentemente.\n`);
+    output(`O ID ${current.id} não será reutilizado.\n`);
+
+    if (!shouldDeleteImages) {
+      if (imageDirectory.exists) output("Pasta de imagens preservada.\n");
+      return;
+    }
+
+    try {
+      await removeImages(context.publicDirectory, current.id);
+      output("Pasta de imagens removida.\n");
+    } catch (error) {
+      throw new Error(
+        `O imóvel ${current.id} foi removido do catálogo, mas a pasta de imagens não pôde ser excluída: ${getErrorMessage(error)}`,
+      );
+    }
   } finally {
     prompts.close();
   }
@@ -155,10 +327,11 @@ export async function setPropertyStatus(
   context: CommandContext,
   targetStatus: PropertyStatus,
   requestedId?: string,
+  dependencies: StatusCommandDependencies = {},
 ): Promise<void> {
   const properties = await loadCatalog(context.dataFile);
   const candidates = properties.filter((property) => property.status !== targetStatus);
-  const prompts = new Prompts();
+  const prompts = dependencies.createPrompts?.() ?? new Prompts();
 
   try {
     if (candidates.length === 0) {
@@ -199,8 +372,18 @@ export async function setPropertyStatus(
 
 export async function validateCatalog(context: CommandContext): Promise<void> {
   const properties = await loadCatalog(context.dataFile);
+  const { state, change } = await loadAndReconcilePropertyIdState(
+    context.idStateFile,
+    properties.map((property) => property.id),
+  );
   await ensureImagesAreValid(properties, context.publicDirectory);
   stdout.write(`Catálogo válido: ${properties.length} imóvel(is).\n`);
+  if (change === "initialized") {
+    stdout.write("Metadata de IDs inicializada a partir do catálogo atual.\n");
+  } else if (change === "reconciled") {
+    stdout.write("Metadata de IDs reconciliada com o maior ID do catálogo.\n");
+  }
+  stdout.write(`Último sequencial de imóvel emitido: ${state.lastIssuedSequence}.\n`);
 }
 
 async function collectProperty(
@@ -484,7 +667,7 @@ async function collectProperty(
 }
 
 async function selectProperty(
-  prompts: Prompts,
+  prompts: Pick<Prompts, "parsed">,
   properties: readonly Property[],
   requestedId?: string,
 ): Promise<Property> {
@@ -513,9 +696,12 @@ async function selectProperty(
   return requireDefined(selected);
 }
 
-function printPropertySummary(property: Property): void {
+function printPropertySummary(
+  property: Property,
+  output: (message: string) => void = (message) => stdout.write(message),
+): void {
   const meta = getPropertyMetaItems(property).map((item) => item.label).join(" | ");
-  stdout.write(
+  output(
     [
       "\n--------------------------------",
       property.id,
@@ -620,4 +806,8 @@ function validateSlug(value: string): string | undefined {
   return PROPERTY_SLUG_PATTERN.test(value)
     ? undefined
     : "Use apenas letras minúsculas, números e hífens simples.";
+}
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
 }

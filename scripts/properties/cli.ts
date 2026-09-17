@@ -6,9 +6,11 @@ import type { PropertyStatus } from "../../types/property";
 import {
   activateProperty,
   addProperty,
+  deleteProperty,
   editProperty,
   listProperties,
   removeProperty,
+  showNextPropertyId,
   validateCatalog,
 } from "./entrypoints";
 
@@ -17,6 +19,7 @@ type ParsedArguments = Readonly<{
   id?: string;
   status?: PropertyStatus;
   dataFile: string;
+  idStateFile: string;
   publicDirectory: string;
 }>;
 
@@ -24,6 +27,7 @@ async function main(): Promise<void> {
   const args = parseArguments(process.argv.slice(2));
   const context = {
     dataFile: args.dataFile,
+    idStateFile: args.idStateFile,
     publicDirectory: args.publicDirectory,
   };
 
@@ -34,11 +38,17 @@ async function main(): Promise<void> {
     case "add":
       await addProperty(context);
       break;
+    case "next-id":
+      await showNextPropertyId(context);
+      break;
     case "edit":
       await editProperty(context, args.id);
       break;
     case "remove":
       await removeProperty(context, args.id);
+      break;
+    case "delete":
+      await deleteProperty(context, args.id);
       break;
     case "activate":
       await activateProperty(context, args.id);
@@ -56,6 +66,7 @@ function parseArguments(argv: readonly string[]): ParsedArguments {
   const positional: string[] = [];
   let status: PropertyStatus | undefined;
   let dataFile = path.resolve("data/properties.json");
+  let idStateFile: string | undefined;
   let publicDirectory = path.resolve("public");
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -66,6 +77,8 @@ function parseArguments(argv: readonly string[]): ParsedArguments {
       dataFile = path.resolve(requireOptionValue(argv, ++index, argument));
     } else if (argument === "--public-dir") {
       publicDirectory = path.resolve(requireOptionValue(argv, ++index, argument));
+    } else if (argument === "--id-state-file") {
+      idStateFile = path.resolve(requireOptionValue(argv, ++index, argument));
     } else if (argument.startsWith("--")) {
       throw new Error(`Opção desconhecida: ${argument}.`);
     } else {
@@ -78,6 +91,7 @@ function parseArguments(argv: readonly string[]): ParsedArguments {
     id: positional[1],
     status,
     dataFile,
+    idStateFile: idStateFile ?? path.join(path.dirname(dataFile), "property-id-state.json"),
     publicDirectory,
   };
 }
@@ -102,8 +116,10 @@ function printHelp(): void {
       "Comandos:",
       "  list [--active|--inactive]",
       "  add",
+      "  next-id",
       "  edit [MC-001]",
       "  remove [MC-001]",
+      "  delete MC-001",
       "  activate [MC-001]",
       "  validate",
       "",
@@ -115,4 +131,3 @@ main().catch((error: unknown) => {
   stderr.write(`Erro: ${error instanceof Error ? error.message : String(error)}\n`);
   process.exitCode = 1;
 });
-

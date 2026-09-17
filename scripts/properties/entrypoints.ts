@@ -2,14 +2,23 @@ import type { PropertyStatus } from "../../types/property";
 
 import {
   addProperty,
+  deleteProperty,
   editProperty,
   listProperties,
+  showNextPropertyId,
   setPropertyStatus,
   validateCatalog,
   type CommandContext,
 } from "./commands";
 
-export { addProperty, editProperty, listProperties, validateCatalog };
+export {
+  addProperty,
+  deleteProperty,
+  editProperty,
+  listProperties,
+  showNextPropertyId,
+  validateCatalog,
+};
 
 export function removeProperty(
   context: CommandContext,
@@ -26,4 +35,3 @@ export function activateProperty(
 }
 
 export type { CommandContext, PropertyStatus };
-

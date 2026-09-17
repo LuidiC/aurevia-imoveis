@@ -4,7 +4,7 @@ import type { Property } from "../../types/property";
 
 const BRL_PATTERN = /^(?:\d+|\d{1,3}(?:\.\d{3})+)(?:,(\d{1,2}))?$/;
 
-export function generateNextPropertyId(ids: readonly string[]): string {
+export function getHighestPropertySequence(ids: readonly string[]): number {
   const seen = new Set<string>();
   let highest = BigInt(0);
 
@@ -17,7 +17,38 @@ export function generateNextPropertyId(ids: readonly string[]): string {
     if (sequence > highest) highest = sequence;
   }
 
-  return `MC-${String(highest + BigInt(1)).padStart(3, "0")}`;
+  if (highest > BigInt(Number.MAX_SAFE_INTEGER)) {
+    throw new Error("A sequência de IDs excede o limite seguro.");
+  }
+
+  return Number(highest);
+}
+
+export function generateNextPropertyId(
+  ids: readonly string[],
+  lastIssuedSequence = 0,
+): string {
+  if (!Number.isSafeInteger(lastIssuedSequence) || lastIssuedSequence < 0) {
+    throw new Error("O último sequencial emitido deve ser um inteiro seguro não negativo.");
+  }
+
+  const highest = Math.max(getHighestPropertySequence(ids), lastIssuedSequence);
+  if (highest === Number.MAX_SAFE_INTEGER) {
+    throw new Error("A sequência de IDs atingiu o limite seguro.");
+  }
+
+  return `MC-${String(highest + 1).padStart(3, "0")}`;
+}
+
+export function getPropertySequence(id: string): number {
+  if (!PROPERTY_ID_PATTERN.test(id)) throw new Error(`ID de imóvel inválido: ${id}.`);
+
+  const sequence = Number(id.slice(3));
+  if (!Number.isSafeInteger(sequence)) {
+    throw new Error(`A sequência do ID ${id} excede o limite seguro.`);
+  }
+
+  return sequence;
 }
 
 export function slugify(value: string): string {

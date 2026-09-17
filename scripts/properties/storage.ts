@@ -1,6 +1,10 @@
 import {
+  lstat,
+  mkdir,
+  realpath,
   rename,
   readFile,
+  rm,
   stat,
   unlink,
   writeFile,
@@ -10,6 +14,7 @@ import path from "node:path";
 import { z } from "zod";
 
 import { propertyCollectionSchema } from "../../schemas/property";
+import { PROPERTY_ID_PATTERN } from "../../lib/properties/constants";
 import type { Property } from "../../types/property";
 
 const IMAGE_EXTENSIONS = new Set([
@@ -64,15 +69,123 @@ export async function writeCatalogSafely(
   properties: readonly Property[],
 ): Promise<void> {
   const validated = propertyCollectionSchema.parse(properties);
-  const serialized = `${JSON.stringify(validated, null, 2)}\n`;
+  await writeJsonSafely(filePath, validated);
+}
+
+export async function writeJsonSafely(
+  filePath: string,
+  value: unknown,
+): Promise<void> {
+  const serialized = `${JSON.stringify(value, null, 2)}\n`;
   const temporaryPath = `${filePath}.tmp-${process.pid}-${Date.now()}`;
 
   try {
+    await mkdir(path.dirname(filePath), { recursive: true });
     await writeFile(temporaryPath, serialized, { encoding: "utf8", flag: "wx" });
     await rename(temporaryPath, filePath);
   } finally {
     await unlink(temporaryPath).catch(() => undefined);
   }
+}
+
+export type PropertyImageDirectory = Readonly<{
+  absolutePath: string;
+  displayPath: string;
+  exists: boolean;
+}>;
+
+export async function inspectPropertyImageDirectory(
+  publicDirectory: string,
+  propertyId: string,
+): Promise<PropertyImageDirectory> {
+  if (!PROPERTY_ID_PATTERN.test(propertyId)) {
+    throw new Error(`ID inválido para pasta de imagens: ${propertyId}.`);
+  }
+
+  const publicRoot = path.resolve(publicDirectory);
+  const imagesDirectory = path.join(publicRoot, "images");
+  const parentDirectory = path.join(imagesDirectory, "properties");
+  const absolutePath = path.resolve(parentDirectory, propertyId);
+  const relativePath = path.relative(parentDirectory, absolutePath);
+
+  if (relativePath !== propertyId || path.isAbsolute(relativePath)) {
+    throw new Error("A pasta de imagens calculada não corresponde exatamente ao ID.");
+  }
+
+  for (const allowedDirectory of [publicRoot, imagesDirectory, parentDirectory]) {
+    const allowedStat = await lstat(allowedDirectory).catch((error: unknown) => {
+      if (isMissingFileError(error)) return undefined;
+      throw error;
+    });
+    if (!allowedStat) {
+      return {
+        absolutePath,
+        displayPath: `public/images/properties/${propertyId}/`,
+        exists: false,
+      };
+    }
+    if (allowedStat.isSymbolicLink()) {
+      throw new Error("O caminho permitido de imagens não pode conter links simbólicos.");
+    }
+    if (!allowedStat.isDirectory()) {
+      throw new Error("O caminho permitido de imagens contém um item que não é pasta.");
+    }
+  }
+
+  let directoryStat;
+  try {
+    directoryStat = await lstat(absolutePath);
+  } catch (error) {
+    if (isMissingFileError(error)) {
+      return {
+        absolutePath,
+        displayPath: `public/images/properties/${propertyId}/`,
+        exists: false,
+      };
+    }
+    throw new Error(`Não foi possível inspecionar a pasta de imagens: ${getErrorMessage(error)}`);
+  }
+
+  if (directoryStat.isSymbolicLink()) {
+    throw new Error("A pasta de imagens do imóvel não pode ser um link simbólico.");
+  }
+  if (!directoryStat.isDirectory()) {
+    throw new Error("O caminho de imagens do imóvel existe, mas não é uma pasta.");
+  }
+
+  const [realPublicRoot, realParent, realDirectory] = await Promise.all([
+    realpath(publicRoot),
+    realpath(parentDirectory),
+    realpath(absolutePath),
+  ]);
+  const realParentFromPublic = path.relative(realPublicRoot, realParent);
+  if (
+    realParentFromPublic !== path.join("images", "properties") ||
+    path.isAbsolute(realParentFromPublic)
+  ) {
+    throw new Error("O diretório de imagens permitido resolve para fora de public.");
+  }
+  const realRelativePath = path.relative(realParent, realDirectory);
+  if (realRelativePath !== propertyId || path.isAbsolute(realRelativePath)) {
+    throw new Error("A pasta de imagens resolve para fora do diretório permitido.");
+  }
+
+  return {
+    absolutePath,
+    displayPath: `public/images/properties/${propertyId}/`,
+    exists: true,
+  };
+}
+
+export async function removePropertyImageDirectory(
+  publicDirectory: string,
+  propertyId: string,
+): Promise<boolean> {
+  const directory = await inspectPropertyImageDirectory(publicDirectory, propertyId);
+  if (!directory.exists) return false;
+
+  await rm(directory.absolutePath, { recursive: true, force: false });
+  return true;
 }
 
 type ResolvedPublicAsset = Readonly<{
@@ -202,4 +315,8 @@ export async function validatePropertyImages(
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
+}
+
+function isMissingFileError(error: unknown): boolean {
+  return error instanceof Error && "code" in error && error.code === "ENOENT";
 }

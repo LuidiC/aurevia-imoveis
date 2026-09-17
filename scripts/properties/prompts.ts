@@ -18,6 +18,10 @@ export class Prompts {
     stdout.write(`\n${title}\n${"-".repeat(title.length)}\n`);
   }
 
+  raw(label: string): Promise<string> {
+    return this.readline.question(`${label}: `);
+  }
+
   async text(
     label: string,
     options: Readonly<{
@@ -166,4 +170,3 @@ export class Prompts {
     }
   }
 }
-

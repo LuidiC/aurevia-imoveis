@@ -58,10 +58,20 @@ consumi-lo. Para gerenciar os registros localmente, use:
 
 - `npm run property:list -- [--active|--inactive]`: lista o catálogo e permite filtrar por status.
 - `npm run property:add`: adiciona um imóvel e gera o próximo ID e o slug sugerido.
+- `npm run property:next-id`: consulta o próximo ID e informa a pasta correspondente de imagens.
 - `npm run property:edit -- [MC-001]`: edita sem alterar ID ou data de criação.
-- `npm run property:remove -- [MC-001]`: desativa logicamente; não apaga o registro nem imagens.
+- `npm run property:remove -- [MC-001]`: desativa logicamente; é reversível e não apaga o registro nem as imagens.
+- `npm run property:delete -- MC-001`: exclui o registro permanentemente após confirmação forte pelo ID.
 - `npm run property:activate -- [MC-001]`: reativa um imóvel.
-- `npm run property:validate`: valida schema, duplicatas e arquivos de imagem.
+- `npm run property:validate`: valida schema, duplicatas, arquivos de imagem e metadata de IDs.
+
+`remove` e `delete` têm propósitos diferentes. `remove` apenas muda o status para
+inativo, preserva as imagens e permite reativação posterior. `delete` remove o
+registro definitivamente e exige que o ID seja digitado exatamente, com a mesma
+capitalização. Se existir `public/images/properties/[ID]/`, o comando pergunta,
+com resposta padrão negativa, se essa pasta também deve ser excluída. Uma falha
+na remoção opcional das imagens é informada explicitamente; ela não desfaz a
+exclusão já persistida no catálogo.
 
 Os prompts aceitam valores em reais como `650000`, `650.000` e `650.000,00`;
 `2.500` significa R$ 2.500,00. Antes de qualquer escrita, a ferramenta mostra um
@@ -72,9 +82,22 @@ alteram a URL pública.
 Coloque novas imagens preferencialmente em
 `public/images/properties/MC-001/` (trocando pelo ID correspondente). A CLI aceita
 o nome do arquivo nessa pasta, um caminho iniciado em `public/` ou um caminho web
-iniciado por `/`; ela não move nem exclui imagens. O próximo ID é calculado pelo
-maior sequencial já registrado, inclui inativos, preserva ao menos três dígitos e
-continua como `MC-1000` após `MC-999`.
+iniciado por `/`. Somente `property:delete`, mediante confirmação separada, pode
+excluir a pasta do imóvel.
+
+O arquivo versionado `data/property-id-state.json` registra o maior sequencial de
+ID já emitido. O valor é reconciliado com o maior ID existente no catálogo e nunca
+é reduzido automaticamente. Um ID passa a ser consumido quando o novo imóvel é
+salvo; cancelar `property:add` antes do salvamento não avança a sequência. IDs de
+registros excluídos nunca são reutilizados. A formatação preserva ao menos três
+dígitos e continua como `MC-1000` após `MC-999`. Em instalações antigas sem a
+metadata, a CLI a inicializa com segurança a partir do maior ID do catálogo.
+
+`property:next-id` usa a mesma regra de cálculo do `property:add`, mas é somente
+consulta: não reserva nem consome o ID, não altera catálogo ou metadata e não cria
+a pasta informada. Pode ser executado repetidamente com o mesmo resultado enquanto
+nenhum imóvel for salvo. A existência antecipada da pasta de imagens também não
+consome o ID; ele só passa a ser utilizado no salvamento do `property:add`.
 
 Use `npm run property:validate` para validar somente o catálogo. Antes de commit
 ou deploy, execute o fluxo completo com `npm run check`.
