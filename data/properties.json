@@ -1,1 +1,289 @@
-[]
+[
+  {
+    "id": "MC-004",
+    "slug": "casa-sao-geraldo-mc-004",
+    "title": "Casa - São Geraldo",
+    "summary": "Este imóvel possui 3 quartos sendo 1 uma suíte, 2 banheiros, sala integrada com a cozinha planejada, lavadeira, área descoberta, garagem.",
+    "description": "Casa possuindo três quartos sendo 01 suíte,\n02 banheiros,\nsala integrada com a cozinha planejada,\nlavanderia,\nárea descoberta,\ngaragem.\nA menos de um minuto do centro.\nRua: Olivier Teixeira, bairro: São Geraldo.\nNão perca essa oportunidade!\nAgende logo uma visita!",
+    "type": "house",
+    "status": "active",
+    "featured": false,
+    "bedrooms": 3,
+    "suites": 1,
+    "bathrooms": 2,
+    "parkingSpaces": 1,
+    "location": {
+      "city": "Pedro Leopoldo",
+      "state": "MG",
+      "neighborhood": "São Geraldo",
+      "disclosure": "approximate"
+    },
+    "features": [],
+    "images": [
+      {
+        "src": "/images/properties/MC-004/frente004.jpeg",
+        "alt": "Principal",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-004/foto2.jpeg",
+        "alt": "2",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-004/foto3.jpeg",
+        "alt": "3",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-004/foto5.jpeg",
+        "alt": "5",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-004/foto6.jpeg",
+        "alt": "6",
+        "isPrimary": false
+      }
+    ],
+    "createdAt": "2026-10-05T14:19:41.880Z",
+    "updatedAt": "2026-10-05T17:19:12.701Z",
+    "purpose": "rent",
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 220000
+    }
+  },
+  {
+    "id": "MC-005",
+    "slug": "loja-rua-sao-sebastiao-50-centro-pedro-leopoldo-mc-005",
+    "title": "Loja - Rua São Sebastião 50, Centro, Pedro Leopoldo",
+    "summary": "Aluguel Loja 1 - R$ 8900,00 e também disponível Aluguel SobreLoja - R$ 4800,00",
+    "description": "Aluguel Loja 1\nR$ 8900,00\n220 m2\nVagas de estacionamento\nPorta automática\n\nAluguel Sobreloja\nR$ 4800,00\n220 m2\nVaga de estacionamento\nElevador",
+    "type": "commercial",
+    "status": "active",
+    "featured": true,
+    "parkingSpaces": 2,
+    "areaInSquareMeters": 220,
+    "location": {
+      "city": "Pedro Leopoldo",
+      "state": "MG",
+      "neighborhood": "Centro",
+      "address": {
+        "street": "Rua São Sebastião, 50",
+        "number": "50",
+        "postalCode": "33250-000"
+      },
+      "disclosure": "exact"
+    },
+    "features": [
+      "elevator"
+    ],
+    "images": [
+      {
+        "src": "/images/properties/MC-005/frente005.jpeg",
+        "alt": "1",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-005/foto2.jpeg",
+        "alt": "2",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-005/foto3.jpeg",
+        "alt": "3",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-005/foto4.jpeg",
+        "alt": "4",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-005/foto5.jpeg",
+        "alt": "5",
+        "isPrimary": false
+      }
+    ],
+    "createdAt": "2026-10-05T14:43:11.646Z",
+    "updatedAt": "2026-10-05T17:30:42.287Z",
+    "purpose": "rent",
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 890000
+    }
+  },
+  {
+    "id": "MC-006",
+    "slug": "sala-comercial-mc-006",
+    "title": "Sala comercial",
+    "summary": "Sala Comercial, aluguel no centro.",
+    "description": "Sala comercial\nRua: Dr. Cristiano Otoni, centro.\nPossuindo  divisória 01 banheiro com armário.\nR$900,00 aluguel.\n\nCondomínio\nIPTU a consultar.",
+    "type": "commercial",
+    "status": "active",
+    "featured": false,
+    "bathrooms": 1,
+    "location": {
+      "city": "Pedro Leopoldo",
+      "state": "MG",
+      "neighborhood": "Centro",
+      "disclosure": "approximate"
+    },
+    "features": [],
+    "images": [
+      {
+        "src": "/images/properties/MC-006/frente006.jpeg",
+        "alt": "1",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-006/foto2.jpeg",
+        "alt": "2",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-006/foto3.jpeg",
+        "alt": "3",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-006/foto4.jpeg",
+        "alt": "4",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-006/foto5.jpeg",
+        "alt": "5",
+        "isPrimary": false
+      }
+    ],
+    "createdAt": "2026-10-05T14:47:15.473Z",
+    "updatedAt": "2026-10-05T17:21:00.652Z",
+    "purpose": "rent",
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 90000
+    }
+  },
+  {
+    "id": "MC-007",
+    "slug": "casa-no-condominio-gran-royalle-mc-007",
+    "title": "Casa no condomínio Gran Royalle",
+    "summary": "Casa com: jardim projeto, espaços térreo amplos, cozinha planejada, lazer com piscina e espaço íntimo com muito conforto.",
+    "description": "Casa no condomínio Gran Royalle.\nJardim projetado.\nEspaços térreo amplos.\nCozinha planejada,\nLazer com piscina,\nEspaço íntimo com muito conforto\nR$10.000,00 aluguel.\nCondomínio: varia geralmente entre R$ 730 e R$ 1.050 por mês\n\nSofisticação, lazer completo e muito espaço para a sua família.\nSe você busca o equilíbrio perfeito entre o luxo urbano e a tranquilidade da natureza, esta propriedade é o seu próximo destino.\nProjetada com foco no conforto e na convivência, a residência se destaca pelo acabamento impecável e excelente distribuição de ambientes.\n• Destaques Internos:\n\t• 05 Quartos amplos, incluindo uma magnífica suíte master com closet totalmente planejado.\n\t• 05 Banheiros com revestimentos modernos e armários embutidos.\n\t• Cozinha planejada equipada com bancadas completas e marcenaria de alto padrão.\n\t• Sala de jogos privativa, ideal para momentos de entretenimento e descontração.\n• Área Externa e Lazer Privativo:\n\t• Espetacular área de lazer com uma convidativa piscina integrada ao espaço gourmet.\n\t• Jardins projetados com paisagismo completo que emolduram a fachada e as áreas de convivência.\n\t• Ampla área gramada (quintal), oferecendo espaço de sobra para crianças, pets ou futuras expansões.\nTudo isso inserido na segurança inigualável e na infraestrutura de lazer .",
+    "type": "house",
+    "status": "active",
+    "featured": true,
+    "bedrooms": 5,
+    "suites": 1,
+    "bathrooms": 5,
+    "parkingSpaces": 3,
+    "additionalCosts": {
+      "condominiumFeeInCents": 105000
+    },
+    "location": {
+      "city": "Confins",
+      "state": "MG",
+      "neighborhood": "Gran Roylle Aeropor",
+      "disclosure": "approximate"
+    },
+    "features": [
+      "pool",
+      "balcony",
+      "gourmet_area",
+      "concierge",
+      "backyard",
+      "furnished",
+      "gated_community",
+      "built_in_cabinets"
+    ],
+    "images": [
+      {
+        "src": "/images/properties/MC-007/frente007.jpeg",
+        "alt": "1",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-007/foto2.jpeg",
+        "alt": "2",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-007/foto3.jpeg",
+        "alt": "3",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-007/foto4.jpeg",
+        "alt": "4",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-007/foto5.jpeg",
+        "alt": "5",
+        "isPrimary": false
+      }
+    ],
+    "createdAt": "2026-10-05T14:56:34.728Z",
+    "updatedAt": "2026-10-05T17:24:19.584Z",
+    "purpose": "rent",
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 1000000
+    }
+  },
+  {
+    "id": "MC-008",
+    "slug": "loja-comendador-antonio-alves-mc-008",
+    "title": "Loja - Comendador Antonio Alves",
+    "summary": "Loja comercial para aluguel na Rua Comendador Antônio Alves",
+    "description": "Loja\nRua comendador Antonio Alves, 86, centro.\nLoja com possuindo 42,00 mts e 1 banheiro.\nR$1.200,00 aluguel\nComercial",
+    "type": "commercial",
+    "status": "active",
+    "featured": true,
+    "bathrooms": 1,
+    "areaInSquareMeters": 42,
+    "location": {
+      "city": "Pedro Leopoldo",
+      "state": "MG",
+      "neighborhood": "Centro",
+      "address": {
+        "street": "Rua Comendador Antônio Alves",
+        "number": "86",
+        "postalCode": "33250-033"
+      },
+      "disclosure": "exact"
+    },
+    "features": [],
+    "images": [
+      {
+        "src": "/images/properties/MC-008/frente008.jpeg",
+        "alt": "1",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-008/foto2.jpeg",
+        "alt": "2",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-008/foto3.jpeg",
+        "alt": "3",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-008/foto4.jpeg",
+        "alt": "4",
+        "isPrimary": false
+      }
+    ],
+    "createdAt": "2026-10-05T15:01:12.668Z",
+    "updatedAt": "2026-10-05T17:25:57.062Z",
+    "purpose": "rent",
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 120000
+    }
+  }
+]

@@ -395,13 +395,11 @@ async function collectProperty(
   prompts.section("A. IDENTIFICAÇÃO");
   const title = await requiredText(prompts, "Título", current?.title, 5, 120);
   const summary = await requiredText(prompts, "Resumo", current?.summary, 10, 180);
-  const description = await requiredText(
-    prompts,
-    "Descrição",
-    current?.description,
-    20,
-    5_000,
-  );
+  const description = await prompts.multiline("Descrição do imóvel", {
+    current: current?.description,
+    minLength: 20,
+    maxLength: 5_000,
+  });
 
   let slug = current?.slug ?? generatePropertySlug(title, id);
   if (!current) {

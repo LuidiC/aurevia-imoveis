@@ -1,13 +1,34 @@
 import { stdin, stdout } from "node:process";
-import { createInterface, type Interface } from "node:readline/promises";
+import { createInterface } from "node:readline/promises";
 
 type Choice<T extends string> = Readonly<{ value: T; label: string }>;
 
-export class Prompts {
-  private readonly readline: Interface;
+type PromptReader = Readonly<{
+  question: (query: string) => Promise<string>;
+  close: () => void;
+}>;
 
-  constructor() {
-    this.readline = createInterface({ input: stdin, output: stdout });
+type MultilineOptions = Readonly<{
+  current?: string;
+  minLength?: number;
+  maxLength?: number;
+  terminator?: string;
+}>;
+
+export function normalizeMultilineText(value: string): string {
+  return value.replace(/\r\n?/g, "\n").trim();
+}
+
+export class Prompts {
+  private readonly readline: PromptReader;
+  private readonly output: (message: string) => void;
+
+  constructor(
+    readline: PromptReader = createInterface({ input: stdin, output: stdout }),
+    output: (message: string) => void = (message) => stdout.write(message),
+  ) {
+    this.readline = readline;
+    this.output = output;
   }
 
   close(): void {
@@ -15,7 +36,7 @@ export class Prompts {
   }
 
   section(title: string): void {
-    stdout.write(`\n${title}\n${"-".repeat(title.length)}\n`);
+    this.output(`\n${title}\n${"-".repeat(title.length)}\n`);
   }
 
   raw(label: string): Promise<string> {
@@ -45,23 +66,68 @@ export class Prompts {
       if (trimmed === "-" && options.optional) return undefined;
       if (!trimmed && options.optional) return undefined;
       if (!trimmed) {
-        stdout.write("Este campo é obrigatório.\n");
+        this.output("Este campo é obrigatório.\n");
         continue;
       }
 
       const value = options.transform ? options.transform(trimmed) : trimmed;
       if (options.minLength && value.length < options.minLength) {
-        stdout.write(`Informe ao menos ${options.minLength} caracteres.\n`);
+        this.output(`Informe ao menos ${options.minLength} caracteres.\n`);
         continue;
       }
       if (options.maxLength && value.length > options.maxLength) {
-        stdout.write(`Use no máximo ${options.maxLength} caracteres.\n`);
+        this.output(`Use no máximo ${options.maxLength} caracteres.\n`);
         continue;
       }
 
       const validationMessage = options.validate?.(value);
       if (validationMessage) {
-        stdout.write(`${validationMessage}\n`);
+        this.output(`${validationMessage}\n`);
+        continue;
+      }
+
+      return value;
+    }
+  }
+
+  async multiline(
+    label: string,
+    options: MultilineOptions = {},
+  ): Promise<string> {
+    if (options.current !== undefined) {
+      this.output(`${label} atual:\n${options.current}\n`);
+      if (!(await this.confirm(`Deseja alterar ${label.toLowerCase()}?`))) {
+        return options.current;
+      }
+    }
+
+    const terminator = options.terminator ?? ":fim";
+    while (true) {
+      this.output(
+        `${label}:\n` +
+        "Digite a descrição em quantas linhas desejar.\n" +
+        "Para finalizar, digite apenas:\n" +
+        `${terminator}\n`,
+      );
+
+      const lines: string[] = [];
+      while (true) {
+        const line = await this.readline.question("> ");
+        if (line === terminator) break;
+        lines.push(line);
+      }
+
+      const value = normalizeMultilineText(lines.join("\n"));
+      if (!value) {
+        this.output("Este campo é obrigatório.\n");
+        continue;
+      }
+      if (options.minLength && value.length < options.minLength) {
+        this.output(`Informe ao menos ${options.minLength} caracteres.\n`);
+        continue;
+      }
+      if (options.maxLength && value.length > options.maxLength) {
+        this.output(`Use no máximo ${options.maxLength} caracteres.\n`);
         continue;
       }
 
@@ -94,14 +160,14 @@ export class Prompts {
       if (answer === "-" && options.optional) return undefined;
       if (!answer && options.optional) return undefined;
       if (!answer) {
-        stdout.write("Este campo é obrigatório.\n");
+        this.output("Este campo é obrigatório.\n");
         continue;
       }
 
       try {
         return parser(answer);
       } catch (error) {
-        stdout.write(`${error instanceof Error ? error.message : String(error)}\n`);
+        this.output(`${error instanceof Error ? error.message : String(error)}\n`);
       }
     }
   }
@@ -111,10 +177,10 @@ export class Prompts {
     choices: readonly Choice<T>[],
     current?: T,
   ): Promise<T> {
-    stdout.write(`${label}:\n`);
+    this.output(`${label}:\n`);
     choices.forEach((choice, index) => {
       const marker = choice.value === current ? " (atual)" : "";
-      stdout.write(`  ${index + 1}. ${choice.label}${marker}\n`);
+      this.output(`  ${index + 1}. ${choice.label}${marker}\n`);
     });
 
     while (true) {
@@ -125,7 +191,7 @@ export class Prompts {
 
       const index = Number(answer) - 1;
       if (Number.isInteger(index) && choices[index]) return choices[index].value;
-      stdout.write("Escolha uma opção válida.\n");
+      this.output("Escolha uma opção válida.\n");
     }
   }
 
@@ -134,10 +200,10 @@ export class Prompts {
     choices: readonly Choice<T>[],
     current?: readonly T[],
   ): Promise<readonly T[]> {
-    stdout.write(`${label} (números separados por vírgula):\n`);
+    this.output(`${label} (números separados por vírgula):\n`);
     choices.forEach((choice, index) => {
       const marker = current?.includes(choice.value) ? " (atual)" : "";
-      stdout.write(`  ${index + 1}. ${choice.label}${marker}\n`);
+      this.output(`  ${index + 1}. ${choice.label}${marker}\n`);
     });
 
     while (true) {
@@ -153,7 +219,7 @@ export class Prompts {
       if (indexes.every((index) => Number.isInteger(index) && choices[index])) {
         return [...new Set(indexes.map((index) => choices[index].value))];
       }
-      stdout.write("Informe apenas os números das opções disponíveis.\n");
+      this.output("Informe apenas os números das opções disponíveis.\n");
     }
   }
 
@@ -166,7 +232,7 @@ export class Prompts {
       if (!answer) return defaultValue;
       if (answer === "s" || answer === "sim") return true;
       if (answer === "n" || answer === "não" || answer === "nao") return false;
-      stdout.write("Responda com s ou n.\n");
+      this.output("Responda com s ou n.\n");
     }
   }
 }

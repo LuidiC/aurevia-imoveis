@@ -44,15 +44,11 @@ function LocationIcon() {
   );
 }
 
-function Description({ description }: Readonly<{ description: string }>) {
-  const paragraphs = description.split(/\n\s*\n/).filter(Boolean);
-
+export function PropertyDescription({ description }: Readonly<{ description: string }>) {
   return (
-    <div className="mt-5 grid max-w-3xl gap-4 text-body text-muted-foreground">
-      {paragraphs.map((paragraph, index) => (
-        <p className="whitespace-pre-line" key={index}>{paragraph}</p>
-      ))}
-    </div>
+    <p className="mt-5 max-w-3xl whitespace-pre-line text-body text-muted-foreground">
+      {description}
+    </p>
   );
 }
 
@@ -128,7 +124,7 @@ export function PropertyDetail({
             <section aria-labelledby="property-description-title" className={metaItems.length > 0 ? "mt-12 sm:mt-16" : undefined}>
               <p className="text-label text-primary">Detalhes</p>
               <h2 className="text-heading-3 mt-3 text-foreground" id="property-description-title">Sobre este imóvel</h2>
-              <Description description={property.description} />
+              <PropertyDescription description={property.description} />
             </section>
 
             {featureLabels.length > 0 ? (
