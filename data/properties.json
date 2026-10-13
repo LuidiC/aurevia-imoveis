@@ -61,7 +61,7 @@
     "summary": "Aluguel Loja 1 - R$ 8900,00 e também disponível Aluguel SobreLoja - R$ 4800,00",
     "description": "Aluguel Loja 1\nR$ 8900,00\n220 m2\nVagas de estacionamento\nPorta automática\n\nAluguel Sobreloja\nR$ 4800,00\n220 m2\nVaga de estacionamento\nElevador",
     "type": "commercial",
-    "status": "active",
+    "status": "inactive",
     "featured": true,
     "parkingSpaces": 2,
     "areaInSquareMeters": 220,
@@ -107,7 +107,7 @@
       }
     ],
     "createdAt": "2026-10-05T14:43:11.646Z",
-    "updatedAt": "2026-10-05T17:30:42.287Z",
+    "updatedAt": "2026-10-13T12:56:53.718Z",
     "purpose": "rent",
     "price": {
       "kind": "fixed",
@@ -284,6 +284,67 @@
     "price": {
       "kind": "fixed",
       "amountInCents": 120000
+    }
+  },
+  {
+    "id": "MC-009",
+    "slug": "apartamento-rua-salgado-filho-centro-mc-009",
+    "title": "Apartamento - Rua Salgado filho centro",
+    "summary": "Apartamento - Rua Salgado filho centro",
+    "description": "Apartamento\nRua Salgado filho centro.\nPossuindo 03 quartos com varanda,sala com varanda, banheiro social, banheiro suíte, cozinha com armários, garagem 2 vagas.\nPrincipais características/diferenciais: varandas, cozinha planejada, banheiros com armários.\nR$2.500,00",
+    "type": "apartment",
+    "status": "active",
+    "featured": true,
+    "bedrooms": 2,
+    "suites": 1,
+    "bathrooms": 2,
+    "parkingSpaces": 2,
+    "areaInSquareMeters": 120,
+    "additionalCosts": {
+      "condominiumFeeInCents": 37000
+    },
+    "location": {
+      "city": "Pedro Leopoldo",
+      "state": "MG",
+      "neighborhood": "Centro",
+      "disclosure": "approximate"
+    },
+    "features": [
+      "balcony"
+    ],
+    "images": [
+      {
+        "src": "/images/properties/MC-009/1.jpeg",
+        "alt": "1",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-009/2.jpeg",
+        "alt": "2",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-009/3.jpeg",
+        "alt": "3",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-009/4.jpeg",
+        "alt": "4",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-009/5.jpeg",
+        "alt": "5",
+        "isPrimary": false
+      }
+    ],
+    "createdAt": "2026-10-13T12:54:17.309Z",
+    "updatedAt": "2026-10-13T12:58:49.269Z",
+    "purpose": "rent",
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 250000
     }
   }
 ]
