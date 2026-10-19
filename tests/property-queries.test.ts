@@ -57,7 +57,7 @@ test("excludes inactive properties from public lookups by default", () => {
 test("lists and filters only active properties", () => {
   const activeSales = getActivePropertiesFrom(properties, {
     purpose: "sale",
-    city: "pedro leopoldo",
+    city: "lagoa santa",
     minBedrooms: 3,
     maxPriceInCents: 70_000_000,
   });
@@ -88,43 +88,43 @@ test("matches location substrings across neighborhood and city", () => {
     ["MC-005"],
   );
   assert.equal(
-    getActivePropertiesFrom(properties, { location: "leopoldo" }).length,
+    getActivePropertiesFrom(properties, { location: "santa" }).length,
     4,
   );
 });
 
 test("filters listed location values by exact city instead of neighborhood text", () => {
-  const matozinhosProperty = {
+  const vespasianoProperty = {
     ...validSaleProperty,
     id: "MC-006",
-    slug: "casa-matozinhos-mc-006",
-    title: "Casa em Matozinhos para teste",
+    slug: "casa-vespasiano-mc-006",
+    title: "Casa em Vespasiano para teste",
     location: {
       ...validSaleProperty.location,
-      city: "Matozinhos",
-      neighborhood: "Pedro Leopoldo",
+      city: "Vespasiano",
+      neighborhood: "Lagoa Santa",
     },
   };
   const cityProperties = propertyCollectionSchema.parse([
     validSaleProperty,
-    matozinhosProperty,
+    vespasianoProperty,
   ]);
 
-  const pedroLeopoldoFilters = getPropertyFiltersFromSearch(
-    parsePropertySearchParams({ location: "Pedro Leopoldo" }),
+  const lagoaSantaFilters = getPropertyFiltersFromSearch(
+    parsePropertySearchParams({ location: "Lagoa Santa" }),
   );
-  const matozinhosFilters = getPropertyFiltersFromSearch(
-    parsePropertySearchParams({ location: "Matozinhos" }),
+  const vespasianoFilters = getPropertyFiltersFromSearch(
+    parsePropertySearchParams({ location: "Vespasiano" }),
   );
 
   assert.deepEqual(
-    getActivePropertiesFrom(cityProperties, pedroLeopoldoFilters).map(
+    getActivePropertiesFrom(cityProperties, lagoaSantaFilters).map(
       (property) => property.id,
     ),
     ["MC-001"],
   );
   assert.deepEqual(
-    getActivePropertiesFrom(cityProperties, matozinhosFilters).map(
+    getActivePropertiesFrom(cityProperties, vespasianoFilters).map(
       (property) => property.id,
     ),
     ["MC-006"],

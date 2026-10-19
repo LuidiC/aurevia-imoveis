@@ -10,8 +10,8 @@ import {
 
 test("formats the configured business address for display", () => {
   assert.deepEqual(getBusinessAddressLines(), [
-    "Rua Jockey Club, 281",
-    "Centro — Pedro Leopoldo/MG",
+    "Avenida Horizonte, 120",
+    "Centro — Lagoa Santa/MG",
   ]);
 });
 
@@ -30,6 +30,6 @@ test("builds a deterministic Google Maps directions URL from the full address", 
   );
   assert.equal(
     parsedUrl.searchParams.get("destination"),
-    "Rua Jockey Club, 281, Centro, Pedro Leopoldo/MG, Brasil",
+    "Avenida Horizonte, 120, Centro, Lagoa Santa/MG, Brasil",
   );
 });

@@ -24,11 +24,11 @@ export function SiteFooter() {
       <Container className="grid gap-8 py-12 sm:grid-cols-2 sm:gap-10 sm:py-14 lg:grid-cols-[1.4fr_0.75fr_1fr_0.85fr] lg:gap-12 lg:py-18">
         <div className="max-w-sm sm:col-span-2 lg:col-span-1">
           <Link
-            aria-label="Marli Corretora — página inicial"
+            aria-label={SITE_CONFIG.brand.accessibleName}
             className="inline-flex"
             href="/"
           >
-            <BrandLogo className="h-20 w-[11.25rem]" />
+            <BrandLogo />
           </Link>
           <p className="mt-5 leading-7">{SITE_CONFIG.business.summary}</p>
           <p className="mt-4 font-semibold text-foreground">
@@ -43,7 +43,7 @@ export function SiteFooter() {
               {SITE_NAVIGATION.map((item) => (
                 <li key={item.href}>
                   <Link
-                    className="inline-flex min-h-10 items-center font-semibold text-foreground transition-colors hover:text-primary"
+                    className="inline-flex min-h-11 items-center font-semibold text-foreground transition-colors hover:text-primary"
                     href={item.href}
                   >
                     {item.label}
@@ -65,7 +65,7 @@ export function SiteFooter() {
                   </dt>
                   <dd className="mt-1">
                     <a
-                      className="font-semibold text-foreground transition-colors hover:text-primary"
+                      className="inline-flex min-h-11 items-center font-semibold text-foreground transition-colors hover:text-primary"
                       href={SITE_CONFIG.contacts.phone.href}
                     >
                       {SITE_CONFIG.contacts.phone.display}
@@ -78,7 +78,7 @@ export function SiteFooter() {
                     <dt className="text-muted-foreground">Telefone</dt>
                     <dd className="mt-1">
                       <a
-                        className="font-semibold text-foreground transition-colors hover:text-primary"
+                        className="inline-flex min-h-11 items-center font-semibold text-foreground transition-colors hover:text-primary"
                         href={SITE_CONFIG.contacts.phone.href}
                       >
                         {SITE_CONFIG.contacts.phone.display}
@@ -89,8 +89,8 @@ export function SiteFooter() {
                     <dt className="text-muted-foreground">WhatsApp</dt>
                     <dd className="mt-1">
                       <a
-                        aria-label="Conversar com a Marli Corretora no WhatsApp; abre em uma nova aba"
-                        className="font-semibold text-foreground transition-colors hover:text-primary"
+                        aria-label={`Conversar com a ${SITE_CONFIG.name} no WhatsApp; abre em uma nova aba`}
+                        className="inline-flex min-h-11 items-center font-semibold text-foreground transition-colors hover:text-primary"
                         href={whatsappHref}
                         rel="noopener noreferrer"
                         target="_blank"
@@ -102,18 +102,18 @@ export function SiteFooter() {
                 </>
               )}
               <div>
-                <dt className="text-muted-foreground">Sede</dt>
+                <dt className="text-muted-foreground">Endereço demonstrativo</dt>
                 <dd className="mt-1 font-semibold leading-6 text-foreground">
                   <span className="block">{streetLine}</span>
                   <span className="block">{localityLine}</span>
                   <a
-                    aria-label={`Como chegar à sede da ${SITE_CONFIG.name} no Google Maps; abre em uma nova aba`}
-                    className="mt-2 inline-flex min-h-10 items-center text-primary underline-offset-4 hover:underline"
+                    aria-label={`Consultar endereço demonstrativo da ${SITE_CONFIG.name} no Google Maps; abre em uma nova aba`}
+                    className="mt-2 inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline"
                     href={mapsHref}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Como chegar
+                    Consultar no Google Maps
                   </a>
                 </dd>
               </div>
@@ -133,7 +133,7 @@ export function SiteFooter() {
           <h2 className="text-label text-primary">Redes sociais</h2>
           <a
             aria-label={`${SITE_CONFIG.name} no Instagram; abre em uma nova aba`}
-            className="mt-4 inline-flex min-h-10 items-center font-semibold text-foreground transition-colors hover:text-primary sm:mt-5"
+            className="mt-4 inline-flex min-h-11 items-center font-semibold text-foreground transition-colors hover:text-primary sm:mt-5"
             href={SITE_CONFIG.contacts.instagram.href}
             rel="noopener noreferrer"
             target="_blank"
@@ -146,7 +146,7 @@ export function SiteFooter() {
       <div className="bg-secondary py-4 text-secondary-foreground/80 sm:py-5">
         <Container className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} {SITE_CONFIG.name}.</p>
-          <p>Confiança e atendimento próximo há mais de 30 anos.</p>
+          <p>{SITE_CONFIG.demonstrationNotice}</p>
         </Container>
       </div>
     </footer>

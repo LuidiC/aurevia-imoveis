@@ -6,9 +6,8 @@ import { FeaturedPropertiesSection } from "@/components/home/featured-properties
 import { HomeHero } from "@/components/home/home-hero";
 import { SITE_CONFIG } from "@/config/site";
 
-const title = "Marli Corretora | Imóveis em Pedro Leopoldo e região";
-const description =
-  "Encontre casas, apartamentos, terrenos e imóveis rurais para comprar ou alugar em Pedro Leopoldo/MG e região, com mais de 30 anos de experiência local.";
+const title = `${SITE_CONFIG.name} | Imóveis em Lagoa Santa e Vetor Norte`;
+const description = SITE_CONFIG.description;
 
 export const metadata: Metadata = {
   title: { absolute: title },

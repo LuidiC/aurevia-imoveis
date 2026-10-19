@@ -1,20 +1,14 @@
-import { GoogleMapEmbed } from "@/components/location/google-map-embed";
 import { buttonStyles } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { SITE_CONFIG } from "@/config/site";
 import {
   buildBusinessGoogleMapsDirectionsUrl,
-  getBusinessAddressQuery,
   getBusinessAddressLines,
 } from "@/lib/location/business-location";
 import { buildWhatsAppUrl } from "@/lib/whatsapp/build-whatsapp-url";
 
-const CONTACT_MESSAGE =
-  "Olá! Vim pelo site da Marli Corretora e gostaria de ajuda para encontrar um imóvel.";
-
 export function ContactSection() {
-  const whatsappHref = buildWhatsAppUrl(CONTACT_MESSAGE);
-  const mapQuery = getBusinessAddressQuery();
+  const whatsappHref = buildWhatsAppUrl(SITE_CONFIG.contacts.whatsapp.searchMessage);
   const mapsHref = buildBusinessGoogleMapsDirectionsUrl();
   const [streetLine, localityLine] = getBusinessAddressLines();
 
@@ -29,12 +23,12 @@ export function ContactSection() {
             Ainda não encontrou o que procura?
           </h2>
           <p className="text-body-lg mt-5 max-w-2xl text-primary-foreground">
-            Fale com a Marli Corretora. Podemos ajudar você a encontrar um imóvel
+            Fale com a {SITE_CONFIG.name}. Podemos ajudar você a encontrar um imóvel
             que combine com o que precisa.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <a
-              aria-label="Falar com a Marli Corretora no WhatsApp; abre em uma nova aba"
+              aria-label={`Falar com a ${SITE_CONFIG.name} no WhatsApp; abre em uma nova aba`}
               className={buttonStyles({ variant: "secondary" })}
               href={whatsappHref}
               rel="noopener noreferrer"
@@ -66,7 +60,7 @@ export function ContactSection() {
               </svg>
             </div>
             <div>
-              <p className="text-label text-primary-foreground">Nossa sede</p>
+              <p className="text-label text-primary-foreground">Endereço demonstrativo</p>
               <h3 className="mt-2 text-xl font-semibold">
                 {SITE_CONFIG.name}
               </h3>
@@ -77,14 +71,18 @@ export function ContactSection() {
             </div>
           </div>
 
-          <GoogleMapEmbed
-            className="mt-6"
-            destination={mapQuery}
-            externalDirectionsUrl={mapsHref}
-            externalLinkLabel={`Como chegar à sede da ${SITE_CONFIG.name} no Google Maps; abre em uma nova aba`}
-            title={`Mapa da sede da ${SITE_CONFIG.name}`}
-            variant="inverse"
-          />
+          <p className="mt-5 text-small text-primary-foreground">
+            Endereço fictício para apresentação. Atendimento com agendamento.
+          </p>
+          <a
+            aria-label="Consultar endereço demonstrativo no Google Maps; abre em uma nova aba"
+            className="mt-3 inline-flex min-h-11 items-center font-semibold underline underline-offset-4"
+            href={mapsHref}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Consultar no Google Maps
+          </a>
         </div>
       </Container>
     </section>

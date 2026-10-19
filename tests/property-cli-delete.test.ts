@@ -236,7 +236,7 @@ async function createDeleteFixture(
   withImages: boolean,
   withState = true,
 ) {
-  const root = await mkdtemp(path.join(tmpdir(), "marli-delete-"));
+  const root = await mkdtemp(path.join(tmpdir(), "aurevia-delete-"));
   context.after(() => rm(root, { recursive: true, force: true }));
   const dataFile = path.join(root, "data", "properties.json");
   const stateFile = path.join(root, "data", "property-id-state.json");

@@ -1,8 +1,8 @@
 {
-  "name": "marli-corretora",
+  "name": "aurevia-imoveis",
   "version": "0.1.0",
   "private": true,
-  "description": "Site institucional e catálogo de imóveis da Marli Corretora.",
+  "description": "Site institucional e catálogo de imóveis da Aurévia Imóveis.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

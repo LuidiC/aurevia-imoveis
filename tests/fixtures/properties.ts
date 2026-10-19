@@ -19,7 +19,7 @@ export const validSaleProperty = {
   areaInSquareMeters: 180,
   additionalCosts: { propertyTaxInCents: 120_000 },
   location: {
-    city: "Pedro Leopoldo",
+    city: "Lagoa Santa",
     state: "MG",
     neighborhood: "Centro",
     address: {
@@ -112,7 +112,7 @@ export const onRequestSaleProperty = {
   suites: 2,
   featured: false,
   location: {
-    city: "Pedro Leopoldo",
+    city: "Lagoa Santa",
     state: "MG",
     neighborhood: "Lagoa de Santo Antônio",
     disclosure: "approximate",

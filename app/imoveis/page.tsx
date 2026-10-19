@@ -7,6 +7,7 @@ import { PropertyFilters } from "@/components/property/property-filters";
 import { PropertySortSelect } from "@/components/property/property-sort-select";
 import { buttonStyles } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { SITE_CONFIG } from "@/config/site";
 import {
   buildPropertyCatalogUrl,
   getActiveProperties,
@@ -18,10 +19,10 @@ import {
 import { createPageMetadata } from "@/lib/seo/metadata";
 
 const description =
-  "Encontre casas, apartamentos, terrenos e imóveis para comprar ou alugar em Pedro Leopoldo e região.";
+  "Encontre casas, apartamentos, terrenos e imóveis para comprar ou alugar em Lagoa Santa e Vetor Norte.";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Imóveis em Pedro Leopoldo e região",
+  title: "Imóveis em Lagoa Santa e Vetor Norte",
   description,
   path: "/imoveis",
 });
@@ -98,7 +99,7 @@ export default async function PropertiesPage({
             </h2>
             <p className="text-body mx-auto mt-3 max-w-xl text-muted-foreground">
               {allProperties.length === 0
-                ? "Estamos preparando as próximas oportunidades para o catálogo. Fale com a Marli para contar o que você procura."
+                ? `Estamos preparando as próximas oportunidades para o catálogo. Fale com a ${SITE_CONFIG.name} para contar o que você procura.`
                 : "Tente ajustar os critérios de busca ou limpar os filtros."}
             </p>
             {allProperties.length > 0 && hasFilters ? (

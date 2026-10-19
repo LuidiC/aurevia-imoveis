@@ -145,7 +145,7 @@ test("legacy one-line and new multiline descriptions both satisfy the Property s
 });
 
 test("catalog storage serializes multiline descriptions as plain JSON text with escaped newlines", async (context) => {
-  const root = await mkdtemp(path.join(tmpdir(), "marli-description-"));
+  const root = await mkdtemp(path.join(tmpdir(), "aurevia-description-"));
   context.after(() => rm(root, { recursive: true, force: true }));
   const dataFile = path.join(root, "data", "properties.json");
   const description = "Casa ampla e bem localizada.\n\nVenha conhecer!";

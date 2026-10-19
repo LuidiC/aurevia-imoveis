@@ -97,7 +97,7 @@ test("rejects coordinates in an approximate property location", () => {
   const result = propertySchema.safeParse({
     ...validSaleProperty,
     location: {
-      city: "Pedro Leopoldo",
+      city: "Lagoa Santa",
       state: "MG",
       neighborhood: "Centro",
       coordinates: { latitude: -19.62, longitude: -44.04 },

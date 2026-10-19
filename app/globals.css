@@ -1,26 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f6f2;
-  --foreground: #2b2f2d;
+  --background: #f5f8fa;
+  --foreground: #18262d;
   --surface: #ffffff;
-  --surface-subtle: #f1f2ef;
-  --primary: #53786d;
-  --primary-hover: #45675d;
+  --surface-subtle: #eaf2f6;
+  --primary: #246b8a;
+  --primary-hover: #1d5873;
   --primary-foreground: #ffffff;
-  --secondary: #454a47;
-  --secondary-hover: #343836;
+  --secondary: #163847;
+  --secondary-hover: #102b37;
   --secondary-foreground: #ffffff;
-  --muted: #eaede9;
-  --muted-foreground: #5f6763;
-  --border: #d8ddd9;
-  --border-strong: #bdc6c1;
-  --accent: #e3ece8;
-  --accent-foreground: #35584c;
+  --muted: #dceef5;
+  --muted-foreground: #596870;
+  --border: #d3e0e6;
+  --border-strong: #a8bdc8;
+  --accent: #dceef5;
+  --accent-foreground: #163847;
   --destructive: #a33f3f;
   --destructive-hover: #873333;
   --destructive-foreground: #ffffff;
-  --focus: #2e6d5a;
+  --sand: #d8c29d;
+  --focus: #0b6f98;
   --layout-max-width: 80rem;
   --layout-gutter: clamp(1.25rem, 4vw, 2.5rem);
   --section-spacing: clamp(4rem, 8vw, 7rem);
@@ -52,8 +53,8 @@
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
-  --shadow-soft: 0 14px 36px -24px rgb(43 47 45 / 0.28);
-  --shadow-control: 0 1px 2px rgb(43 47 45 / 0.05);
+  --shadow-soft: 0 14px 36px -24px rgb(22 56 71 / 0.28);
+  --shadow-control: 0 1px 2px rgb(22 56 71 / 0.05);
 }
 
 * {

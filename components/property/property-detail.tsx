@@ -7,6 +7,7 @@ import { PropertyMetaIcon } from "@/components/property/property-meta-icon";
 import { Badge } from "@/components/ui/badge";
 import { buttonStyles } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { SITE_CONFIG } from "@/config/site";
 import {
   getPropertyAdditionalCostItems,
   getPropertyFeatureLabels,
@@ -168,7 +169,7 @@ export function PropertyDetail({
           <aside className="rounded-lg border border-border bg-surface p-6 shadow-soft lg:sticky lg:top-32 lg:p-7" aria-labelledby="property-contact-title">
             <p className="text-label text-primary">Atendimento próximo</p>
             <h2 className="mt-3 text-2xl font-semibold leading-tight text-foreground" id="property-contact-title">Quer saber mais sobre este imóvel?</h2>
-            <p className="mt-3 text-small text-muted-foreground">Converse diretamente com a Marli e tire suas dúvidas com tranquilidade.</p>
+            <p className="mt-3 text-small text-muted-foreground">Converse com a {SITE_CONFIG.name} e tire suas dúvidas com tranquilidade.</p>
 
             {additionalCosts.length > 0 ? (
               <div className="mt-6 border-t border-border pt-5">
@@ -185,7 +186,7 @@ export function PropertyDetail({
             ) : null}
 
             <a
-              aria-label={`Falar com a Marli no WhatsApp sobre ${property.title}; abre em uma nova aba`}
+              aria-label={`Falar com a ${SITE_CONFIG.name} no WhatsApp sobre ${property.title}; abre em uma nova aba`}
               className={buttonStyles({ className: "mt-6 w-full" })}
               href={whatsappHref}
               rel="noopener noreferrer"
@@ -201,10 +202,10 @@ export function PropertyDetail({
           <div className="max-w-2xl">
             <p className="text-label text-secondary-foreground/70">Próximo passo</p>
             <h2 className="text-heading-3 mt-3" id="property-final-contact-title">Gostou deste imóvel?</h2>
-            <p className="mt-3 leading-7 text-secondary-foreground/80">Fale com a Marli para confirmar detalhes e entender se ele combina com o que você procura.</p>
+            <p className="mt-3 leading-7 text-secondary-foreground/80">Fale com a {SITE_CONFIG.name} para confirmar detalhes e entender se ele combina com o que você procura.</p>
           </div>
           <a
-            aria-label={`Falar com a Marli no WhatsApp sobre ${property.title}; abre em uma nova aba`}
+            aria-label={`Falar com a ${SITE_CONFIG.name} no WhatsApp sobre ${property.title}; abre em uma nova aba`}
             className={buttonStyles({ variant: "outline", className: "mt-7 shrink-0 border-white/50 bg-white text-secondary hover:border-white hover:bg-accent lg:mt-0" })}
             href={whatsappHref}
             rel="noopener noreferrer"

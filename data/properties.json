@@ -1,350 +1,338 @@
 [
   {
-    "id": "MC-004",
-    "slug": "casa-sao-geraldo-mc-004",
-    "title": "Casa - São Geraldo",
-    "summary": "Este imóvel possui 3 quartos sendo 1 uma suíte, 2 banheiros, sala integrada com a cozinha planejada, lavadeira, área descoberta, garagem.",
-    "description": "Casa possuindo três quartos sendo 01 suíte,\n02 banheiros,\nsala integrada com a cozinha planejada,\nlavanderia,\nárea descoberta,\ngaragem.\nA menos de um minuto do centro.\nRua: Olivier Teixeira, bairro: São Geraldo.\nNão perca essa oportunidade!\nAgende logo uma visita!",
+    "id": "MC-001",
+    "slug": "casa-terrea-jardim-lagoa-santa",
+    "title": "Casa térrea com jardim e área gourmet",
     "type": "house",
+    "purpose": "sale",
+    "featured": true,
+    "bedrooms": 3,
+    "suites": 1,
+    "bathrooms": 3,
+    "parkingSpaces": 2,
+    "areaInSquareMeters": 185,
+    "features": [
+      "backyard",
+      "gourmet_area",
+      "barbecue"
+    ],
+    "summary": "Ambientes integrados, jardim e um espaço coberto para reunir pessoas em Lagoa Santa.",
+    "description": "Uma casa térrea pensada para uma rotina leve: sala integrada, cozinha com bancada e três quartos, sendo uma suíte. As aberturas conectam os ambientes ao jardim e favorecem a entrada de luz.\n\nA área gourmet coberta reúne bancada, churrasqueira e espaço para mesa. O quintal gramado completa a proposta de convivência ao ar livre.\n\nImóvel fictício. Valor, áreas, características e imagens são ilustrativos e não constituem oferta comercial.",
+    "images": [
+      {
+        "src": "/images/properties/MC-001/fachada.webp",
+        "alt": "Casa térrea branca com detalhe em madeira clara e jardim gramado",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-001/sala.webp",
+        "alt": "Sala com sofá claro e portas de vidro voltadas para o jardim",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-001/cozinha.webp",
+        "alt": "Cozinha com armários de madeira clara e bancada de pedra",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-001/area-gourmet.webp",
+        "alt": "Área gourmet coberta com churrasqueira e mesa junto ao jardim",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-001/quarto.webp",
+        "alt": "Quarto com cama de casal, cabeceira de madeira clara e abertura para o jardim",
+        "isPrimary": false
+      }
+    ],
+    "location": {
+      "city": "Lagoa Santa",
+      "state": "MG",
+      "disclosure": "approximate"
+    },
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 89000000
+    },
     "status": "active",
+    "createdAt": "2026-10-19T12:00:00.000Z",
+    "updatedAt": "2026-10-19T18:09:54.092Z"
+  },
+  {
+    "id": "MC-002",
+    "slug": "apartamento-varanda-centro-lagoa-santa",
+    "title": "Apartamento claro com varanda próximo ao Centro",
+    "type": "apartment",
+    "purpose": "rent",
+    "featured": true,
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "parkingSpaces": 1,
+    "areaInSquareMeters": 78,
+    "features": [
+      "balcony",
+      "built_in_cabinets"
+    ],
+    "summary": "Dois quartos, cozinha funcional e varanda para dar uma pausa no dia em Lagoa Santa.",
+    "description": "A sala se abre para uma varanda com espaço para duas cadeiras e plantas. Tons claros, piso contínuo e marcenaria simples compõem um apartamento acolhedor.\n\nSão dois quartos, dois banheiros e uma vaga. A cozinha tem armários e bancada para organizar o preparo das refeições. A localização indicada representa apenas uma região aproximada.\n\nImóvel fictício. Aluguel mensal, áreas, características e imagens são ilustrativos e não constituem oferta comercial.",
+    "images": [
+      {
+        "src": "/images/properties/MC-002/sala.webp",
+        "alt": "Sala clara integrada à mesa de jantar e à varanda",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-002/varanda.webp",
+        "alt": "Varanda coberta com cadeiras compactas e guarda-corpo escuro",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-002/cozinha.webp",
+        "alt": "Cozinha linear com armários brancos e de madeira clara",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-002/quarto.webp",
+        "alt": "Quarto com cama de casal e roupa de cama azul-acinzentada",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-002/banheiro.webp",
+        "alt": "Banheiro claro com bancada de madeira, espelho e box de vidro junto à janela",
+        "isPrimary": false
+      }
+    ],
+    "location": {
+      "city": "Lagoa Santa",
+      "state": "MG",
+      "disclosure": "approximate",
+      "neighborhood": "Região central"
+    },
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 240000
+    },
+    "status": "active",
+    "createdAt": "2026-10-19T12:00:00.000Z",
+    "updatedAt": "2026-10-19T18:09:54.092Z"
+  },
+  {
+    "id": "MC-003",
+    "slug": "terreno-residencial-vespasiano",
+    "title": "Terreno residencial com boa topografia",
+    "type": "land",
+    "purpose": "sale",
+    "featured": false,
+    "areaInSquareMeters": 480,
+    "features": [],
+    "summary": "Um lote de 480 m² para imaginar um novo projeto residencial em Vespasiano.",
+    "description": "Terreno fictício de formato retangular e topografia suave, com área aberta e vegetação baixa. A proposta demonstrativa permite explorar como um lote residencial é apresentado no catálogo.\n\nA localização é aproximada. Qualquer possibilidade de construção depende de avaliação técnica e das regras aplicáveis ao local; não são informadas condições de infraestrutura ou aprovação.\n\nValor, área e imagens são ilustrativos e não constituem oferta comercial.",
+    "images": [
+      {
+        "src": "/images/properties/MC-003/vista-frontal.webp",
+        "alt": "Vista frontal do lote gramado delimitado por muros baixos",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-003/vista-lateral.webp",
+        "alt": "Lateral do terreno junto ao muro de blocos de concreto",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-003/vista-fundos.webp",
+        "alt": "Vista dos fundos do lote em direção à abertura frontal",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-003/topografia.webp",
+        "alt": "Perspectiva diagonal da superfície gramada e pouco inclinada",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-003/vista-diagonal.webp",
+        "alt": "Vista diagonal do terreno gramado a partir da lateral direita, com muros de blocos",
+        "isPrimary": false
+      }
+    ],
+    "location": {
+      "city": "Vespasiano",
+      "state": "MG",
+      "disclosure": "approximate"
+    },
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 24500000
+    },
+    "status": "active",
+    "createdAt": "2026-10-19T12:00:00.000Z",
+    "updatedAt": "2026-10-19T18:09:54.092Z"
+  },
+  {
+    "id": "MC-004",
+    "slug": "chacara-pomar-jaboticatubas",
+    "title": "Chácara contemporânea com pomar",
+    "type": "rural",
+    "purpose": "sale",
+    "featured": true,
+    "bedrooms": 3,
+    "suites": 1,
+    "bathrooms": 2,
+    "parkingSpaces": 3,
+    "areaInSquareMeters": 2400,
+    "features": [
+      "backyard",
+      "balcony"
+    ],
+    "summary": "Casa de linhas simples, varanda e pomar em uma proposta de refúgio em Jaboticatubas.",
+    "description": "A casa térrea combina paredes brancas, madeira natural e uma varanda coberta voltada para o verde. A sala se conecta à área externa, com espaço para estar e refeições.\n\nO terreno demonstrativo de 2.400 m² inclui gramado e um pequeno pomar. A residência possui três quartos, sendo uma suíte, e dois banheiros. O valor está sob consulta.\n\nImóvel fictício. Áreas, características e imagens são ilustrativos e não constituem oferta comercial.",
+    "images": [
+      {
+        "src": "/images/properties/MC-004/fachada.webp",
+        "alt": "Casa branca com telhado cerâmico e varanda de pilares de madeira",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-004/sala.webp",
+        "alt": "Sala com piso claro e portas de vidro voltadas à varanda",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-004/varanda.webp",
+        "alt": "Varanda coberta com mesa de madeira e vista para o gramado",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-004/pomar.webp",
+        "alt": "Árvores do pomar com a casa branca e a varanda ao fundo",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-004/cozinha.webp",
+        "alt": "Cozinha da chácara com marcenaria de madeira, ilha e abertura para a varanda",
+        "isPrimary": false
+      }
+    ],
+    "location": {
+      "city": "Jaboticatubas",
+      "state": "MG",
+      "disclosure": "approximate"
+    },
+    "price": {
+      "kind": "on_request"
+    },
+    "status": "active",
+    "createdAt": "2026-10-19T12:00:00.000Z",
+    "updatedAt": "2026-10-19T18:09:54.092Z"
+  },
+  {
+    "id": "MC-005",
+    "slug": "espaco-comercial-centro-lagoa-santa",
+    "title": "Espaço comercial versátil no Centro",
+    "type": "commercial",
+    "purpose": "rent",
+    "featured": false,
+    "bathrooms": 2,
+    "areaInSquareMeters": 110,
+    "features": [],
+    "summary": "Salão aberto com luz natural e ambientes de apoio para diferentes propostas de uso.",
+    "description": "Um espaço comercial de planta aberta, com fachada envidraçada e acabamento neutro. A área principal permite estudar diferentes formas de organizar o atendimento ou a exposição de produtos.\n\nA composição inclui uma sala de apoio, copa e dois banheiros. A adequação de cada atividade deve ser avaliada conforme suas necessidades e exigências específicas.\n\nImóvel fictício. Aluguel mensal, área, características e imagens são ilustrativos e não constituem oferta comercial.",
+    "images": [
+      {
+        "src": "/images/properties/MC-005/fachada.webp",
+        "alt": "Fachada comercial branca com vitrine de vidro sem letreiros",
+        "isPrimary": true
+      },
+      {
+        "src": "/images/properties/MC-005/salao.webp",
+        "alt": "Salão comercial vazio com piso cinza e entrada envidraçada",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-005/apoio.webp",
+        "alt": "Sala de apoio neutra com janela e acabamento claro",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-005/copa.webp",
+        "alt": "Copa compacta com bancada e armários brancos",
+        "isPrimary": false
+      },
+      {
+        "src": "/images/properties/MC-005/salao-vista-entrada.webp",
+        "alt": "Vista do salão comercial a partir da entrada, com copa e sala de apoio ao fundo",
+        "isPrimary": false
+      }
+    ],
+    "location": {
+      "city": "Lagoa Santa",
+      "state": "MG",
+      "disclosure": "approximate",
+      "neighborhood": "Centro"
+    },
+    "price": {
+      "kind": "fixed",
+      "amountInCents": 380000
+    },
+    "status": "active",
+    "createdAt": "2026-10-19T12:00:00.000Z",
+    "updatedAt": "2026-10-19T18:09:54.092Z"
+  },
+  {
+    "id": "MC-006",
+    "slug": "casa-contemporanea-quintal-confins",
+    "title": "Casa contemporânea com quintal em Confins",
+    "type": "house",
+    "purpose": "sale",
     "featured": false,
     "bedrooms": 3,
     "suites": 1,
     "bathrooms": 2,
-    "parkingSpaces": 1,
-    "location": {
-      "city": "Pedro Leopoldo",
-      "state": "MG",
-      "neighborhood": "São Geraldo",
-      "disclosure": "approximate"
-    },
-    "features": [],
-    "images": [
-      {
-        "src": "/images/properties/MC-004/frente004.jpeg",
-        "alt": "Principal",
-        "isPrimary": true
-      },
-      {
-        "src": "/images/properties/MC-004/foto2.jpeg",
-        "alt": "2",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-004/foto3.jpeg",
-        "alt": "3",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-004/foto5.jpeg",
-        "alt": "5",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-004/foto6.jpeg",
-        "alt": "6",
-        "isPrimary": false
-      }
-    ],
-    "createdAt": "2026-10-05T14:19:41.880Z",
-    "updatedAt": "2026-10-05T17:19:12.701Z",
-    "purpose": "rent",
-    "price": {
-      "kind": "fixed",
-      "amountInCents": 220000
-    }
-  },
-  {
-    "id": "MC-005",
-    "slug": "loja-rua-sao-sebastiao-50-centro-pedro-leopoldo-mc-005",
-    "title": "Loja - Rua São Sebastião 50, Centro, Pedro Leopoldo",
-    "summary": "Aluguel Loja 1 - R$ 8900,00 e também disponível Aluguel SobreLoja - R$ 4800,00",
-    "description": "Aluguel Loja 1\nR$ 8900,00\n220 m2\nVagas de estacionamento\nPorta automática\n\nAluguel Sobreloja\nR$ 4800,00\n220 m2\nVaga de estacionamento\nElevador",
-    "type": "commercial",
-    "status": "inactive",
-    "featured": true,
     "parkingSpaces": 2,
-    "areaInSquareMeters": 220,
-    "location": {
-      "city": "Pedro Leopoldo",
-      "state": "MG",
-      "neighborhood": "Centro",
-      "address": {
-        "street": "Rua São Sebastião, 50",
-        "number": "50",
-        "postalCode": "33250-000"
-      },
-      "disclosure": "exact"
-    },
+    "areaInSquareMeters": 156,
     "features": [
-      "elevator"
+      "backyard",
+      "built_in_cabinets"
     ],
+    "summary": "Linhas contemporâneas, sala integrada e quintal em uma casa pensada para o cotidiano.",
+    "description": "Uma casa térrea com volumes retos, paredes em cinza-claro e detalhes de madeira. A sala e a cozinha compartilham um ambiente aberto, com portas de vidro para o quintal.\n\nA área íntima reúne três quartos, sendo uma suíte. O jardim dos fundos oferece um espaço simples para descanso e novas ideias de paisagismo.\n\nImóvel fictício. Valor, áreas, características e imagens são ilustrativos e não constituem oferta comercial.",
     "images": [
       {
-        "src": "/images/properties/MC-005/frente005.jpeg",
-        "alt": "1",
+        "src": "/images/properties/MC-006/fachada.webp",
+        "alt": "Fachada térrea cinza-clara com painel de madeira e entrada recuada",
         "isPrimary": true
       },
       {
-        "src": "/images/properties/MC-005/foto2.jpeg",
-        "alt": "2",
+        "src": "/images/properties/MC-006/sala.webp",
+        "alt": "Sala com sofá cinza e integração à cozinha e ao quintal",
         "isPrimary": false
       },
       {
-        "src": "/images/properties/MC-005/foto3.jpeg",
-        "alt": "3",
+        "src": "/images/properties/MC-006/cozinha.webp",
+        "alt": "Cozinha branca com bancada cinza e detalhes em madeira",
         "isPrimary": false
       },
       {
-        "src": "/images/properties/MC-005/foto4.jpeg",
-        "alt": "4",
+        "src": "/images/properties/MC-006/quintal.webp",
+        "alt": "Quintal gramado junto à fachada posterior cinza-clara",
         "isPrimary": false
       },
       {
-        "src": "/images/properties/MC-005/foto5.jpeg",
-        "alt": "5",
+        "src": "/images/properties/MC-006/suite.webp",
+        "alt": "Suíte com cama de casal, cabeceira de madeira e portas de vidro para o quintal",
         "isPrimary": false
       }
     ],
-    "createdAt": "2026-10-05T14:43:11.646Z",
-    "updatedAt": "2026-10-13T12:56:53.718Z",
-    "purpose": "rent",
-    "price": {
-      "kind": "fixed",
-      "amountInCents": 890000
-    }
-  },
-  {
-    "id": "MC-006",
-    "slug": "sala-comercial-mc-006",
-    "title": "Sala comercial",
-    "summary": "Sala Comercial, aluguel no centro.",
-    "description": "Sala comercial\nRua: Dr. Cristiano Otoni, centro.\nPossuindo  divisória 01 banheiro com armário.\nR$900,00 aluguel.\n\nCondomínio\nIPTU a consultar.",
-    "type": "commercial",
-    "status": "active",
-    "featured": false,
-    "bathrooms": 1,
-    "location": {
-      "city": "Pedro Leopoldo",
-      "state": "MG",
-      "neighborhood": "Centro",
-      "disclosure": "approximate"
-    },
-    "features": [],
-    "images": [
-      {
-        "src": "/images/properties/MC-006/frente006.jpeg",
-        "alt": "1",
-        "isPrimary": true
-      },
-      {
-        "src": "/images/properties/MC-006/foto2.jpeg",
-        "alt": "2",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-006/foto3.jpeg",
-        "alt": "3",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-006/foto4.jpeg",
-        "alt": "4",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-006/foto5.jpeg",
-        "alt": "5",
-        "isPrimary": false
-      }
-    ],
-    "createdAt": "2026-10-05T14:47:15.473Z",
-    "updatedAt": "2026-10-05T17:21:00.652Z",
-    "purpose": "rent",
-    "price": {
-      "kind": "fixed",
-      "amountInCents": 90000
-    }
-  },
-  {
-    "id": "MC-007",
-    "slug": "casa-no-condominio-gran-royalle-mc-007",
-    "title": "Casa no condomínio Gran Royalle",
-    "summary": "Casa com: jardim projeto, espaços térreo amplos, cozinha planejada, lazer com piscina e espaço íntimo com muito conforto.",
-    "description": "Casa no condomínio Gran Royalle.\nJardim projetado.\nEspaços térreo amplos.\nCozinha planejada,\nLazer com piscina,\nEspaço íntimo com muito conforto\nR$10.000,00 aluguel.\nCondomínio: varia geralmente entre R$ 730 e R$ 1.050 por mês\n\nSofisticação, lazer completo e muito espaço para a sua família.\nSe você busca o equilíbrio perfeito entre o luxo urbano e a tranquilidade da natureza, esta propriedade é o seu próximo destino.\nProjetada com foco no conforto e na convivência, a residência se destaca pelo acabamento impecável e excelente distribuição de ambientes.\n• Destaques Internos:\n\t• 05 Quartos amplos, incluindo uma magnífica suíte master com closet totalmente planejado.\n\t• 05 Banheiros com revestimentos modernos e armários embutidos.\n\t• Cozinha planejada equipada com bancadas completas e marcenaria de alto padrão.\n\t• Sala de jogos privativa, ideal para momentos de entretenimento e descontração.\n• Área Externa e Lazer Privativo:\n\t• Espetacular área de lazer com uma convidativa piscina integrada ao espaço gourmet.\n\t• Jardins projetados com paisagismo completo que emolduram a fachada e as áreas de convivência.\n\t• Ampla área gramada (quintal), oferecendo espaço de sobra para crianças, pets ou futuras expansões.\nTudo isso inserido na segurança inigualável e na infraestrutura de lazer .",
-    "type": "house",
-    "status": "active",
-    "featured": true,
-    "bedrooms": 5,
-    "suites": 1,
-    "bathrooms": 5,
-    "parkingSpaces": 3,
-    "additionalCosts": {
-      "condominiumFeeInCents": 105000
-    },
     "location": {
       "city": "Confins",
       "state": "MG",
-      "neighborhood": "Gran Roylle Aeropor",
       "disclosure": "approximate"
     },
-    "features": [
-      "pool",
-      "balcony",
-      "gourmet_area",
-      "concierge",
-      "backyard",
-      "furnished",
-      "gated_community",
-      "built_in_cabinets"
-    ],
-    "images": [
-      {
-        "src": "/images/properties/MC-007/frente007.jpeg",
-        "alt": "1",
-        "isPrimary": true
-      },
-      {
-        "src": "/images/properties/MC-007/foto2.jpeg",
-        "alt": "2",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-007/foto3.jpeg",
-        "alt": "3",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-007/foto4.jpeg",
-        "alt": "4",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-007/foto5.jpeg",
-        "alt": "5",
-        "isPrimary": false
-      }
-    ],
-    "createdAt": "2026-10-05T14:56:34.728Z",
-    "updatedAt": "2026-10-05T17:24:19.584Z",
-    "purpose": "rent",
     "price": {
       "kind": "fixed",
-      "amountInCents": 1000000
-    }
-  },
-  {
-    "id": "MC-008",
-    "slug": "loja-comendador-antonio-alves-mc-008",
-    "title": "Loja - Comendador Antonio Alves",
-    "summary": "Loja comercial para aluguel na Rua Comendador Antônio Alves",
-    "description": "Loja\nRua comendador Antonio Alves, 86, centro.\nLoja com possuindo 42,00 mts e 1 banheiro.\nR$1.200,00 aluguel\nComercial",
-    "type": "commercial",
+      "amountInCents": 69500000
+    },
     "status": "active",
-    "featured": true,
-    "bathrooms": 1,
-    "areaInSquareMeters": 42,
-    "location": {
-      "city": "Pedro Leopoldo",
-      "state": "MG",
-      "neighborhood": "Centro",
-      "address": {
-        "street": "Rua Comendador Antônio Alves",
-        "number": "86",
-        "postalCode": "33250-033"
-      },
-      "disclosure": "exact"
-    },
-    "features": [],
-    "images": [
-      {
-        "src": "/images/properties/MC-008/frente008.jpeg",
-        "alt": "1",
-        "isPrimary": true
-      },
-      {
-        "src": "/images/properties/MC-008/foto2.jpeg",
-        "alt": "2",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-008/foto3.jpeg",
-        "alt": "3",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-008/foto4.jpeg",
-        "alt": "4",
-        "isPrimary": false
-      }
-    ],
-    "createdAt": "2026-10-05T15:01:12.668Z",
-    "updatedAt": "2026-10-05T17:25:57.062Z",
-    "purpose": "rent",
-    "price": {
-      "kind": "fixed",
-      "amountInCents": 120000
-    }
-  },
-  {
-    "id": "MC-009",
-    "slug": "apartamento-rua-salgado-filho-centro-mc-009",
-    "title": "Apartamento - Rua Salgado filho centro",
-    "summary": "Apartamento - Rua Salgado filho centro",
-    "description": "Apartamento\nRua Salgado filho centro.\nPossuindo 03 quartos com varanda,sala com varanda, banheiro social, banheiro suíte, cozinha com armários, garagem 2 vagas.\nPrincipais características/diferenciais: varandas, cozinha planejada, banheiros com armários.\nR$2.500,00",
-    "type": "apartment",
-    "status": "active",
-    "featured": true,
-    "bedrooms": 2,
-    "suites": 1,
-    "bathrooms": 2,
-    "parkingSpaces": 2,
-    "areaInSquareMeters": 120,
-    "additionalCosts": {
-      "condominiumFeeInCents": 37000
-    },
-    "location": {
-      "city": "Pedro Leopoldo",
-      "state": "MG",
-      "neighborhood": "Centro",
-      "disclosure": "approximate"
-    },
-    "features": [
-      "balcony"
-    ],
-    "images": [
-      {
-        "src": "/images/properties/MC-009/1.jpeg",
-        "alt": "1",
-        "isPrimary": true
-      },
-      {
-        "src": "/images/properties/MC-009/2.jpeg",
-        "alt": "2",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-009/3.jpeg",
-        "alt": "3",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-009/4.jpeg",
-        "alt": "4",
-        "isPrimary": false
-      },
-      {
-        "src": "/images/properties/MC-009/5.jpeg",
-        "alt": "5",
-        "isPrimary": false
-      }
-    ],
-    "createdAt": "2026-10-13T12:54:17.309Z",
-    "updatedAt": "2026-10-13T12:58:49.269Z",
-    "purpose": "rent",
-    "price": {
-      "kind": "fixed",
-      "amountInCents": 250000
-    }
+    "createdAt": "2026-10-19T12:00:00.000Z",
+    "updatedAt": "2026-10-19T18:09:54.092Z"
   }
 ]

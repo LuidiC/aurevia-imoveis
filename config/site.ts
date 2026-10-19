@@ -1,64 +1,47 @@
-type BusinessDetails = Readonly<{
-  summary: string;
-  address: Readonly<{
-    street: string;
-    number: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-    country: string;
-  }>;
-  openingHours?: string;
-}>;
-
-const businessDetails: BusinessDetails = {
-  summary:
-    "Há mais de 30 anos, a Marli Corretora atua em Pedro Leopoldo/MG e região com venda e aluguel de imóveis urbanos, terrenos e imóveis rurais.",
-  address: {
-    street: "Rua Jockey Club",
-    number: "281",
-    neighborhood: "Centro",
-    city: "Pedro Leopoldo",
-    state: "MG",
-    country: "Brasil",
-  },
-};
+const phoneDigits = "5531996930657";
+const phoneDisplay = "(31) 99693-0657";
+const phoneE164 = `+${phoneDigits}`;
+const name = "Aurévia Imóveis";
 
 export const SITE_CONFIG = {
-  name: "Marli Corretora",
+  name,
   brand: {
-    logoSrc: "/brand/marli-corretora-logo-transparent.png",
+    wordmark: "Aurévia",
+    descriptor: "Imóveis",
+    logoSrc: "/brand/aurevia-symbol.svg",
+    inverseLogoSrc: "/brand/aurevia-symbol-inverse.svg",
+    accessibleName: `${name} — página inicial`,
   },
   description:
-    "Imóveis em Pedro Leopoldo, Minas Gerais, e região, com atendimento próximo e mais de 30 anos de experiência.",
+    "Curadoria imobiliária clara, contemporânea e próxima em Lagoa Santa/MG e Vetor Norte. Encontre imóveis para comprar ou alugar.",
   locale: "pt-BR",
-  serviceArea: "Pedro Leopoldo/MG e região",
-  location: {
-    city: "Pedro Leopoldo",
-    state: "MG",
-    country: "Brasil",
-  },
+  serviceArea: "Lagoa Santa/MG e Vetor Norte",
+  location: { city: "Lagoa Santa", state: "MG", country: "Brasil" },
   contacts: {
-    phone: {
-      display: "(31) 98504-3482",
-      e164: "+5531985043482",
-      href: "tel:+5531985043482",
-    },
+    phone: { display: phoneDisplay, e164: phoneE164, href: `tel:${phoneE164}` },
     whatsapp: {
-      display: "(31) 98504-3482",
-      e164: "+5531985043482",
-      digits: "5531985043482",
-      defaultMessage:
-        "Olá! Vim pelo site da Marli Corretora e gostaria de mais informações.",
+      display: phoneDisplay,
+      e164: phoneE164,
+      digits: phoneDigits,
+      defaultMessage: `Olá! Vim pelo site da ${name} e gostaria de mais informações.`,
+      searchMessage: `Olá! Vim pelo site da ${name} e gostaria de ajuda para encontrar um imóvel.`,
     },
     instagram: {
-      display: "@marliccorretora_",
-      href: "https://www.instagram.com/marliccorretora_",
+      display: "@pablo_.matoso",
+      href: "https://www.instagram.com/pablo_.matoso?srtk=cTg1ZzFkb3Jzb2I5",
     },
   },
-  business: businessDetails,
-  domain: {
-    planned: "marlicorretora.com.br",
-    isActive: false,
+  business: {
+    summary:
+      "A Aurévia Imóveis conecta pessoas a espaços que combinam com seus planos, com atendimento próximo, informação clara e uma seleção cuidadosa de imóveis no Vetor Norte de Minas.",
+    address: {
+      street: "Avenida Horizonte", number: "120", neighborhood: "Centro",
+      city: "Lagoa Santa", state: "MG", country: "Brasil",
+    },
+    openingHours: "Segunda a sexta, das 9h às 18h; sábado com agendamento",
+    isDemonstrative: true,
   },
+  demonstrationNotice:
+    "Projeto demonstrativo. Marca, imóveis, imagens e informações são meramente ilustrativos.",
+  domain: { planned: "aurevia-imoveis.example", isActive: false },
 } as const;

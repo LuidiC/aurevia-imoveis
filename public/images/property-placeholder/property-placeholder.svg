@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
   <title id="title">Imagem indisponível</title>
   <desc id="description">Composição neutra usada quando a imagem do imóvel não pode ser exibida.</desc>
-  <rect width="1200" height="800" fill="#e9ece8"/>
-  <circle cx="980" cy="120" r="220" fill="#dfe7e2"/>
-  <path d="M358 436 600 240l242 196v208H358V436Zm146 208V474h192v170" fill="none" stroke="#718078" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/>
-  <text x="600" y="730" fill="#5f6763" font-family="Arial, sans-serif" font-size="30" text-anchor="middle">Imagem temporariamente indisponível</text>
+  <rect width="1200" height="800" fill="#eaf2f6"/>
+  <circle cx="980" cy="120" r="220" fill="#dceef5"/>
+  <path d="M358 436 600 240l242 196v208H358V436Zm146 208V474h192v170" fill="none" stroke="#d3e0e6" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/>
+  <text x="600" y="730" fill="#a8bdc8" font-family="Arial, sans-serif" font-size="30" text-anchor="middle">Imagem temporariamente indisponível</text>
 </svg>

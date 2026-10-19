@@ -4,6 +4,7 @@ import { PropertyCard } from "@/components/property/property-card";
 import { buttonStyles } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SITE_CONFIG } from "@/config/site";
 import { getFeaturedProperties } from "@/lib/properties";
 
 const MAX_HOME_FEATURED_PROPERTIES = 3;
@@ -20,7 +21,7 @@ export function FeaturedPropertiesSection() {
         <div className="flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between">
           <SectionHeading
             description="Uma seleção enxuta para você começar a conhecer as oportunidades disponíveis."
-            eyebrow="Seleção da Marli"
+            eyebrow={`Seleção da ${SITE_CONFIG.brand.wordmark}`}
             title="Imóveis em destaque"
           />
           <Link

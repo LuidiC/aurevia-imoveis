@@ -13,7 +13,7 @@ import { propertySchema } from "../schemas/property";
 import { onRequestSaleProperty, validSaleProperty } from "./fixtures/properties";
 
 test("builds an encoded place Embed URL from an address", () => {
-  const query = "Rua Jockey Club, 281, Centro, Pedro Leopoldo/MG, Brasil";
+  const query = "Avenida Horizonte, 120, Centro, Lagoa Santa/MG, Brasil";
   const url = new URL(buildGoogleMapsPlaceEmbedUrl(query, "test-key") ?? "");
 
   assert.equal(url.pathname, "/maps/embed/v1/place");
@@ -22,7 +22,7 @@ test("builds an encoded place Embed URL from an address", () => {
 });
 
 test("builds a driving directions Embed URL from current coordinates", () => {
-  const destination = "Rua Jockey Club, 281, Centro, Pedro Leopoldo/MG, Brasil";
+  const destination = "Avenida Horizonte, 120, Centro, Lagoa Santa/MG, Brasil";
   const url = new URL(
     buildGoogleMapsDirectionsEmbedUrl(
       destination,
@@ -40,12 +40,12 @@ test("builds a driving directions Embed URL from current coordinates", () => {
 
 test("does not build an Embed URL without an API key", () => {
   assert.equal(
-    buildGoogleMapsPlaceEmbedUrl("Pedro Leopoldo, MG", undefined),
+    buildGoogleMapsPlaceEmbedUrl("Lagoa Santa, MG", undefined),
     undefined,
   );
   assert.equal(
     buildGoogleMapsDirectionsEmbedUrl(
-      "Pedro Leopoldo, MG",
+      "Lagoa Santa, MG",
       { latitude: -19.6243, longitude: -44.0403 },
       "",
     ),
@@ -75,7 +75,7 @@ test("creates Google Maps configuration from an exact property address", () => {
 
   assert.equal(
     location?.destination,
-    "Rua de Teste, 100, Centro, Pedro Leopoldo, MG, 33600-000, Brasil",
+    "Rua de Teste, 100, Centro, Lagoa Santa, MG, 33600-000, Brasil",
   );
   assert.equal(
     new URL(location?.directionsUrl ?? "https://invalid.test").searchParams.get(
@@ -103,6 +103,6 @@ test("prefers explicitly registered coordinates for an exact property", () => {
 test("uses the configured institutional address as the headquarters destination", () => {
   assert.equal(
     getBusinessAddressQuery(SITE_CONFIG.business.address),
-    "Rua Jockey Club, 281, Centro, Pedro Leopoldo/MG, Brasil",
+    "Avenida Horizonte, 120, Centro, Lagoa Santa/MG, Brasil",
   );
 });

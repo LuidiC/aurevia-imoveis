@@ -39,8 +39,10 @@ export const CATALOG_PROPERTY_TYPES = [
 
 export const PROPERTY_CITY_OPTIONS = [
   { value: "", label: "Todas as cidades" },
-  { value: "Pedro Leopoldo", label: "Pedro Leopoldo" },
-  { value: "Matozinhos", label: "Matozinhos" },
+  { value: "Lagoa Santa", label: "Lagoa Santa" },
+  { value: "Vespasiano", label: "Vespasiano" },
+  { value: "Jaboticatubas", label: "Jaboticatubas" },
+  { value: "Confins", label: "Confins" },
 ] as const;
 
 type PropertyCity = Exclude<(typeof PROPERTY_CITY_OPTIONS)[number]["value"], "">;

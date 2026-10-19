@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useMemo, useState } from "react";
 
 import type { PropertyImage } from "@/types/property";
 
@@ -15,35 +15,7 @@ type PropertyGalleryProps = Readonly<{
   images: readonly PropertyImage[];
 }>;
 
-type GalleryViewport = "mobile" | "desktop" | null;
-
-const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
-
-function subscribeToViewport(onStoreChange: () => void): () => void {
-  const mediaQuery = window.matchMedia(DESKTOP_MEDIA_QUERY);
-  mediaQuery.addEventListener("change", onStoreChange);
-
-  return () => mediaQuery.removeEventListener("change", onStoreChange);
-}
-
-function getViewportSnapshot(): GalleryViewport {
-  return window.matchMedia(DESKTOP_MEDIA_QUERY).matches ? "desktop" : "mobile";
-}
-
-function getServerViewportSnapshot(): GalleryViewport {
-  return null;
-}
-
-function useGalleryViewport(): GalleryViewport {
-  return useSyncExternalStore(
-    subscribeToViewport,
-    getViewportSnapshot,
-    getServerViewportSnapshot,
-  );
-}
-
 export function PropertyGallery({ images }: PropertyGalleryProps) {
-  const viewport = useGalleryViewport();
   const displayImages = useMemo(() => {
     if (images.length === 0) return [FALLBACK_IMAGE];
 
@@ -105,8 +77,8 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
             src={selectedImage.src}
           />
 
-          {hasMultipleImages && viewport === "desktop" ? (
-            <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-4">
+          {hasMultipleImages ? (
+            <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-4 sm:inset-x-4 sm:bottom-4">
               <div className="flex gap-2">
                 <button
                   aria-label="Mostrar imagem anterior"
@@ -135,18 +107,11 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
               </p>
             </div>
           ) : null}
-
-          {hasMultipleImages && viewport === "mobile" ? (
-            <p className="absolute bottom-3 right-3 rounded-full bg-foreground/80 px-3 py-1.5 text-xs font-bold text-white shadow-control sm:bottom-4 sm:right-4">
-              <span className="sr-only">Imagem </span>
-              {safeSelectedIndex + 1} / {displayImages.length}
-            </p>
-          ) : null}
         </div>
 
-        {hasMultipleImages && viewport === "desktop" ? (
+        {hasMultipleImages ? (
           <div
-            className={`grid h-full gap-3 ${
+            className={`hidden h-full gap-3 lg:grid ${
               secondaryImages.length > 1 ? "grid-rows-2" : "grid-rows-1"
             }`}
           >
@@ -177,8 +142,8 @@ export function PropertyGallery({ images }: PropertyGalleryProps) {
         ) : null}
       </div>
 
-      {hasMultipleImages && viewport === "mobile" ? (
-        <div className="mt-3 overflow-x-auto pb-1 sm:mt-4">
+      {hasMultipleImages ? (
+        <div className="mt-3 overflow-x-auto pb-1 sm:mt-4 lg:hidden">
           <div className="flex min-w-max gap-3 sm:grid sm:min-w-0 sm:grid-cols-5">
             {displayImages.map((image, index) => (
               <button

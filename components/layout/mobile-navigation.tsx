@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { buttonStyles } from "@/components/ui/button";
 import type { SiteNavigationItem } from "@/config/navigation";
+import { SITE_CONFIG } from "@/config/site";
 import type { ActiveNavigationHref } from "@/lib/navigation/active-navigation";
 
 type MobileNavigationProps = Readonly<{
@@ -12,7 +13,6 @@ type MobileNavigationProps = Readonly<{
   items: readonly SiteNavigationItem[];
   onNavigate: (href: SiteNavigationItem["href"]) => void;
   whatsappHref: string;
-  isTransparent?: boolean;
 }>;
 
 export function MobileNavigation({
@@ -20,7 +20,6 @@ export function MobileNavigation({
   items,
   onNavigate,
   whatsappHref,
-  isTransparent = false,
 }: MobileNavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -58,11 +57,7 @@ export function MobileNavigation({
         aria-controls="mobile-primary-navigation"
         aria-expanded={isOpen}
         aria-label={isOpen ? "Fechar menu principal" : "Abrir menu principal"}
-        className={`inline-flex min-h-11 items-center gap-2 rounded-md px-3.5 text-sm font-semibold transition-all duration-300 ${
-          isTransparent && !isOpen
-            ? "border border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-            : "border border-border-strong bg-surface text-foreground hover:border-primary hover:text-primary"
-        }`}
+        className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border-strong bg-surface px-3.5 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
         onClick={() => setIsOpen((current) => !current)}
         ref={toggleRef}
         type="button"
@@ -120,7 +115,7 @@ export function MobileNavigation({
           </ul>
 
           <a
-            aria-label="Falar com a Marli Corretora no WhatsApp; abre em uma nova aba"
+            aria-label={`Falar com a ${SITE_CONFIG.name} no WhatsApp; abre em uma nova aba`}
             className={buttonStyles({
               className: "mt-4 w-full",
             })}

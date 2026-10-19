@@ -53,7 +53,7 @@ test("metadata ahead of catalog is never reduced", async (context) => {
 });
 
 test("missing metadata is safely initialized from the current catalog", async (context) => {
-  const directory = await mkdtemp(path.join(tmpdir(), "marli-id-state-"));
+  const directory = await mkdtemp(path.join(tmpdir(), "aurevia-id-state-"));
   context.after(() => rm(directory, { recursive: true, force: true }));
   const stateFile = path.join(directory, "property-id-state.json");
 
@@ -134,7 +134,7 @@ test("MC-999 advances to MC-1000 with persisted metadata", () => {
 });
 
 test("invalid metadata is rejected", async (context) => {
-  const directory = await mkdtemp(path.join(tmpdir(), "marli-id-state-"));
+  const directory = await mkdtemp(path.join(tmpdir(), "aurevia-id-state-"));
   context.after(() => rm(directory, { recursive: true, force: true }));
   const stateFile = path.join(directory, "property-id-state.json");
   await writeFile(stateFile, '{"lastIssuedSequence":-1}', "utf8");
@@ -149,7 +149,7 @@ async function createStateFixture(
   context: test.TestContext,
   lastIssuedSequence: number,
 ): Promise<{ directory: string; stateFile: string }> {
-  const directory = await mkdtemp(path.join(tmpdir(), "marli-id-state-"));
+  const directory = await mkdtemp(path.join(tmpdir(), "aurevia-id-state-"));
   context.after(() => rm(directory, { recursive: true, force: true }));
   const stateFile = path.join(directory, "property-id-state.json");
   await writePropertyIdState(stateFile, { lastIssuedSequence });

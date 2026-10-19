@@ -13,7 +13,7 @@ const buttonVariants = {
 
 const buttonSizes = {
   default: "min-h-11 px-5 py-2.5",
-  small: "min-h-10 px-4 py-2 text-sm",
+  small: "min-h-11 px-4 py-2 text-sm",
 } as const;
 
 export type ButtonVariant = keyof typeof buttonVariants;

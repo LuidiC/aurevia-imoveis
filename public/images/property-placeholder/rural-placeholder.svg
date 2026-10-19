@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
   <title id="title">Imóvel rural fictício</title>
   <desc id="description">Composição gráfica neutra criada apenas para demonstrar o card.</desc>
-  <rect width="1200" height="800" fill="#e7e4d6"/>
-  <circle cx="940" cy="150" r="90" fill="#d8cfaf"/>
-  <path d="M0 510 210 370l190 110 220-190 210 160 150-80 220 140v290H0V510Z" fill="#c8ceb3"/>
-  <path d="M0 640c240-95 420-55 600 10s360 85 600-15v165H0V640Z" fill="#aeb99a"/>
-  <path d="m420 570 140-100 140 100v125H420V570Zm60 125v-86h65v86m155-125 90-65 90 65v125H700" fill="none" stroke="#65705b" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"/>
+  <rect width="1200" height="800" fill="#eaf2f6"/>
+  <circle cx="940" cy="150" r="90" fill="#dceef5"/>
+  <path d="M0 510 210 370l190 110 220-190 210 160 150-80 220 140v290H0V510Z" fill="#d3e0e6"/>
+  <path d="M0 640c240-95 420-55 600 10s360 85 600-15v165H0V640Z" fill="#a8bdc8"/>
+  <path d="m420 570 140-100 140 100v125H420V570Zm60 125v-86h65v86m155-125 90-65 90 65v125H700" fill="none" stroke="#246b8a" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"/>
 </svg>

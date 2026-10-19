@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
 import { buttonStyles } from "@/components/ui/button";
 import type { SiteNavigationItem } from "@/config/navigation";
+import { SITE_CONFIG } from "@/config/site";
 import {
   getActiveNavigationHref,
   type HomeSection,
@@ -15,7 +16,6 @@ import {
 type SiteNavigationProps = Readonly<{
   items: readonly SiteNavigationItem[];
   whatsappHref: string;
-  isTransparent?: boolean;
 }>;
 
 const OBSERVED_HOME_SECTIONS = ["sobre", "contato"] as const;
@@ -23,7 +23,6 @@ const OBSERVED_HOME_SECTIONS = ["sobre", "contato"] as const;
 export function SiteNavigation({
   items,
   whatsappHref,
-  isTransparent = false,
 }: SiteNavigationProps) {
   const pathname = usePathname();
   const [hash, setHash] = useState("");
@@ -129,9 +128,7 @@ export function SiteNavigation({
       <div className="hidden items-center gap-6 lg:flex xl:gap-8">
         <nav aria-label="Navegação principal">
           <ul
-            className={`flex items-center gap-2 text-sm transition-colors duration-300 xl:gap-3 ${
-              isTransparent ? "text-white" : "text-muted-foreground"
-            }`}
+            className="flex items-center gap-2 text-sm text-muted-foreground xl:gap-3"
           >
             {items.map((item) => {
               const isActive = activeHref === item.href;
@@ -146,15 +143,7 @@ export function SiteNavigation({
                           : "page"
                         : undefined
                     }
-                    className={`inline-flex min-h-11 items-center rounded-md px-3 font-semibold transition-all duration-200 ${
-                      isTransparent
-                        ? isActive
-                          ? "bg-white/15 text-white backdrop-blur-sm"
-                          : "text-white hover:bg-white/10 hover:text-white"
-                        : isActive
-                          ? "bg-primary text-primary-foreground"
-                          : "hover:bg-accent hover:text-accent-foreground"
-                    }`}
+                    className={`inline-flex min-h-11 items-center rounded-md px-3 font-semibold transition-colors ${isActive ? "bg-primary text-primary-foreground" : "hover:bg-accent hover:text-accent-foreground"}`}
                     href={item.href}
                     onClick={() => handleNavigationSelection(item.href)}
                   >
@@ -167,21 +156,8 @@ export function SiteNavigation({
         </nav>
 
         <a
-          aria-label="Falar com a Marli Corretora no WhatsApp; abre em uma nova aba"
-          className={buttonStyles({
-            className: `
-              whitespace-nowrap
-              transition-all
-              duration-300
-              hover:-translate-y-0.5
-              hover:shadow-lg
-              ${
-                isTransparent
-                  ? "border border-white/20 bg-primary/90 backdrop-blur-sm"
-                  : ""
-              }
-            `,
-          })}
+          aria-label={`Falar com a ${SITE_CONFIG.name} no WhatsApp; abre em uma nova aba`}
+          className={buttonStyles({ className: "whitespace-nowrap" })}
           href={whatsappHref}
           rel="noopener noreferrer"
           target="_blank"
@@ -192,7 +168,6 @@ export function SiteNavigation({
 
       <MobileNavigation
         activeHref={activeHref}
-        isTransparent={isTransparent}
         items={items}
         onNavigate={handleNavigationSelection}
         whatsappHref={whatsappHref}

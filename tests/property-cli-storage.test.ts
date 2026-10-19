@@ -14,7 +14,7 @@ import {
 import { validSaleProperty } from "./fixtures/properties";
 
 test("writes and reloads a validated catalog without touching real data", async (context) => {
-  const directory = await mkdtemp(path.join(tmpdir(), "marli-properties-"));
+  const directory = await mkdtemp(path.join(tmpdir(), "aurevia-properties-"));
   context.after(() => rm(directory, { recursive: true, force: true }));
   const filePath = path.join(directory, "properties.json");
   const property = propertySchema.parse(validSaleProperty);
@@ -29,7 +29,7 @@ test("writes and reloads a validated catalog without touching real data", async 
 });
 
 test("rejects an invalid catalog with duplicate IDs", async (context) => {
-  const directory = await mkdtemp(path.join(tmpdir(), "marli-properties-"));
+  const directory = await mkdtemp(path.join(tmpdir(), "aurevia-properties-"));
   context.after(() => rm(directory, { recursive: true, force: true }));
   const filePath = path.join(directory, "properties.json");
   await writeFile(
@@ -42,7 +42,7 @@ test("rejects an invalid catalog with duplicate IDs", async (context) => {
 });
 
 test("rejects an invalid catalog with duplicate slugs", async (context) => {
-  const directory = await mkdtemp(path.join(tmpdir(), "marli-properties-"));
+  const directory = await mkdtemp(path.join(tmpdir(), "aurevia-properties-"));
   context.after(() => rm(directory, { recursive: true, force: true }));
   const filePath = path.join(directory, "properties.json");
   await writeFile(
@@ -100,7 +100,7 @@ test("rejects remote image URLs", () => {
 });
 
 test("does not validate a local image resolved outside public", async (context) => {
-  const directory = await mkdtemp(path.join(tmpdir(), "marli-images-"));
+  const directory = await mkdtemp(path.join(tmpdir(), "aurevia-images-"));
   context.after(() => rm(directory, { recursive: true, force: true }));
   const publicDirectory = path.join(directory, "public");
   await mkdir(publicDirectory, { recursive: true });
@@ -141,7 +141,7 @@ test("does not validate remote image URLs", async () => {
 });
 
 test("validates local image existence and allowed extensions", async (context) => {
-  const directory = await mkdtemp(path.join(tmpdir(), "marli-images-"));
+  const directory = await mkdtemp(path.join(tmpdir(), "aurevia-images-"));
   context.after(() => rm(directory, { recursive: true, force: true }));
   const imageDirectory = path.join(directory, "images", "properties", "MC-001");
   await mkdir(imageDirectory, { recursive: true });

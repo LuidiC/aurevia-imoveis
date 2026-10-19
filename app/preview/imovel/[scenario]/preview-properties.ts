@@ -25,7 +25,7 @@ const previewProperties = propertyCollectionSchema.parse([
       propertyTaxInCents: 135_000,
     },
     location: {
-      city: "Pedro Leopoldo",
+      city: "Lagoa Santa",
       state: "MG",
       neighborhood: "Centro",
       disclosure: "approximate",
@@ -65,7 +65,7 @@ const previewProperties = propertyCollectionSchema.parse([
   {
     id: "MC-902",
     slug: "preview-terreno-venda",
-    title: "Terreno à venda em área residencial tranquila de Pedro Leopoldo",
+    title: "Terreno à venda em área residencial tranquila de Lagoa Santa",
     summary: "Cenário isolado para validar terreno com poucos atributos.",
     description:
       "Cenário de preview criado para verificar um imóvel sem dormitórios, suítes, banheiros ou vagas, mantendo apenas as informações que fazem sentido para um terreno.",
@@ -76,7 +76,7 @@ const previewProperties = propertyCollectionSchema.parse([
     featured: false,
     areaInSquareMeters: 720,
     location: {
-      city: "Pedro Leopoldo",
+      city: "Lagoa Santa",
       state: "MG",
       neighborhood: "Região residencial",
       disclosure: "approximate",
@@ -108,7 +108,7 @@ const previewProperties = propertyCollectionSchema.parse([
     bathrooms: 1,
     areaInSquareMeters: 96,
     location: {
-      city: "Pedro Leopoldo",
+      city: "Lagoa Santa",
       state: "MG",
       disclosure: "approximate",
     },

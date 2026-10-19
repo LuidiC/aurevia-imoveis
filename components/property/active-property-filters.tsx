@@ -48,7 +48,7 @@ export function ActivePropertyFilters({ search }: ActivePropertyFiltersProps) {
       {filters.map((filter) => (
         <Link
           aria-label={`Remover filtro ${filter.label}`}
-          className="inline-flex min-h-9 items-center gap-2 rounded-full border border-border-strong bg-surface px-3.5 py-1.5 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:bg-accent hover:text-accent-foreground"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border-strong bg-surface px-3.5 py-1.5 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:bg-accent hover:text-accent-foreground"
           href={buildPropertyCatalogUrl({ ...search, [filter.key]: "" })}
           key={filter.key}
           scroll={false}
@@ -58,7 +58,7 @@ export function ActivePropertyFilters({ search }: ActivePropertyFiltersProps) {
         </Link>
       ))}
       <Link
-        className="inline-flex min-h-9 items-center px-2 text-sm font-semibold text-primary underline decoration-primary/35 underline-offset-4 transition-colors hover:text-primary-hover"
+        className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-primary underline decoration-primary/35 underline-offset-4 transition-colors hover:text-primary-hover"
         href="/imoveis"
         scroll={false}
       >

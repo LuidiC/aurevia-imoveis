@@ -31,16 +31,16 @@ test("builds the Home search URL with a selected city", () => {
   assert.equal(
     buildPropertySearchUrl({
       purpose: "sale",
-      location: "Pedro Leopoldo",
+      location: "Lagoa Santa",
     }),
-    "/imoveis?purpose=sale&location=Pedro+Leopoldo",
+    "/imoveis?purpose=sale&location=Lagoa+Santa",
   );
   assert.equal(
     buildPropertySearchUrl({
       purpose: "rent",
-      location: "Matozinhos",
+      location: "Vespasiano",
     }),
-    "/imoveis?purpose=rent&location=Matozinhos",
+    "/imoveis?purpose=rent&location=Vespasiano",
   );
 });
 
@@ -129,12 +129,12 @@ test("converts URL prices in reais to domain prices in cents", () => {
 });
 
 test("maps UI city values to an exact city domain filter", () => {
-  const search = parsePropertySearchParams({ location: "Pedro Leopoldo" });
+  const search = parsePropertySearchParams({ location: "Lagoa Santa" });
 
   assert.deepEqual(getPropertyFiltersFromSearch(search), {
     purpose: undefined,
     type: undefined,
-    city: "Pedro Leopoldo",
+    city: "Lagoa Santa",
     maxPriceInCents: undefined,
     minBedrooms: undefined,
     sort: undefined,

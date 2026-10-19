@@ -114,7 +114,7 @@ async function createNextIdFixture(
   lastIssuedSequence: number | undefined,
   ids: readonly string[],
 ) {
-  const root = await mkdtemp(path.join(tmpdir(), "marli-next-id-"));
+  const root = await mkdtemp(path.join(tmpdir(), "aurevia-next-id-"));
   context.after(() => rm(root, { recursive: true, force: true }));
   const dataFile = path.join(root, "data", "properties.json");
   const stateFile = path.join(root, "data", "property-id-state.json");

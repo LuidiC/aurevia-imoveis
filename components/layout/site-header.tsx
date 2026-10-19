@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { BrandLogo } from "@/components/layout/brand-logo";
 import { SiteNavigation } from "@/components/layout/site-navigation";
 import { Container } from "@/components/ui/container";
 import { SITE_NAVIGATION } from "@/config/navigation";
@@ -13,83 +14,30 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp/build-whatsapp-url";
 export function SiteHeader() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
-
   const isHomePage = pathname === "/";
-
-  const whatsappHref = buildWhatsAppUrl(
-    SITE_CONFIG.contacts.whatsapp.defaultMessage,
-  );
+  const whatsappHref = buildWhatsAppUrl(SITE_CONFIG.contacts.whatsapp.defaultMessage);
 
   useEffect(() => {
     function handleScroll() {
       setIsScrolled(window.scrollY > 40);
     }
-
     handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isTransparent = isHomePage && !isScrolled;
+  const position = isHomePage ? "fixed inset-x-0 top-0" : "sticky top-0";
+  const surface = isHomePage && !isScrolled
+    ? "bg-white/95"
+    : "bg-white shadow-soft";
 
   return (
-   <header
-
-  className={`z-40 transition-all duration-300 ${
-
-    isHomePage
-
-      ? "fixed inset-x-0 top-0"
-
-      : "sticky top-0"
-
-  } ${
-
-    isTransparent
-
-      ? "border-b border-transparent bg-transparent"
-
-      : "border-b border-border bg-white/95 shadow-sm backdrop-blur-md"
-
-  }`}
-
->
+    <header className={`z-40 border-b border-border transition-[background-color,box-shadow] duration-300 ${position} ${surface}`}>
       <Container className="relative flex min-h-20 items-center justify-between gap-4 lg:min-h-24 lg:gap-8">
-        <Link
-          aria-label="Marli Corretora — página inicial"
-          className="shrink-0"
-          href="/"
-        >
-          <div className="relative h-16 w-36 lg:h-20 lg:w-[11.25rem]">
-            <img
-              src="/brand/marli-corretora-logo-transparent-white.png"
-              alt="Marli Corretora"
-              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ${
-                isTransparent ? "opacity-100" : "opacity-0"
-              }`}
-            />
-
-            <img
-              src="/brand/marli-corretora-logo-transparent.png"
-              alt="Marli Corretora"
-              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ${
-                isTransparent ? "opacity-0" : "opacity-100"
-              }`}
-            />
-          </div>
+        <Link aria-label={SITE_CONFIG.brand.accessibleName} className="shrink-0 rounded-sm" href="/">
+          <BrandLogo priority />
         </Link>
-
-        <SiteNavigation
-          isTransparent={isTransparent}
-          items={SITE_NAVIGATION}
-          whatsappHref={whatsappHref}
-        />
+        <SiteNavigation items={SITE_NAVIGATION} whatsappHref={whatsappHref} />
       </Container>
     </header>
   );

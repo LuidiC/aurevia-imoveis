@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title description">
   <title id="title">Casa fictícia</title>
   <desc id="description">Composição gráfica neutra criada apenas para demonstrar o card.</desc>
-  <rect width="1200" height="800" fill="#e8e4da"/>
-  <circle cx="210" cy="140" r="100" fill="#d9d0bf"/>
-  <path d="m260 410 340-245 340 245v260H260V410Zm145 260V470h160v200m105-120h150" fill="none" stroke="#756d5e" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/>
-  <path d="M155 670h890" stroke="#675f52" stroke-linecap="round" stroke-width="20"/>
+  <rect width="1200" height="800" fill="#eaf2f6"/>
+  <circle cx="210" cy="140" r="100" fill="#d3e0e6"/>
+  <path d="m260 410 340-245 340 245v260H260V410Zm145 260V470h160v200m105-120h150" fill="none" stroke="#246b8a" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/>
+  <path d="M155 670h890" stroke="#163847" stroke-linecap="round" stroke-width="20"/>
 </svg>

@@ -32,15 +32,15 @@ test("builds the public property link and a private summary location", () => {
   );
   assert.equal(
     getPropertyLocationLabel(saleProperty.location),
-    "Centro · Pedro Leopoldo",
+    "Centro · Lagoa Santa",
   );
   assert.equal(
     getPropertyLocationLabel({
-      city: "Matozinhos",
+      city: "Vespasiano",
       state: "MG",
       disclosure: "approximate",
     }),
-    "Matozinhos · MG",
+    "Vespasiano · MG",
   );
   assert.doesNotMatch(
     getPropertyLocationLabel(saleProperty.location),
@@ -116,14 +116,14 @@ test("maps feature labels and omits a section naturally when there are none", ()
 
 test("respects approximate and exact location disclosure", () => {
   const approximate = getPropertyLocationDetails({
-    city: "Pedro Leopoldo",
+    city: "Lagoa Santa",
     state: "MG",
     neighborhood: "Centro",
     disclosure: "approximate",
   });
   const exact = getPropertyLocationDetails(saleProperty.location);
 
-  assert.equal(approximate.label, "Centro · Pedro Leopoldo · MG");
+  assert.equal(approximate.label, "Centro · Lagoa Santa · MG");
   assert.match(approximate.note ?? "", /aproximada/i);
   assert.match(exact.label, /Rua de Teste, 100/);
   assert.doesNotMatch(exact.note ?? "", /aproximada/i);

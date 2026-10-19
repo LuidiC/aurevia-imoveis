@@ -7,7 +7,7 @@ type ContactProperty = Pick<Property, "title">;
 export function buildPropertyWhatsAppMessage(
   property: ContactProperty,
 ): string {
-  return `Olá, Marli! Tenho interesse no imóvel ${property.title}. Gostaria de mais informações.`;
+  return `Olá! Tenho interesse no imóvel ${property.title}. Gostaria de mais informações.`;
 }
 
 export function buildPropertyWhatsAppUrl(property: ContactProperty): string {
