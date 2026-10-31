@@ -1,5 +1,5 @@
-const phoneDigits = "5531996930657";
-const phoneDisplay = "(31) 99693-0657";
+const phoneDigits = "5531989911356";
+const phoneDisplay = "(31) 98991-1356";
 const phoneE164 = `+${phoneDigits}`;
 const name = "Aurévia Imóveis";
 

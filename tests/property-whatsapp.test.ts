@@ -23,7 +23,7 @@ test("uses the configured WhatsApp number and encodes the contextual message", (
   const url = new URL(buildPropertyWhatsAppUrl(property));
 
   assert.equal(url.pathname, `/${SITE_CONFIG.contacts.whatsapp.digits}`);
-  assert.equal(url.pathname, "/5531996930657");
+  assert.equal(url.pathname, "/5531989911356");
   assert.equal(url.searchParams.get("text"), buildPropertyWhatsAppMessage(property));
   assert.doesNotMatch(url.toString(), /MC-\d+/);
 });

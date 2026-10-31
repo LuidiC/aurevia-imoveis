@@ -58,8 +58,8 @@ com alvos de 44 px, fechamento com Escape e retorno do foco. Foco visível e
 `prefers-reduced-motion` preservados. Links de telefone do Footer ampliados para
 44 px, assim como controles pequenos e filtros ativos.
 
-WhatsApp centralizado em `SITE_CONFIG`: **(31) 99693-0657**, **+5531996930657**,
-**5531996930657**; telefone **tel:+5531996930657**.
+Telefone e WhatsApp centralizados em `SITE_CONFIG`: **(31) 98991-1356**,
+**+5531989911356**, **5531989911356**; telefone **tel:+5531989911356**.
 
 - Geral: “Olá! Vim pelo site da Aurévia Imóveis e gostaria de mais informações.”
 - Busca: “Olá! Vim pelo site da Aurévia Imóveis e gostaria de ajuda para encontrar um imóvel.”
